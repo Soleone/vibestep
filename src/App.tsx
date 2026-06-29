@@ -57,7 +57,11 @@ function Arena({ attack, tuning, lastResult, parryPulse }: { attack: Attack; tun
     const impactAge = now - attack.impactMs
     const parryAge = now - parryPulse
     const startX = 1.6
-    const impactX = -1.02
+    const shieldRightEdgeX = -0.96
+    const projectileRadius = 0.18
+    // Zero point is first visible contact: projectile leading edge touches shield face.
+    // Since the projectile travels left, its leading edge is centerX - radius.
+    const impactX = shieldRightEdgeX + projectileRadius
     const x = startX + (impactX - startX) * travel
     const y = 0.16 + Math.sin(travel * Math.PI) * 0.12
 
@@ -69,7 +73,7 @@ function Arena({ attack, tuning, lastResult, parryPulse }: { attack: Attack; tun
     if (projectile.current) {
       projectile.current.position.x = x
       projectile.current.position.y = y
-      projectile.current.rotation.z = -travel * Math.PI * 2
+      projectile.current.rotation.z = 0
       projectile.current.scale.setScalar(0.7 + easeOut(travel) * 0.45)
       projectile.current.visible = now >= attack.startMs && impactAge < 120
     }
@@ -143,7 +147,7 @@ function Arena({ attack, tuning, lastResult, parryPulse }: { attack: Attack; tun
         <meshStandardMaterial color="#ff8a4d" emissive="#7a2100" transparent opacity={0.45} />
       </mesh>
       <mesh ref={projectile} position={[1.6, 0.16, 0.12]} visible={false}>
-        <octahedronGeometry args={[0.18, 0]} />
+        <sphereGeometry args={[0.18, 32, 16]} />
         <meshStandardMaterial color="#ffd166" emissive="#704900" />
       </mesh>
 
@@ -228,6 +232,7 @@ function App() {
         ))}
         <div className="debug">
           <h2>Timing debug</h2>
+          <code>zero point: leading edge touches shield</code>
           <code>impactTime: {attack.impactMs.toFixed(2)}ms</code>
           <code>window: ±{(tuning.parryWindowMs / 2).toFixed(1)}ms</code>
           <code>perfect: ±{(tuning.perfectWindowMs / 2).toFixed(1)}ms</code>

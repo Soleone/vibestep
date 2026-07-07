@@ -1,0 +1,29 @@
+{
+  "id": "new-mr9jbuvk",
+  "title": "new",
+  "generatedAt": "2026-06-29T02:57:38.586Z",
+  "kind": "frequency-band-onsets-v1",
+  "durationMs": 93231,
+  "lanes": [
+    "kick",
+    "snare",
+    "left",
+    "down",
+    "right"
+  ],
+  "controls": {
+    "kick": "Space",
+    "snare": "W",
+    "left": "ArrowLeft",
+    "down": "ArrowDown",
+    "right": "ArrowRight"
+  },
+  "notes": [],
+  "difficulty": 1,
+  "bpm": 120,
+  "songId": "uEDTMygIls",
+  "source": "manual",
+  "updatedAt": "2026-07-06T18:10:07.218Z",
+  "createdAt": "2026-07-06T18:09:55.022Z",
+  "version": 2
+}

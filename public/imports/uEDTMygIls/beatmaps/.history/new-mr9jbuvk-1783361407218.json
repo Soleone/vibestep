@@ -1,6 +1,6 @@
 {
-  "id": "uEDTMygIls",
-  "title": "I Am Astro Bot (ASTRO BOT Remix)",
+  "id": "new-mr9jbuvk",
+  "title": "new",
   "generatedAt": "2026-06-29T02:57:38.586Z",
   "kind": "frequency-band-onsets-v1",
   "durationMs": 93231,
@@ -123,14 +123,6 @@
       "lane": "kick",
       "strength": 1,
       "source": "low-band"
-    },
-    {
-      "id": "manual-1783375060668-8125",
-      "impactTimeMs": 8125,
-      "rawTimeMs": 8157.089666666667,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
     },
     {
       "id": "uEDTMygIls-15",
@@ -343,11 +335,11 @@
       "source": "low-band"
     }
   ],
-  "bpm": 130,
   "difficulty": 1,
+  "bpm": 120,
   "songId": "uEDTMygIls",
   "source": "manual",
-  "updatedAt": "2026-07-06T21:58:24.101Z",
-  "createdAt": "2026-07-06T21:58:24.101Z",
+  "updatedAt": "2026-07-06T18:09:55.022Z",
+  "createdAt": "2026-07-06T18:09:55.022Z",
   "version": 1
 }

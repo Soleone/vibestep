@@ -1,0 +1,669 @@
+{
+  "id": "uEDTMygIls",
+  "title": "130bpm",
+  "generatedAt": "2026-06-29T02:57:38.586Z",
+  "kind": "frequency-band-onsets-v1",
+  "durationMs": 93231,
+  "lanes": [
+    "kick",
+    "snare",
+    "left",
+    "down",
+    "right"
+  ],
+  "controls": {
+    "kick": "Space",
+    "snare": "W",
+    "left": "ArrowLeft",
+    "down": "ArrowDown",
+    "right": "ArrowRight"
+  },
+  "notes": [
+    {
+      "id": "manual-1782712689491-0",
+      "rawTimeMs": 2498.165,
+      "impactTimeMs": 2538.4615384615386,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712689879-1",
+      "rawTimeMs": 2887.175,
+      "impactTimeMs": 2887.175,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712690315-2",
+      "rawTimeMs": 3328.166,
+      "impactTimeMs": 3328.166,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712690782-3",
+      "rawTimeMs": 3792.48,
+      "impactTimeMs": 3792.48,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712691227-4",
+      "rawTimeMs": 4227.144,
+      "impactTimeMs": 4153.846153846154,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712691732-5",
+      "rawTimeMs": 4733.815,
+      "impactTimeMs": 4733.815,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712692228-6",
+      "rawTimeMs": 5213.924,
+      "impactTimeMs": 5307.692307692308,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712692657-7",
+      "rawTimeMs": 5668.905,
+      "impactTimeMs": 5668.905,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712693127-8",
+      "rawTimeMs": 6133.81,
+      "impactTimeMs": 6133.81,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712693569-9",
+      "rawTimeMs": 6590.607,
+      "impactTimeMs": 6590.607,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712694023-10",
+      "rawTimeMs": 6995.167,
+      "impactTimeMs": 6923.076923076923,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712694462-11",
+      "rawTimeMs": 7482.444,
+      "impactTimeMs": 7482.444,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712694962-12",
+      "rawTimeMs": 7970.0740000000005,
+      "impactTimeMs": 7970.0740000000005,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712695417-13",
+      "rawTimeMs": 8439.619,
+      "impactTimeMs": 8439.619,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712695892-14",
+      "rawTimeMs": 8900.031,
+      "impactTimeMs": 8900.031,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712696345-15",
+      "rawTimeMs": 9369.716999999999,
+      "impactTimeMs": 9461.538461538461,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712696823-16",
+      "rawTimeMs": 9837.75,
+      "impactTimeMs": 9923.076923076924,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712697253-17",
+      "rawTimeMs": 10271.55,
+      "impactTimeMs": 10271.55,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712697742-18",
+      "rawTimeMs": 10752.878,
+      "impactTimeMs": 10846.153846153846,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712698168-19",
+      "rawTimeMs": 11191.562,
+      "impactTimeMs": 11191.562,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712698651-20",
+      "rawTimeMs": 11634.021,
+      "impactTimeMs": 11634.021,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712699094-21",
+      "rawTimeMs": 12109.133,
+      "impactTimeMs": 12109.133,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712699598-22",
+      "rawTimeMs": 12582.059,
+      "impactTimeMs": 12582.059,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712700050-23",
+      "rawTimeMs": 13069.725999999999,
+      "impactTimeMs": 13153.846153846154,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712700524-24",
+      "rawTimeMs": 13536.812,
+      "impactTimeMs": 13615.384615384615,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712700984-25",
+      "rawTimeMs": 13995.866,
+      "impactTimeMs": 14076.923076923078,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712701463-26",
+      "rawTimeMs": 14448.159,
+      "impactTimeMs": 14538.461538461539,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712701895-27",
+      "rawTimeMs": 14904.221,
+      "impactTimeMs": 14904.221,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712702369-28",
+      "rawTimeMs": 15375.005,
+      "impactTimeMs": 15461.538461538461,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712702803-29",
+      "rawTimeMs": 15804.888,
+      "impactTimeMs": 15804.888,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712703253-30",
+      "rawTimeMs": 16257.759,
+      "impactTimeMs": 16257.759,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712703702-31",
+      "rawTimeMs": 16711.904000000002,
+      "impactTimeMs": 16711.904000000002,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712704181-32",
+      "rawTimeMs": 17198.861999999997,
+      "impactTimeMs": 17198.861999999997,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712704656-33",
+      "rawTimeMs": 17667.921,
+      "impactTimeMs": 17667.921,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712705143-34",
+      "rawTimeMs": 18123.293,
+      "impactTimeMs": 18123.293,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712705581-35",
+      "rawTimeMs": 18601.372000000003,
+      "impactTimeMs": 18692.30769230769,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712706050-36",
+      "rawTimeMs": 19034.807,
+      "impactTimeMs": 19034.807,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712706533-37",
+      "rawTimeMs": 19538.659,
+      "impactTimeMs": 19615.384615384617,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712706981-38",
+      "rawTimeMs": 19944.713,
+      "impactTimeMs": 19944.713,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712707425-39",
+      "rawTimeMs": 20438.05,
+      "impactTimeMs": 20438.05,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712707910-40",
+      "rawTimeMs": 20899.724,
+      "impactTimeMs": 20899.724,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712708356-41",
+      "rawTimeMs": 21375.536,
+      "impactTimeMs": 21461.53846153846,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712708821-42",
+      "rawTimeMs": 21797.137,
+      "impactTimeMs": 21797.137,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712709264-43",
+      "rawTimeMs": 22290.252,
+      "impactTimeMs": 22384.615384615387,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712762828-0",
+      "rawTimeMs": 33861.36,
+      "impactTimeMs": 33923.07692307692,
+      "durationMs": 230.76923076923413,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712763342-1",
+      "rawTimeMs": 34303.056,
+      "impactTimeMs": 34384.61538461538,
+      "durationMs": 230.76923076923413,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712763798-2",
+      "rawTimeMs": 34780.293999999994,
+      "impactTimeMs": 34846.153846153844,
+      "durationMs": 230.76923076923413,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712765595-3",
+      "rawTimeMs": 36569.543000000005,
+      "impactTimeMs": 36569.543000000005,
+      "durationMs": 353.53392307691684,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712766503-4",
+      "rawTimeMs": 37469.023,
+      "impactTimeMs": 37384.61538461538,
+      "durationMs": 461.538461538461,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712767210-5",
+      "rawTimeMs": 38172.279,
+      "impactTimeMs": 38172.279,
+      "durationMs": 366.18253846153675,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712767879-6",
+      "rawTimeMs": 38842.806000000004,
+      "impactTimeMs": 38769.23076923077,
+      "durationMs": 461.538461538461,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712769244-7",
+      "rawTimeMs": 40247.818,
+      "impactTimeMs": 40153.846153846156,
+      "durationMs": 461.538461538461,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712769716-8",
+      "rawTimeMs": 40768.792,
+      "impactTimeMs": 40846.153846153844,
+      "durationMs": 230.76923076923413,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712770201-9",
+      "rawTimeMs": 41199.226,
+      "impactTimeMs": 41199.226,
+      "durationMs": 339.23553846153663,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712770643-10",
+      "rawTimeMs": 41654.035,
+      "impactTimeMs": 41654.035,
+      "durationMs": 345.9649999999965,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712771090-11",
+      "rawTimeMs": 42114.227,
+      "impactTimeMs": 42114.227,
+      "durationMs": 347.311461538462,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712773922-12",
+      "rawTimeMs": 44908.257999999994,
+      "impactTimeMs": 45000,
+      "durationMs": 230.76923076923413,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712774559-13",
+      "rawTimeMs": 45559.372,
+      "impactTimeMs": 45559.372,
+      "durationMs": 363.70492307691893,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712775119-14",
+      "rawTimeMs": 46260.477,
+      "impactTimeMs": 46260.477,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712776584-15",
+      "rawTimeMs": 47666.326,
+      "impactTimeMs": 47666.326,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712777045-16",
+      "rawTimeMs": 48157.713,
+      "impactTimeMs": 48230.769230769234,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712777486-17",
+      "rawTimeMs": 48583.55,
+      "impactTimeMs": 48583.55,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712777940-18",
+      "rawTimeMs": 49029.311,
+      "impactTimeMs": 49029.311,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712778394-19",
+      "rawTimeMs": 49531.93,
+      "impactTimeMs": 49615.38461538462,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712780238-20",
+      "rawTimeMs": 51354.959,
+      "impactTimeMs": 51354.959,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712781330-21",
+      "rawTimeMs": 52380.94,
+      "impactTimeMs": 52384.61538461538,
+      "durationMs": 230.76923076923413,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-hold"
+    },
+    {
+      "id": "manual-1782712781925-22",
+      "rawTimeMs": 53016.405,
+      "impactTimeMs": 53076.92307692308,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712782597-23",
+      "rawTimeMs": 53713.77,
+      "impactTimeMs": 53769.23076923077,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712783933-24",
+      "rawTimeMs": 55056.879,
+      "impactTimeMs": 55056.879,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712784415-25",
+      "rawTimeMs": 55512.685,
+      "impactTimeMs": 55512.685,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712784876-26",
+      "rawTimeMs": 55956.898,
+      "impactTimeMs": 55956.898,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712785305-27",
+      "rawTimeMs": 56405.979999999996,
+      "impactTimeMs": 56405.979999999996,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712785765-28",
+      "rawTimeMs": 56908.334,
+      "impactTimeMs": 57000,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712787632-29",
+      "rawTimeMs": 58739.93,
+      "impactTimeMs": 58739.93,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712788099-30",
+      "rawTimeMs": 59196.223000000005,
+      "impactTimeMs": 59196.223000000005,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712788510-31",
+      "rawTimeMs": 59632.891,
+      "impactTimeMs": 59538.46153846154,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712789170-32",
+      "rawTimeMs": 60332.915,
+      "impactTimeMs": 60332.915,
+      "lane": "mid",
+      "strength": 1,
+      "source": "manual-quantized"
+    },
+    {
+      "id": "manual-1782712790100-33",
+      "rawTimeMs": 61277.135,
+      "impactTimeMs": 61277.135,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-quantized"
+    }
+  ],
+  "difficulty": 1,
+  "bpm": 130,
+  "songId": "uEDTMygIls",
+  "source": "manual",
+  "updatedAt": "2026-06-29T06:00:00.324Z",
+  "createdAt": "2026-06-29T05:57:36.598Z",
+  "version": 3
+}

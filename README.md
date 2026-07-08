@@ -1,14 +1,14 @@
 # Flow Fight
 
-Flow Fight is a local-first rhythm/parry prototype. Projectiles travel down five colored lanes and should hit their pads on musical events. The current focus is fast iteration on game feel: timing windows, pad/cannon feedback, imported songs, generated/manual beatmaps, and rhythm-game scoring feedback.
+Flow Fight is a local-first tiny beatmap DAW with a rhythm/parry playtest mode. The current focus is importing songs, aligning a 4/4 beat grid, recording lane events against the song timeline, refining beatmaps, and then playtesting the feel.
 
 ## Current controls
 
-- `Space` — kick lane
-- `W` — snare lane
-- `Left Arrow` — low melody lane
-- `Up Arrow` — mid melody lane
-- `Right Arrow` — high melody lane
+- `Space` - kick lane
+- `W` - snare lane
+- `Left Arrow` - low melody lane
+- `Up Arrow` - mid melody lane
+- `Right Arrow` - high melody lane
 
 ## Quickstart
 
@@ -44,7 +44,7 @@ Install them first, for example:
 sudo apt install ffmpeg yt-dlp
 ```
 
-Then use the **Import** tab to paste a YouTube URL. Imported songs are cached under:
+Then use the **Config** tab to paste a YouTube URL. Imported songs are cached under:
 
 ```txt
 public/imports/<songId>/
@@ -59,10 +59,10 @@ Re-importing the same URL reuses the cached song instead of downloading it again
 
 ## App tabs
 
-- **Play** — player controls, stats, and minimal options.
-- **Edit** — shared player, beatmap selector/saver, jam recorder, timeline.
-- **Import** — YouTube import.
-- **Debug** — raw timing/debug controls.
+- **Play** - rhythm/parry gameplay for feeling the current beatmap.
+- **Editor** - primary timeline for transport, beat grid calibration, recording, snapping, and saving.
+- **Config** - YouTube import and input bindings.
+- **Debug** - raw timing and developer controls.
 
 ## Build
 

@@ -6,13 +6,21 @@ Recording and replay can feel ambiguous when the editor has a BPM but no true mu
 
 ## Current precision model
 
-Beatmaps now support:
+Calibration now exists at two levels:
 
 ```ts
+// song-level calibration, shared by every beatmap for that song
+bpm: number
+beatOffsetMs: number
+
+// beatmap-level snapshot, saved with an individual map for portability
+bpm: number
 beatOffsetMs: number
 ```
 
-This is the time where musical **beat 1** starts. Timeline grid and quantization are relative to this offset:
+The song-level values are authoritative inside the app. Setting BPM or **Set beat 1 here** persists for the current song and applies when switching between that song's beatmaps. Beatmap saves still include the current values as a child-level snapshot so exported maps remain portable.
+
+`beatOffsetMs` is the time where musical **beat 1** starts. Timeline grid and quantization are relative to this offset:
 
 ```txt
 beatOffsetMs + n * gridMs
@@ -25,11 +33,14 @@ instead of starting at zero.
 In the Edit timeline toolbar:
 
 - `Beat 1 · X.XXXs` shows the current downbeat offset.
-- `Set at playhead` stores the current playhead time as beat 1.
+- `Set beat 1 here` stores the current playhead time as beat 1, useful when the real song start happens after an intro.
 - `-10ms` / `+10ms` nudges the whole grid earlier/later.
-- Timeline ruler beat labels now count `1 2 3 4` repeatedly from `beatOffsetMs`.
+- Timeline ruler labels now show 4/4 bar numbers from `beatOffsetMs`, so bar starts count `1, 2, 3, 4` and continue forward.
 - Quantized recording and click-to-add notes snap relative to `beatOffsetMs`.
-- Dragging the playhead also snaps to the current grid when Snap is enabled; hold Shift while dragging for free/no-snap seeking.
+- Clicking the ruler row moves the playhead to that point, using the same Snap behavior as dragging, without recentering the timeline viewport.
+- Mouse wheel over the timeline scrolls the playhead through the song. When Snap is enabled, each wheel notch advances by the active grid unit. Hold Alt while scrolling for free/no-snap seeking. When wheel seeking reaches the edge guard near either side, two active grid units from the edge, the timeline scrolls so the playhead sticks at that relative position instead of disappearing.
+- Shift + mouse wheel zooms the timeline in or out.
+- Dragging the playhead also snaps to the current grid when Snap is enabled; hold Shift while clicking or dragging for free/no-snap seeking.
 
 ## Suggested calibration workflow
 
@@ -37,7 +48,7 @@ In the Edit timeline toolbar:
 2. Estimate BPM with tap or manual entry.
 3. Drag/play to the first clear downbeat after the intro.
 4. Click **Set at playhead**.
-5. Use the 1-2-3-4 ruler and nudge buttons until the grid visually matches the song.
+5. Use the numbered bar ruler and nudge buttons until the grid visually matches the song.
 6. Record or place notes with Snap enabled.
 7. If notes feel wrong later, first check whether the grid phase is correct before assuming the performance was wrong.
 

@@ -8,7 +8,7 @@ Do not use em dashes in agent responses, docs, UI copy, or code comments. Use co
 
 ## Project vision
 
-Flow Fight is a rhythm/parry game prototype. The long-term idea is: import any song, generate a draft beatmap from musical events, then let the player/editor refine the beatmap by jamming along. Gameplay is rhythm-game timing plus parry/defense feedback.
+Flow Fight is a tiny beatmap DAW with a rhythm/parry playtest mode. The long-term idea is: import any song, align a 4/4 beat grid, generate or record a draft beatmap from musical events, refine the beatmap by jamming along, then playtest it with rhythm-game timing plus parry/defense feedback.
 
 Current gameplay is lane-based:
 
@@ -101,7 +101,7 @@ Bottom-right status uses fixed-width subtle cards:
 
 1. phase: `queued`, `incoming`, etc.
 2. judgement: `perfect`, `good`, `early`, `late`, `miss`, `ready`
-3. ms delta: e.g. `-12.4ms`, `+8.0ms`, or `—`
+3. ms delta: e.g. `-12.4ms`, `+8.0ms`, or `-`
 
 Color rules:
 
@@ -110,7 +110,7 @@ Color rules:
 - successful ms delta matches judgement color
 - missed early ms = green
 - missed late ms = red
-- auto miss shows `miss` red and `—` for ms
+- auto miss shows `miss` red and `-` for ms
 
 These cards should eventually be toggleable.
 
@@ -168,7 +168,7 @@ It uses FFT band onset/flux peak picking. It tries to hit snares and thins kicks
 
 ### Beatmap editor / jam recorder
 
-The Edit tab supports:
+The Editor tab is the primary product surface and supports:
 
 - selecting current beatmap
 - setting title
@@ -179,7 +179,9 @@ The Edit tab supports:
 - arming lanes
 - add/replace recording modes
 - quantization
-- tap BPM
+- tap BPM with live detected BPM feedback
+- beat 1 offset/downbeat alignment
+- playhead dragging with snap support
 - timeline view around current playback time
 
 Manual note recording:
@@ -193,7 +195,7 @@ Hold notes currently render as larger projectiles. Full hold gameplay/scoring is
 
 ### Run stats
 
-Play stats track:
+Playtest stats track:
 
 - hits
 - perfects
@@ -215,7 +217,7 @@ High-priority UX/game-feel tasks:
 4. Add proper hold gameplay: hold start judgement, drain/shrink visual, early release miss, hold completion.
 5. Add options/toggles for status cards and debug overlays.
 6. Improve playfield layout and lane readability as more simultaneous notes appear.
-7. Better BPM/grid support: beat offset/downbeat alignment, not just BPM.
+7. Continue polishing BPM/grid support: metronome, raw-vs-snapped note display, and note inspector.
 8. Eventually support melody/high-hat lanes from better analysis or manual mapping.
 
 Design principles learned so far:

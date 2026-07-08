@@ -315,9 +315,9 @@ input[type='range'],
 .timeline-grid__line--bar { width: 2px; background: rgba(255,209,102,0.3); }
 .timeline-labels { position: absolute; left: 18px; top: 28px; z-index: 2; display: grid; grid-template-rows: repeat(5, 18px); color: rgba(237,243,255,0.58); font-size: 10px; font-weight: 950; text-transform: uppercase; pointer-events: none; }
 .timeline-labels span { display: flex; align-items: center; height: 58px; }
-.timeline .playhead { position: absolute; left: 50%; top: 0; bottom: 0; z-index: 5; width: 2px; background: rgba(255, 255, 255, 0.72); cursor: ew-resize; touch-action: none; }
-.timeline .playhead::before { content: ''; position: absolute; left: 50%; top: 0; width: 22px; height: 100%; transform: translateX(-50%); }
-.timeline .playhead::after { content: ''; position: absolute; left: 50%; top: 5px; width: 13px; height: 13px; transform: translateX(-50%) rotate(45deg); border-radius: 3px; background: var(--gold); box-shadow: 0 0 18px rgba(255, 209, 102, 0.45); }
+.timeline .playhead { position: absolute; left: 50%; top: 0; bottom: 0; z-index: 5; width: 2px; background: rgba(255, 255, 255, 0.72); pointer-events: none; }
+.timeline .playhead-handle { position: absolute; left: 50%; top: 0; width: 24px; height: 28px; transform: translateX(-50%); cursor: ew-resize; touch-action: none; pointer-events: auto; }
+.timeline .playhead-handle::after { content: ''; position: absolute; left: 50%; top: 5px; width: 13px; height: 13px; transform: translateX(-50%) rotate(45deg); border-radius: 3px; background: var(--gold); box-shadow: 0 0 18px rgba(255, 209, 102, 0.45); }
 .timeline i { position: absolute; width: 5px; height: 12px; border-radius: 3px; transform: translateX(-50%); box-shadow: 0 0 8px currentColor; cursor: pointer; }
 .timeline i.pending { width: 8px; height: 14px; outline: 1px solid rgba(255, 255, 255, 0.8); z-index: 2; }
 .timeline i.selected { outline: 2px solid rgba(255, 255, 255, 0.95); z-index: 4; box-shadow: 0 0 0 4px rgba(125,249,255,0.18), 0 0 16px currentColor; }

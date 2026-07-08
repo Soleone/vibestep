@@ -14,7 +14,7 @@ type SavedBeatmap = { id: string; title: string; difficulty: number; updatedAt?:
 type ImportResult = { id: string; title: string; durationMs: number; audioUrl: string; beatmapUrl: string; noteCount: number; sourceUrl?: string; cached?: boolean; beatmaps?: SavedBeatmap[] }
 type Lane = 'kick' | 'snare' | 'low' | 'mid' | 'high'
 type BeatmapNote = { id: string; impactTimeMs: number; rawTimeMs?: number; durationMs?: number; lane: Lane; strength: number; source: string; resolved?: boolean }
-type Beatmap = { id: string; songId?: string; title: string; difficulty?: number; version?: number; bpm?: number; durationMs: number; notes: BeatmapNote[] }
+type Beatmap = { id: string; songId?: string; title: string; difficulty?: number; version?: number; bpm?: number; beatOffsetMs?: number; durationMs: number; notes: BeatmapNote[] }
 type PlayStats = { hit: number; perfect: number; good: number; missed: number; streak: number; bestStreak: number }
 type GridDivision = 4 | 8 | 16 | 32
 type TimelineBounds = { startMs: number; endMs: number; spanMs: number }
@@ -82,7 +82,7 @@ function normalizeLane(lane: unknown): Lane {
 }
 
 function normalizeBeatmap(beatmap: Beatmap): Beatmap {
-  return { ...beatmap, notes: beatmap.notes.map((note) => ({ ...note, lane: normalizeLane(note.lane) })) }
+  return { ...beatmap, beatOffsetMs: beatmap.beatOffsetMs ?? 0, notes: beatmap.notes.map((note) => ({ ...note, lane: normalizeLane(note.lane) })) }
 }
 
 function makeBeatmapAttack(timeUntilImpactMs: number, lane: BeatmapNote['lane'], durationMs?: number): Attack {
@@ -175,7 +175,7 @@ function EditorTimeline({
   selectedNoteId: string | null
   onTimelineClick: (event: MouseEvent<HTMLDivElement>) => void
   onTimelineWheel: (event: WheelEvent<HTMLDivElement>) => void
-  onSeek: (timeMs: number) => void
+  onSeek: (timeMs: number, bypassSnap?: boolean) => void
   onRemoveNote: (noteId: string) => void
 }) {
   const playheadLeft = ((songTimeMs - bounds.startMs) / bounds.spanMs) * 100
@@ -183,7 +183,7 @@ function EditorTimeline({
     const rect = event.currentTarget.parentElement?.getBoundingClientRect()
     if (!rect) return
     const xRatio = clamp01((event.clientX - rect.left) / rect.width)
-    onSeek(bounds.startMs + xRatio * bounds.spanMs)
+    onSeek(bounds.startMs + xRatio * bounds.spanMs, event.shiftKey)
   }
 
   return (
@@ -339,6 +339,7 @@ function App() {
   const [songTimeMs, setSongTimeMs] = useState(0)
   const [activeTab, setActiveTab] = useState<'play' | 'edit' | 'import' | 'debug'>('play')
   const [bpm, setBpm] = useState(120)
+  const [beatOffsetMs, setBeatOffsetMs] = useState(0)
   const [tapTimes, setTapTimes] = useState<number[]>([])
   const [tapMode, setTapMode] = useState(false)
   const [quantize, setQuantize] = useState(true)
@@ -369,6 +370,7 @@ function App() {
     setMapTitle(loadedBeatmap.title ?? song.title)
     setDifficulty(loadedBeatmap.difficulty ?? 1)
     setBpm(Number.isFinite(savedBpm) && savedBpm > 0 ? savedBpm : loadedBeatmap.bpm ?? 120)
+    setBeatOffsetMs(loadedBeatmap.beatOffsetMs ?? 0)
     setSongBeatmaps(song.beatmaps ?? [])
     scheduledNoteIds.current.clear()
     setImportStatus(`Loaded ${song.noteCount} notes from cache`)
@@ -380,15 +382,15 @@ function App() {
     if (!importedSong) return
     localStorage.setItem(bpmStorageKey(importedSong.id) ?? '', String(bpm))
     if (beatmap?.id) localStorage.setItem(bpmStorageKey(importedSong.id, beatmap.id) ?? '', String(bpm))
-    setBeatmap((current) => current && current.bpm !== bpm ? { ...current, bpm } : current)
-  }, [beatmap?.id, bpm, importedSong])
+    setBeatmap((current) => current && (current.bpm !== bpm || current.beatOffsetMs !== beatOffsetMs) ? { ...current, bpm, beatOffsetMs } : current)
+  }, [beatOffsetMs, beatmap?.id, bpm, importedSong])
 
   const gridMs = useMemo(() => (60000 / bpm) * (4 / gridDivision), [bpm, gridDivision])
   const quantizeTime = useCallback((rawTimeMs: number) => {
     if (!quantize) return rawTimeMs
-    const snapped = Math.round(rawTimeMs / gridMs) * gridMs
+    const snapped = beatOffsetMs + Math.round((rawTimeMs - beatOffsetMs) / gridMs) * gridMs
     return Math.abs(snapped - rawTimeMs) <= Math.max(35, gridMs * 0.45) ? snapped : rawTimeMs
-  }, [gridMs, quantize])
+  }, [beatOffsetMs, gridMs, quantize])
 
   const nextAttack = useCallback(() => {
     setLastResult(null); setLastAutoMiss(false); setFeedback(null); scheduledNoteIds.current.clear(); setActiveAttacks(makeIdlePattern())
@@ -531,7 +533,7 @@ function App() {
   const saveBeatmap = useCallback(async (saveAsNew = false) => {
     if (!beatmap || !importedSong) return
     const id = saveAsNew ? `${mapTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${Date.now().toString(36)}` : beatmap.id
-    const editable = { ...beatmap, id, title: mapTitle, difficulty, bpm, songId: importedSong.id, source: 'manual' }
+    const editable = { ...beatmap, id, title: mapTitle, difficulty, bpm, beatOffsetMs, songId: importedSong.id, source: 'manual' }
     const response = await fetch(`/api/imports/${importedSong.id}/beatmaps`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ beatmap: editable }) })
     const data = await response.json()
     if (!response.ok) throw new Error(data.error ?? 'Save failed')
@@ -540,7 +542,7 @@ function App() {
     localStorage.setItem(bpmStorageKey(importedSong.id) ?? '', String(bpm))
     setSongBeatmaps(data.beatmaps ?? [])
     setImportStatus(`Saved ${data.beatmap.title} v${data.beatmap.version}`)
-  }, [beatmap, bpm, difficulty, importedSong, mapTitle])
+  }, [beatOffsetMs, beatmap, bpm, difficulty, importedSong, mapTitle])
 
   const loadBeatmap = useCallback(async (mapId: string) => {
     const map = songBeatmaps.find((item) => item.id === mapId)
@@ -552,17 +554,18 @@ function App() {
     setDifficulty(loaded.difficulty ?? 1)
     const savedBpm = Number(localStorage.getItem(bpmStorageKey(loaded.songId, loaded.id) ?? '') ?? localStorage.getItem(bpmStorageKey(loaded.songId) ?? '') ?? '')
     setBpm(Number.isFinite(savedBpm) && savedBpm > 0 ? savedBpm : loaded.bpm ?? 120)
+    setBeatOffsetMs(loaded.beatOffsetMs ?? 0)
     scheduledNoteIds.current.clear()
   }, [songBeatmaps])
 
   const createBlankBeatmap = useCallback(() => {
     if (!importedSong) return
     const title = `${importedSong.title} custom`
-    setBeatmap({ id: `new-${Date.now().toString(36)}`, songId: importedSong.id, title, difficulty, bpm, durationMs: importedSong.durationMs, notes: [] })
+    setBeatmap({ id: `new-${Date.now().toString(36)}`, songId: importedSong.id, title, difficulty, bpm, beatOffsetMs, durationMs: importedSong.durationMs, notes: [] })
     setMapTitle(title)
     setRecordedNotes([])
     scheduledNoteIds.current.clear()
-  }, [bpm, difficulty, importedSong])
+  }, [beatOffsetMs, bpm, difficulty, importedSong])
 
   const clearBeatmapEvents = useCallback(() => {
     setBeatmap((current) => current ? { ...current, notes: [] } : current)
@@ -572,14 +575,14 @@ function App() {
 
   const exportBeatmap = useCallback(() => {
     if (!beatmap) return
-    const blob = new Blob([JSON.stringify({ ...beatmap, title: mapTitle, difficulty, bpm }, null, 2)], { type: 'application/json' })
+    const blob = new Blob([JSON.stringify({ ...beatmap, title: mapTitle, difficulty, bpm, beatOffsetMs }, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
     link.download = `${beatmap.id}-edited.beatmap.json`
     link.click()
     URL.revokeObjectURL(url)
-  }, [beatmap, bpm, difficulty, mapTitle])
+  }, [beatOffsetMs, beatmap, bpm, difficulty, mapTitle])
 
   const seekSong = useCallback((timeMs: number) => {
     const audio = audioRef.current
@@ -593,6 +596,10 @@ function App() {
     setLastAutoMiss(false)
     setFeedback(null)
   }, [beatmap?.durationMs, importedSong?.durationMs])
+  const seekTimeline = useCallback((timeMs: number, bypassSnap = false) => {
+    const snappedTimeMs = quantize && !bypassSnap ? beatOffsetMs + Math.round((timeMs - beatOffsetMs) / gridMs) * gridMs : timeMs
+    seekSong(Math.max(0, snappedTimeMs))
+  }, [beatOffsetMs, gridMs, quantize, seekSong])
   const playSong = useCallback(() => { void audioRef.current?.play() }, [])
   const pauseSong = useCallback(() => { audioRef.current?.pause() }, [])
   const restartSong = useCallback(() => {
@@ -650,21 +657,22 @@ function App() {
   }, [])
   const timelineGridLines = useMemo(() => {
     const quarterMs = 60000 / bpm
-    const first = Math.ceil(timelineBounds.startMs / gridMs) * gridMs
+    const first = beatOffsetMs + Math.ceil((timelineBounds.startMs - beatOffsetMs) / gridMs) * gridMs
     const gridSpacingPercent = (gridMs / timelineBounds.spanMs) * 100
     const lines: Array<{ left: number; strength: 'bar' | 'beat' | 'sub'; label?: string }> = []
     for (let timeMs = first; timeMs <= timelineBounds.endMs; timeMs += gridMs) {
       const left = ((timeMs - timelineBounds.startMs) / timelineBounds.spanMs) * 100
-      const beatIndex = Math.round(timeMs / quarterMs)
-      const isBeat = Math.abs(timeMs - beatIndex * quarterMs) < 1
+      const beatIndex = Math.round((timeMs - beatOffsetMs) / quarterMs)
+      const isBeat = Math.abs(timeMs - (beatOffsetMs + beatIndex * quarterMs)) < 1
       const isBar = isBeat && beatIndex % 4 === 0
+      const beatNumber = ((beatIndex % 4) + 4) % 4 + 1
       if (!isBeat && gridSpacingPercent < 1.2) continue
       if (isBeat && gridSpacingPercent < 0.35) continue
-      lines.push({ left, strength: isBar ? 'bar' : isBeat ? 'beat' : 'sub', label: isBeat ? String(beatIndex + 1) : undefined })
+      lines.push({ left, strength: isBar ? 'bar' : isBeat ? 'beat' : 'sub', label: isBeat ? String(beatNumber) : undefined })
       if (lines.length > 500) break
     }
     return lines
-  }, [bpm, gridMs, timelineBounds])
+  }, [beatOffsetMs, bpm, gridMs, timelineBounds])
 
   const handleTimelineClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
     if (!beatmap) return
@@ -675,7 +683,7 @@ function App() {
     if (xRatio < 0 || xRatio > 1 || yRatio < 0 || yRatio > 1) return
     const laneIndex = Math.min(lanes.length - 1, Math.max(0, Math.floor(yRatio * lanes.length)))
     const rawTimeMs = timelineBounds.startMs + xRatio * timelineBounds.spanMs
-    const impactTimeMs = Math.max(0, quantize ? Math.round(rawTimeMs / gridMs) * gridMs : rawTimeMs)
+    const impactTimeMs = Math.max(0, quantize ? beatOffsetMs + Math.round((rawTimeMs - beatOffsetMs) / gridMs) * gridMs : rawTimeMs)
     const lane = lanes[laneIndex]
     const existing = beatmap.notes.find((note) => note.lane === lane && Math.abs(note.impactTimeMs - impactTimeMs) < Math.max(24, gridMs * 0.35))
     if (existing) {
@@ -685,7 +693,7 @@ function App() {
     const note: BeatmapNote = { id: `manual-${Date.now()}-${Math.round(impactTimeMs)}`, impactTimeMs, rawTimeMs, lane, strength: 1, source: quantize ? 'manual-grid' : 'manual' }
     setBeatmap((current) => current ? { ...current, notes: [...current.notes, note].sort((a, b) => a.impactTimeMs - b.impactTimeMs) } : current)
     setSelectedNoteId(note.id)
-  }, [beatmap, gridMs, quantize, removeNote, timelineBounds])
+  }, [beatOffsetMs, beatmap, gridMs, quantize, removeNote, timelineBounds])
   const zoomTimeline = useCallback((direction: 'in' | 'out') => {
     setTimelineZoomSeconds((current) => {
       if (current === 'fit') return direction === 'in' ? 120 : 'fit'
@@ -699,6 +707,8 @@ function App() {
     event.preventDefault()
     zoomTimeline(event.deltaY < 0 ? 'in' : 'out')
   }, [zoomTimeline])
+  const setBeatOneAtPlayhead = useCallback(() => setBeatOffsetMs(Math.max(0, songTimeMs)), [songTimeMs])
+  const nudgeBeatOffset = useCallback((deltaMs: number) => setBeatOffsetMs((value) => Math.max(0, value + deltaMs)), [])
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (activeTab !== 'edit' || isEditingTarget(event.target) || !selectedNoteId) return
@@ -722,7 +732,7 @@ function App() {
     <main className={activeTab === 'edit' ? 'editing-layout' : undefined}>
       <section className={activeTab === 'edit' ? 'stage edit-stage' : 'stage'}>
         {activeTab === 'edit'
-          ? <div className="edit-workspace"><div className="edit-workspace__header"><div className="edit-title-row"><div><span className="eyebrow">Pattern editor</span><h2>{mapTitle || 'Untitled beatmap'}</h2><p>{recordedNotes.length} buffered · {beatmap?.notes.length ?? 0} saved · Record captures Space/W/arrows by feel · click notes to remove</p></div><div className="edit-primary-actions"><PlayPauseButton isPlaying={isSongPlaying} onPlay={playSong} onPause={pauseSong} /><Button type="button" variant={isRecording ? 'warning' : 'secondary'} onClick={isRecording ? stopRecording : startRecording}>{isRecording ? 'Stop rec' : 'Record'}</Button><Button type="button" variant="secondary" onClick={() => void saveBeatmap(false)} disabled={!beatmap || !importedSong}>Save</Button></div></div><div className="edit-toolbar"><div className="toolbar-section"><span className="toolbar-section__label">Record</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" className={recordMode === 'add' ? 'active' : ''} onClick={() => setRecordMode('add')}>Add</Button><Button type="button" variant="ghost" size="pill" className={recordMode === 'replace' ? 'active' : ''} onClick={() => setRecordMode('replace')}>Replace</Button></div></div><div className="toolbar-section toolbar-section--wide"><span className="toolbar-section__label">Lanes</span><div className="toolbar-group">{lanes.map((lane) => <Button key={lane} type="button" variant="ghost" size="pill" className={armedLanes.has(lane) ? 'active' : ''} onClick={() => setArmedLanes((current) => { const next = new Set(current); if (next.has(lane)) next.delete(lane); else next.add(lane); return next })}>{lane}</Button>)}</div></div><div className="toolbar-section"><span className="toolbar-section__label">Grid</span><div className="toolbar-group">{([4, 8, 16, 32] as const).map((division) => <Button key={division} type="button" variant="ghost" size="pill" className={gridDivision === division ? 'active' : ''} onClick={() => setGridDivision(division)}>1/{division}</Button>)}<Button type="button" variant="ghost" size="pill" className={quantize ? 'active' : ''} onClick={() => setQuantize((value) => !value)}>Snap</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Zoom</span><div className="toolbar-group">{zoomOptions.map((seconds) => <Button key={seconds} type="button" variant="ghost" size="pill" className={timelineZoomSeconds === seconds ? 'active' : ''} onClick={() => setTimelineZoomSeconds(seconds)}>{seconds * 2}s</Button>)}<Button type="button" variant="ghost" size="pill" className={timelineZoomSeconds === 'fit' ? 'active' : ''} onClick={() => setTimelineZoomSeconds('fit')}>Fit</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Tempo</span><div className="toolbar-group"><Input type="number" min="40" max="300" value={bpm} onChange={(event) => setBpm(Number(event.target.value))} /><Button type="button" variant="ghost" size="pill" onClick={toggleTapBpm}>{tapMode ? 'Save tap' : 'Tap'}</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Selection</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" onClick={() => selectedNoteId && removeNote(selectedNoteId)} disabled={!selectedNoteId}>Delete</Button></div></div></div></div><EditorTimeline notes={timelineNotes} gridLines={timelineGridLines} bounds={timelineBounds} songTimeMs={songTimeMs} selectedNoteId={selectedNoteId} onTimelineClick={handleTimelineClick} onTimelineWheel={handleTimelineWheel} onSeek={seekSong} onRemoveNote={removeNote} /></div>
+          ? <div className="edit-workspace"><div className="edit-workspace__header"><div className="edit-title-row"><div><span className="eyebrow">Pattern editor</span><h2>{mapTitle || 'Untitled beatmap'}</h2><p>{recordedNotes.length} buffered · {beatmap?.notes.length ?? 0} saved · Record captures Space/W/arrows by feel · click notes to remove</p></div><div className="edit-primary-actions"><PlayPauseButton isPlaying={isSongPlaying} onPlay={playSong} onPause={pauseSong} /><Button type="button" variant={isRecording ? 'warning' : 'secondary'} onClick={isRecording ? stopRecording : startRecording}>{isRecording ? 'Stop rec' : 'Record'}</Button><Button type="button" variant="secondary" onClick={() => void saveBeatmap(false)} disabled={!beatmap || !importedSong}>Save</Button></div></div><div className="edit-toolbar"><div className="toolbar-section"><span className="toolbar-section__label">Record</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" className={recordMode === 'add' ? 'active' : ''} onClick={() => setRecordMode('add')}>Add</Button><Button type="button" variant="ghost" size="pill" className={recordMode === 'replace' ? 'active' : ''} onClick={() => setRecordMode('replace')}>Replace</Button></div></div><div className="toolbar-section toolbar-section--wide"><span className="toolbar-section__label">Lanes</span><div className="toolbar-group">{lanes.map((lane) => <Button key={lane} type="button" variant="ghost" size="pill" className={armedLanes.has(lane) ? 'active' : ''} onClick={() => setArmedLanes((current) => { const next = new Set(current); if (next.has(lane)) next.delete(lane); else next.add(lane); return next })}>{lane}</Button>)}</div></div><div className="toolbar-section"><span className="toolbar-section__label">Grid</span><div className="toolbar-group">{([4, 8, 16, 32] as const).map((division) => <Button key={division} type="button" variant="ghost" size="pill" className={gridDivision === division ? 'active' : ''} onClick={() => setGridDivision(division)}>1/{division}</Button>)}<Button type="button" variant="ghost" size="pill" className={quantize ? 'active' : ''} onClick={() => setQuantize((value) => !value)}>Snap</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Zoom</span><div className="toolbar-group">{zoomOptions.map((seconds) => <Button key={seconds} type="button" variant="ghost" size="pill" className={timelineZoomSeconds === seconds ? 'active' : ''} onClick={() => setTimelineZoomSeconds(seconds)}>{seconds * 2}s</Button>)}<Button type="button" variant="ghost" size="pill" className={timelineZoomSeconds === 'fit' ? 'active' : ''} onClick={() => setTimelineZoomSeconds('fit')}>Fit</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Tempo{tapMode ? ` · ${detectedBpm ? `${detectedBpm} bpm` : 'tap keys'}` : ''}</span><div className="toolbar-group"><Input type="number" min="40" max="300" value={bpm} onChange={(event) => setBpm(Number(event.target.value))} /><Button type="button" variant="ghost" size="pill" className={tapMode ? 'active' : ''} onClick={toggleTapBpm}>{tapMode ? 'Stop + use' : 'Start tap'}</Button></div>{tapMode && <span className="tap-bpm-readout">{detectedBpm ? `Live BPM ${detectedBpm}` : 'Press Space/W/arrows on the beat…'}</span>}</div><div className="toolbar-section toolbar-section--wide"><span className="toolbar-section__label">Beat 1 · {(beatOffsetMs / 1000).toFixed(3)}s</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" onClick={setBeatOneAtPlayhead}>Set at playhead</Button><Button type="button" variant="ghost" size="pill" onClick={() => nudgeBeatOffset(-10)}>-10ms</Button><Button type="button" variant="ghost" size="pill" onClick={() => nudgeBeatOffset(10)}>+10ms</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Selection</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" onClick={() => selectedNoteId && removeNote(selectedNoteId)} disabled={!selectedNoteId}>Delete</Button></div></div></div></div><EditorTimeline notes={timelineNotes} gridLines={timelineGridLines} bounds={timelineBounds} songTimeMs={songTimeMs} selectedNoteId={selectedNoteId} onTimelineClick={handleTimelineClick} onTimelineWheel={handleTimelineWheel} onSeek={seekTimeline} onRemoveNote={removeNote} /></div>
           : <Canvas camera={{ position: [0, 0.18, 7.2], fov: 42 }}><Arena attacks={activeAttacks} tuning={tuning} parryPulse={parryPulse} feedback={feedback} padTriggers={padTriggers} onPhaseChange={setPhase} /></Canvas>}
       </section>
       {activeTab !== 'edit' && <div className="status-stack" aria-live="polite">

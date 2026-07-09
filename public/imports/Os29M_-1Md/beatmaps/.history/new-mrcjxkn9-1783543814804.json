@@ -1,0 +1,3311 @@
+{
+  "id": "new-mrcjxkn9",
+  "title": "new",
+  "generatedAt": "2026-07-08T20:49:07.263Z",
+  "kind": "drum-onset-kick-every-second-snare-v2",
+  "durationMs": 134490,
+  "lanes": [
+    "kick",
+    "snare"
+  ],
+  "controls": {
+    "kick": "Space",
+    "snare": "W",
+    "low": "ArrowLeft",
+    "mid": "ArrowUp",
+    "high": "ArrowRight"
+  },
+  "notes": [
+    {
+      "id": "Os29M_-1Md-112",
+      "impactTimeMs": 5132,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-0",
+      "impactTimeMs": 5201,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-1",
+      "impactTimeMs": 5851,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-113",
+      "impactTimeMs": 5875,
+      "lane": "snare",
+      "strength": 0.4216547725423151,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-114",
+      "impactTimeMs": 6107,
+      "lane": "snare",
+      "strength": 0.3460561692148053,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-115",
+      "impactTimeMs": 6362,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-116",
+      "impactTimeMs": 6757,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-2",
+      "impactTimeMs": 6850,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-117",
+      "impactTimeMs": 7175,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-118",
+      "impactTimeMs": 7848,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-119",
+      "impactTimeMs": 8243,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-3",
+      "impactTimeMs": 8359,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-120",
+      "impactTimeMs": 8707,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-121",
+      "impactTimeMs": 9381,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-4",
+      "impactTimeMs": 9404,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-122",
+      "impactTimeMs": 9799,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-5",
+      "impactTimeMs": 10054,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-123",
+      "impactTimeMs": 10170,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-124",
+      "impactTimeMs": 10890,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-125",
+      "impactTimeMs": 11285,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-6",
+      "impactTimeMs": 11308,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-126",
+      "impactTimeMs": 11656,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-127",
+      "impactTimeMs": 12353,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-128",
+      "impactTimeMs": 12771,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-7",
+      "impactTimeMs": 12841,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-129",
+      "impactTimeMs": 13166,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-130",
+      "impactTimeMs": 13909,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-131",
+      "impactTimeMs": 14280,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-8",
+      "impactTimeMs": 14327,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-132",
+      "impactTimeMs": 14629,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-133",
+      "impactTimeMs": 15325,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-134",
+      "impactTimeMs": 15766,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-9",
+      "impactTimeMs": 15836,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-135",
+      "impactTimeMs": 16115,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-136",
+      "impactTimeMs": 16811,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-10",
+      "impactTimeMs": 16858,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-137",
+      "impactTimeMs": 17183,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-138",
+      "impactTimeMs": 17554,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-11",
+      "impactTimeMs": 18344,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-139",
+      "impactTimeMs": 18367,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-140",
+      "impactTimeMs": 18692,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-141",
+      "impactTimeMs": 19087,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-142",
+      "impactTimeMs": 19435,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-143",
+      "impactTimeMs": 19621,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-12",
+      "impactTimeMs": 19830,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-144",
+      "impactTimeMs": 19830,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-145",
+      "impactTimeMs": 20178,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-146",
+      "impactTimeMs": 20550,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-13",
+      "impactTimeMs": 20921,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-147",
+      "impactTimeMs": 20944,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-148",
+      "impactTimeMs": 21339,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-14",
+      "impactTimeMs": 21664,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-149",
+      "impactTimeMs": 21664,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-150",
+      "impactTimeMs": 22036,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-151",
+      "impactTimeMs": 22384,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-152",
+      "impactTimeMs": 22756,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-15",
+      "impactTimeMs": 22802,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-153",
+      "impactTimeMs": 23174,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-154",
+      "impactTimeMs": 23475,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-155",
+      "impactTimeMs": 23870,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-156",
+      "impactTimeMs": 24242,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-16",
+      "impactTimeMs": 24265,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-157",
+      "impactTimeMs": 24451,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-158",
+      "impactTimeMs": 24752,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-159",
+      "impactTimeMs": 24961,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-160",
+      "impactTimeMs": 25565,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-17",
+      "impactTimeMs": 25728,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-161",
+      "impactTimeMs": 25774,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-162",
+      "impactTimeMs": 26099,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-163",
+      "impactTimeMs": 26448,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-164",
+      "impactTimeMs": 27191,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-18",
+      "impactTimeMs": 27214,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-165",
+      "impactTimeMs": 27492,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-166",
+      "impactTimeMs": 27864,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-167",
+      "impactTimeMs": 28305,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-19",
+      "impactTimeMs": 28653,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-168",
+      "impactTimeMs": 28677,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-169",
+      "impactTimeMs": 29002,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-170",
+      "impactTimeMs": 29373,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-171",
+      "impactTimeMs": 29791,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-20",
+      "impactTimeMs": 30116,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-172",
+      "impactTimeMs": 30140,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-173",
+      "impactTimeMs": 30650,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-174",
+      "impactTimeMs": 30836,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-175",
+      "impactTimeMs": 31161,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-176",
+      "impactTimeMs": 31370,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-21",
+      "impactTimeMs": 31626,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-177",
+      "impactTimeMs": 31649,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-178",
+      "impactTimeMs": 32067,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-179",
+      "impactTimeMs": 32322,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-180",
+      "impactTimeMs": 32670,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-181",
+      "impactTimeMs": 33042,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-22",
+      "impactTimeMs": 33088,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-182",
+      "impactTimeMs": 33228,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-183",
+      "impactTimeMs": 33460,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-184",
+      "impactTimeMs": 33808,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-23",
+      "impactTimeMs": 34528,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-185",
+      "impactTimeMs": 34528,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-186",
+      "impactTimeMs": 34923,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-187",
+      "impactTimeMs": 35271,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-188",
+      "impactTimeMs": 36014,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-24",
+      "impactTimeMs": 36037,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-189",
+      "impactTimeMs": 36339,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-190",
+      "impactTimeMs": 36804,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-191",
+      "impactTimeMs": 37105,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-192",
+      "impactTimeMs": 37291,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-25",
+      "impactTimeMs": 37523,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-193",
+      "impactTimeMs": 37570,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-194",
+      "impactTimeMs": 37779,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-195",
+      "impactTimeMs": 38034,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-196",
+      "impactTimeMs": 38290,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-26",
+      "impactTimeMs": 38661,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-197",
+      "impactTimeMs": 38708,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-198",
+      "impactTimeMs": 39010,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-27",
+      "impactTimeMs": 39404,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-199",
+      "impactTimeMs": 39404,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-200",
+      "impactTimeMs": 39753,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-201",
+      "impactTimeMs": 40449,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-28",
+      "impactTimeMs": 40797,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-202",
+      "impactTimeMs": 40867,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-203",
+      "impactTimeMs": 41215,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-204",
+      "impactTimeMs": 42005,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-205",
+      "impactTimeMs": 42191,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-29",
+      "impactTimeMs": 42376,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-206",
+      "impactTimeMs": 42701,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-207",
+      "impactTimeMs": 43073,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-208",
+      "impactTimeMs": 43375,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-209",
+      "impactTimeMs": 43793,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-30",
+      "impactTimeMs": 43839,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-210",
+      "impactTimeMs": 44164,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-211",
+      "impactTimeMs": 44489,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-212",
+      "impactTimeMs": 44675,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-213",
+      "impactTimeMs": 44884,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-214",
+      "impactTimeMs": 45209,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-31",
+      "impactTimeMs": 45325,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-215",
+      "impactTimeMs": 45418,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-216",
+      "impactTimeMs": 45650,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-217",
+      "impactTimeMs": 46161,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-218",
+      "impactTimeMs": 46347,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-219",
+      "impactTimeMs": 46742,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-32",
+      "impactTimeMs": 46835,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-220",
+      "impactTimeMs": 47090,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-221",
+      "impactTimeMs": 47462,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-222",
+      "impactTimeMs": 47740,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-223",
+      "impactTimeMs": 48042,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-33",
+      "impactTimeMs": 48205,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-224",
+      "impactTimeMs": 48553,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-225",
+      "impactTimeMs": 49133,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-34",
+      "impactTimeMs": 49296,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-226",
+      "impactTimeMs": 49319,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-227",
+      "impactTimeMs": 49644,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-35",
+      "impactTimeMs": 49853,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-228",
+      "impactTimeMs": 50016,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-229",
+      "impactTimeMs": 50736,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-36",
+      "impactTimeMs": 50852,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-230",
+      "impactTimeMs": 50921,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-37",
+      "impactTimeMs": 51502,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-231",
+      "impactTimeMs": 51525,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-232",
+      "impactTimeMs": 51711,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-233",
+      "impactTimeMs": 52059,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-234",
+      "impactTimeMs": 52291,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-235",
+      "impactTimeMs": 52477,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-38",
+      "impactTimeMs": 52616,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-236",
+      "impactTimeMs": 52988,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-39",
+      "impactTimeMs": 53685,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-237",
+      "impactTimeMs": 53685,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-238",
+      "impactTimeMs": 53894,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-239",
+      "impactTimeMs": 54126,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-40",
+      "impactTimeMs": 54311,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-240",
+      "impactTimeMs": 54428,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-241",
+      "impactTimeMs": 54683,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-242",
+      "impactTimeMs": 54892,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-243",
+      "impactTimeMs": 55147,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-41",
+      "impactTimeMs": 55287,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-244",
+      "impactTimeMs": 55496,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-42",
+      "impactTimeMs": 55890,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-245",
+      "impactTimeMs": 55914,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-246",
+      "impactTimeMs": 56285,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-247",
+      "impactTimeMs": 56633,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-248",
+      "impactTimeMs": 56819,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-43",
+      "impactTimeMs": 56935,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-249",
+      "impactTimeMs": 57051,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-250",
+      "impactTimeMs": 57400,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-251",
+      "impactTimeMs": 58120,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-44",
+      "impactTimeMs": 58166,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-252",
+      "impactTimeMs": 58305,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-253",
+      "impactTimeMs": 58514,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-254",
+      "impactTimeMs": 58700,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-45",
+      "impactTimeMs": 58816,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-255",
+      "impactTimeMs": 58886,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-256",
+      "impactTimeMs": 59118,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-257",
+      "impactTimeMs": 59582,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-258",
+      "impactTimeMs": 59931,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-46",
+      "impactTimeMs": 60047,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-259",
+      "impactTimeMs": 60256,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-260",
+      "impactTimeMs": 60697,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-261",
+      "impactTimeMs": 60883,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-262",
+      "impactTimeMs": 61068,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-263",
+      "impactTimeMs": 61394,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-47",
+      "impactTimeMs": 61510,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-264",
+      "impactTimeMs": 61649,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-265",
+      "impactTimeMs": 61835,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-266",
+      "impactTimeMs": 62229,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-267",
+      "impactTimeMs": 62578,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-268",
+      "impactTimeMs": 62903,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-48",
+      "impactTimeMs": 62949,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-269",
+      "impactTimeMs": 63321,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-270",
+      "impactTimeMs": 64041,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-49",
+      "impactTimeMs": 64064,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-271",
+      "impactTimeMs": 64412,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-272",
+      "impactTimeMs": 64784,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-273",
+      "impactTimeMs": 65480,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-50",
+      "impactTimeMs": 65503,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-274",
+      "impactTimeMs": 65759,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-275",
+      "impactTimeMs": 65968,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-276",
+      "impactTimeMs": 66270,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-277",
+      "impactTimeMs": 66618,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-51",
+      "impactTimeMs": 66688,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-278",
+      "impactTimeMs": 67036,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-279",
+      "impactTimeMs": 67361,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-52",
+      "impactTimeMs": 67454,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-280",
+      "impactTimeMs": 67733,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-281",
+      "impactTimeMs": 68081,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-53",
+      "impactTimeMs": 68429,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-282",
+      "impactTimeMs": 68429,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-283",
+      "impactTimeMs": 68778,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-54",
+      "impactTimeMs": 69103,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-284",
+      "impactTimeMs": 69149,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-285",
+      "impactTimeMs": 69358,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-286",
+      "impactTimeMs": 69567,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-287",
+      "impactTimeMs": 69915,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-288",
+      "impactTimeMs": 70101,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-55",
+      "impactTimeMs": 70264,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-289",
+      "impactTimeMs": 70287,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-290",
+      "impactTimeMs": 70612,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-291",
+      "impactTimeMs": 70983,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-292",
+      "impactTimeMs": 71378,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-56",
+      "impactTimeMs": 71401,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-293",
+      "impactTimeMs": 71587,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-294",
+      "impactTimeMs": 71889,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-295",
+      "impactTimeMs": 72075,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-57",
+      "impactTimeMs": 72678,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-296",
+      "impactTimeMs": 72864,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-297",
+      "impactTimeMs": 73189,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-58",
+      "impactTimeMs": 73375,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-298",
+      "impactTimeMs": 73538,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-299",
+      "impactTimeMs": 73909,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-300",
+      "impactTimeMs": 74281,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-301",
+      "impactTimeMs": 74652,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-59",
+      "impactTimeMs": 74675,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-302",
+      "impactTimeMs": 75024,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-60",
+      "impactTimeMs": 75372,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-303",
+      "impactTimeMs": 75372,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-304",
+      "impactTimeMs": 75767,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-305",
+      "impactTimeMs": 75976,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-61",
+      "impactTimeMs": 76161,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-306",
+      "impactTimeMs": 76487,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-307",
+      "impactTimeMs": 77253,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-62",
+      "impactTimeMs": 77415,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-308",
+      "impactTimeMs": 77717,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-309",
+      "impactTimeMs": 77973,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-310",
+      "impactTimeMs": 78228,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-311",
+      "impactTimeMs": 78483,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-63",
+      "impactTimeMs": 78692,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-312",
+      "impactTimeMs": 78716,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-313",
+      "impactTimeMs": 79064,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-314",
+      "impactTimeMs": 79459,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-315",
+      "impactTimeMs": 79668,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-316",
+      "impactTimeMs": 79853,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-64",
+      "impactTimeMs": 79923,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-317",
+      "impactTimeMs": 80132,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-318",
+      "impactTimeMs": 80318,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-319",
+      "impactTimeMs": 80550,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-65",
+      "impactTimeMs": 80573,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-320",
+      "impactTimeMs": 80922,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-321",
+      "impactTimeMs": 81316,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-322",
+      "impactTimeMs": 81502,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-66",
+      "impactTimeMs": 81641,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-323",
+      "impactTimeMs": 81688,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-324",
+      "impactTimeMs": 82013,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-67",
+      "impactTimeMs": 82361,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-325",
+      "impactTimeMs": 82384,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-326",
+      "impactTimeMs": 83127,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-327",
+      "impactTimeMs": 83453,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-68",
+      "impactTimeMs": 83545,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-328",
+      "impactTimeMs": 83778,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-329",
+      "impactTimeMs": 84103,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-330",
+      "impactTimeMs": 84312,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-331",
+      "impactTimeMs": 84660,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-332",
+      "impactTimeMs": 84846,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-69",
+      "impactTimeMs": 85055,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-333",
+      "impactTimeMs": 85148,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-334",
+      "impactTimeMs": 85357,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-335",
+      "impactTimeMs": 85612,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-336",
+      "impactTimeMs": 85867,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-337",
+      "impactTimeMs": 86076,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-338",
+      "impactTimeMs": 86448,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-70",
+      "impactTimeMs": 86471,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-339",
+      "impactTimeMs": 86819,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-340",
+      "impactTimeMs": 87539,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-71",
+      "impactTimeMs": 87609,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-341",
+      "impactTimeMs": 87911,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-342",
+      "impactTimeMs": 88305,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-72",
+      "impactTimeMs": 88631,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-343",
+      "impactTimeMs": 88654,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-344",
+      "impactTimeMs": 89002,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-345",
+      "impactTimeMs": 89234,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-73",
+      "impactTimeMs": 89559,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-346",
+      "impactTimeMs": 89583,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-347",
+      "impactTimeMs": 89792,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-348",
+      "impactTimeMs": 90024,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-74",
+      "impactTimeMs": 90535,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-349",
+      "impactTimeMs": 90558,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-350",
+      "impactTimeMs": 90744,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-351",
+      "impactTimeMs": 91069,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-352",
+      "impactTimeMs": 91254,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-353",
+      "impactTimeMs": 91765,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-354",
+      "impactTimeMs": 91974,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-75",
+      "impactTimeMs": 91997,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-355",
+      "impactTimeMs": 92369,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-356",
+      "impactTimeMs": 92717,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-357",
+      "impactTimeMs": 93321,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-76",
+      "impactTimeMs": 93391,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-358",
+      "impactTimeMs": 93553,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-359",
+      "impactTimeMs": 93809,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-77",
+      "impactTimeMs": 94064,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-360",
+      "impactTimeMs": 94157,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-361",
+      "impactTimeMs": 94552,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-362",
+      "impactTimeMs": 94877,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-363",
+      "impactTimeMs": 95202,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-78",
+      "impactTimeMs": 95271,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-364",
+      "impactTimeMs": 95713,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-365",
+      "impactTimeMs": 96084,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-366",
+      "impactTimeMs": 96386,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-367",
+      "impactTimeMs": 96711,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-79",
+      "impactTimeMs": 96827,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-368",
+      "impactTimeMs": 97129,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-369",
+      "impactTimeMs": 97431,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-370",
+      "impactTimeMs": 97640,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-371",
+      "impactTimeMs": 97872,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-80",
+      "impactTimeMs": 97942,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-372",
+      "impactTimeMs": 98337,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-373",
+      "impactTimeMs": 98545,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-374",
+      "impactTimeMs": 98778,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-81",
+      "impactTimeMs": 98963,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-375",
+      "impactTimeMs": 99265,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-376",
+      "impactTimeMs": 99567,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-82",
+      "impactTimeMs": 99683,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-377",
+      "impactTimeMs": 99753,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-378",
+      "impactTimeMs": 100032,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-379",
+      "impactTimeMs": 100217,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-380",
+      "impactTimeMs": 100403,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-381",
+      "impactTimeMs": 101123,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-83",
+      "impactTimeMs": 101216,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-382",
+      "impactTimeMs": 101355,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-383",
+      "impactTimeMs": 101773,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-384",
+      "impactTimeMs": 101959,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-385",
+      "impactTimeMs": 102145,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-84",
+      "impactTimeMs": 102191,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-386",
+      "impactTimeMs": 102330,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-387",
+      "impactTimeMs": 102911,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-388",
+      "impactTimeMs": 103143,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-85",
+      "impactTimeMs": 103213,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-389",
+      "impactTimeMs": 103561,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-390",
+      "impactTimeMs": 103909,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-86",
+      "impactTimeMs": 104049,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-391",
+      "impactTimeMs": 104234,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-392",
+      "impactTimeMs": 104420,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-393",
+      "impactTimeMs": 104722,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-394",
+      "impactTimeMs": 105024,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-87",
+      "impactTimeMs": 105163,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-395",
+      "impactTimeMs": 105372,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-396",
+      "impactTimeMs": 105604,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-397",
+      "impactTimeMs": 105883,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-398",
+      "impactTimeMs": 106138,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-88",
+      "impactTimeMs": 106255,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-399",
+      "impactTimeMs": 106394,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-400",
+      "impactTimeMs": 106719,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-401",
+      "impactTimeMs": 106928,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-89",
+      "impactTimeMs": 107021,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-402",
+      "impactTimeMs": 107323,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-403",
+      "impactTimeMs": 107694,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-404",
+      "impactTimeMs": 107903,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-90",
+      "impactTimeMs": 108089,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-405",
+      "impactTimeMs": 108205,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-406",
+      "impactTimeMs": 108460,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-407",
+      "impactTimeMs": 108832,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-408",
+      "impactTimeMs": 109227,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-91",
+      "impactTimeMs": 109296,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-409",
+      "impactTimeMs": 109529,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-92",
+      "impactTimeMs": 109900,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-410",
+      "impactTimeMs": 109923,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-411",
+      "impactTimeMs": 110295,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-412",
+      "impactTimeMs": 110852,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-93",
+      "impactTimeMs": 111038,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-413",
+      "impactTimeMs": 111084,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-414",
+      "impactTimeMs": 111734,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-94",
+      "impactTimeMs": 112060,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-415",
+      "impactTimeMs": 112129,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-416",
+      "impactTimeMs": 112477,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-417",
+      "impactTimeMs": 112826,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-95",
+      "impactTimeMs": 112849,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-418",
+      "impactTimeMs": 113174,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-419",
+      "impactTimeMs": 113406,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-420",
+      "impactTimeMs": 113638,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-96",
+      "impactTimeMs": 113917,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-421",
+      "impactTimeMs": 114080,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-422",
+      "impactTimeMs": 114405,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-423",
+      "impactTimeMs": 114614,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-424",
+      "impactTimeMs": 114892,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-425",
+      "impactTimeMs": 115148,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-426",
+      "impactTimeMs": 115357,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-97",
+      "impactTimeMs": 115380,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-427",
+      "impactTimeMs": 115728,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-98",
+      "impactTimeMs": 115891,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-428",
+      "impactTimeMs": 116100,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-429",
+      "impactTimeMs": 116750,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-430",
+      "impactTimeMs": 117052,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-431",
+      "impactTimeMs": 117238,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-99",
+      "impactTimeMs": 117261,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-432",
+      "impactTimeMs": 117516,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-433",
+      "impactTimeMs": 117864,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-434",
+      "impactTimeMs": 118073,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-100",
+      "impactTimeMs": 118282,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-435",
+      "impactTimeMs": 118329,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-436",
+      "impactTimeMs": 118654,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-101",
+      "impactTimeMs": 118886,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-437",
+      "impactTimeMs": 119002,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-438",
+      "impactTimeMs": 119722,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-102",
+      "impactTimeMs": 119769,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-439",
+      "impactTimeMs": 120047,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-440",
+      "impactTimeMs": 120419,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-103",
+      "impactTimeMs": 120674,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-441",
+      "impactTimeMs": 120860,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-442",
+      "impactTimeMs": 121046,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-443",
+      "impactTimeMs": 121278,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-444",
+      "impactTimeMs": 121603,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-104",
+      "impactTimeMs": 121696,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-445",
+      "impactTimeMs": 121951,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-446",
+      "impactTimeMs": 122462,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-447",
+      "impactTimeMs": 122671,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-448",
+      "impactTimeMs": 122996,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-105",
+      "impactTimeMs": 123182,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-449",
+      "impactTimeMs": 123391,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-450",
+      "impactTimeMs": 123832,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-451",
+      "impactTimeMs": 124018,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-106",
+      "impactTimeMs": 124204,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-452",
+      "impactTimeMs": 124250,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-453",
+      "impactTimeMs": 124575,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-107",
+      "impactTimeMs": 124807,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-454",
+      "impactTimeMs": 124923,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-455",
+      "impactTimeMs": 125411,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-456",
+      "impactTimeMs": 125643,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-108",
+      "impactTimeMs": 125690,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-457",
+      "impactTimeMs": 126015,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-458",
+      "impactTimeMs": 126340,
+      "lane": "snare",
+      "strength": 1,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-109",
+      "impactTimeMs": 126595,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-459",
+      "impactTimeMs": 127152,
+      "lane": "snare",
+      "strength": 0.4418080340691597,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-460",
+      "impactTimeMs": 127361,
+      "lane": "snare",
+      "strength": 0.24040295378730392,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-461",
+      "impactTimeMs": 127570,
+      "lane": "snare",
+      "strength": 0.6114110658336466,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-462",
+      "impactTimeMs": 127849,
+      "lane": "snare",
+      "strength": 0.4736025583824737,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-463",
+      "impactTimeMs": 128081,
+      "lane": "snare",
+      "strength": 0.4601498642783756,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-110",
+      "impactTimeMs": 128290,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-464",
+      "impactTimeMs": 128290,
+      "lane": "snare",
+      "strength": 0.32442746100102204,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-465",
+      "impactTimeMs": 128499,
+      "lane": "snare",
+      "strength": 0.3425114703788849,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-466",
+      "impactTimeMs": 128731,
+      "lane": "snare",
+      "strength": 0.4464719048354374,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-467",
+      "impactTimeMs": 129010,
+      "lane": "snare",
+      "strength": 0.648272151282822,
+      "source": "snare-clap-onset"
+    },
+    {
+      "id": "Os29M_-1Md-111",
+      "impactTimeMs": 129196,
+      "lane": "kick",
+      "strength": 1,
+      "source": "kick-low-onset"
+    },
+    {
+      "id": "Os29M_-1Md-468",
+      "impactTimeMs": 129196,
+      "lane": "snare",
+      "strength": 0.9559238465275943,
+      "source": "snare-clap-onset"
+    }
+  ],
+  "beatOffsetMs": 0,
+  "bpm": 120,
+  "difficulty": 1,
+  "songId": "Os29M_-1Md",
+  "source": "manual",
+  "updatedAt": "2026-07-08T20:50:06.410Z",
+  "createdAt": "2026-07-08T20:50:06.410Z",
+  "version": 1
+}

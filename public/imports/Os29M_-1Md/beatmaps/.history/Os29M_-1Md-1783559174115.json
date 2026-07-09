@@ -1,0 +1,76 @@
+{
+  "id": "Os29M_-1Md",
+  "title": "Queen - We Will Rock You (Official Video)",
+  "generatedAt": "2026-07-08T20:49:07.263Z",
+  "kind": "drum-onset-kick-every-second-snare-v2",
+  "durationMs": 134490,
+  "lanes": [
+    "kick",
+    "snare"
+  ],
+  "controls": {
+    "kick": "Space",
+    "snare": "W",
+    "low": "ArrowLeft",
+    "mid": "ArrowUp",
+    "high": "ArrowRight"
+  },
+  "notes": [
+    {
+      "id": "manual-1783558724671-6296",
+      "impactTimeMs": 6296.296,
+      "rawTimeMs": 6287.854578947368,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783558729943-6667",
+      "impactTimeMs": 6666.666370370371,
+      "rawTimeMs": 6699.619912280701,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783558731038-7037",
+      "impactTimeMs": 7037.036740740741,
+      "rawTimeMs": 7064.532192982456,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783558750381-7778",
+      "impactTimeMs": 7777.777481481482,
+      "rawTimeMs": 7791.81256920078,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783558750988-8148",
+      "impactTimeMs": 8148.1478518518525,
+      "rawTimeMs": 8128.654674463937,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783558751881-8519",
+      "impactTimeMs": 8518.518222222223,
+      "rawTimeMs": 8451.461692007797,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    }
+  ],
+  "beatOffsetMs": 6296.296,
+  "bpm": 81,
+  "difficulty": 1,
+  "songId": "Os29M_-1Md",
+  "source": "manual",
+  "updatedAt": "2026-07-09T01:00:32.212Z",
+  "createdAt": "2026-07-09T01:00:32.212Z",
+  "version": 1
+}

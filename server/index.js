@@ -57,6 +57,19 @@ async function assertCli(name) {
   }
 }
 
+function makeBlankBeatmap(id, title, durationMs) {
+  return {
+    id,
+    title: `${title} blank map`,
+    generatedAt: new Date().toISOString(),
+    kind: 'blank',
+    durationMs,
+    lanes: ['kick', 'snare', 'low', 'mid', 'high'],
+    controls: { kick: 'Space', snare: 'W', low: 'ArrowLeft', mid: 'ArrowUp', high: 'ArrowRight' },
+    notes: [],
+  }
+}
+
 async function makeAnalyzedBeatmap(id, title, audioPath, durationMs) {
   const sampleRate = 22050
   const frameSize = 2048
@@ -291,10 +304,11 @@ app.post('/api/import-youtube', async (req, res) => {
     await run('ffmpeg', ['-y', '-i', rawPath, '-vn', '-codec:a', 'libmp3lame', '-q:a', '2', audioPath])
 
     const durationMs = await getDurationMs(audioPath)
-    const beatmap = await makeAnalyzedBeatmap(id, title, audioPath, durationMs)
+    const beatmap = makeBlankBeatmap(id, title, durationMs)
+    const now = new Date().toISOString()
     await writeFile(path.join(outDir, 'beatmap.json'), JSON.stringify(beatmap, null, 2))
     await mkdir(path.join(outDir, 'beatmaps'), { recursive: true })
-    await writeFile(path.join(outDir, 'beatmaps', 'auto-kick-snare.json'), JSON.stringify({ ...beatmap, id: 'auto-kick-snare', songId: id, difficulty: 1, version: 1, source: 'auto', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }, null, 2))
+    await writeFile(path.join(outDir, 'beatmaps', 'blank.json'), JSON.stringify({ ...beatmap, id: 'blank', songId: id, difficulty: 1, version: 1, source: 'blank', createdAt: now, updatedAt: now }, null, 2))
     await writeFile(path.join(outDir, 'meta.json'), JSON.stringify({ id, title, sourceUrl: url, durationMs }, null, 2))
 
     res.json({

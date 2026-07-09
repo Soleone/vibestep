@@ -381,11 +381,11 @@ input[type='range'],
 .timeline-ruler__mark--bar { color: rgba(255,209,102,0.9); }
 .timeline-ruler__mark--beat { color: rgba(237,243,255,0.58); font-weight: 800; }
 .timeline-loop-range { position: absolute; top: 24px; bottom: 0; z-index: 1; background: color-mix(in srgb, var(--ff-accent) 8%, transparent); border-left: 1px solid color-mix(in srgb, var(--ff-accent) 28%, transparent); border-right: 1px solid color-mix(in srgb, var(--ff-warning) 34%, transparent); pointer-events: none; }
-.timeline-loop-marker { position: absolute; top: 0; bottom: 0; z-index: 4; width: 2px; transform: translateX(-50%); pointer-events: none; }
+.timeline-loop-marker { position: absolute; top: 0; bottom: 0; z-index: 4; width: 12px; transform: translateX(-50%); pointer-events: auto; cursor: ew-resize; touch-action: none; }
 .timeline-loop-marker::before { content: ''; position: absolute; top: 3px; left: 50%; width: 12px; height: 12px; transform: translateX(-50%) rotate(45deg); border-radius: 3px; }
-.timeline-loop-marker--start { background: color-mix(in srgb, var(--ff-accent) 50%, transparent); }
+.timeline-loop-marker--start { background: linear-gradient(90deg, transparent 5px, color-mix(in srgb, var(--ff-accent) 50%, transparent) 5px 7px, transparent 7px); }
 .timeline-loop-marker--start::before { background: var(--ff-accent); box-shadow: 0 0 14px color-mix(in srgb, var(--ff-accent) 45%, transparent); }
-.timeline-loop-marker--end { background: rgba(255,159,67,0.52); }
+.timeline-loop-marker--end { background: linear-gradient(90deg, transparent 5px, rgba(255,159,67,0.52) 5px 7px, transparent 7px); }
 .timeline-loop-marker--end::before { background: #ff9f43; box-shadow: 0 0 14px rgba(255,159,67,0.45); }
 .timeline-grid { position: absolute; inset: 0; pointer-events: none; }
 .timeline-grid__line { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.045); }

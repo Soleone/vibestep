@@ -1280,14 +1280,6 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783575278246-68010",
-      "impactTimeMs": 68009.61461538462,
-      "rawTimeMs": 68021.62840350877,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
       "id": "manual-1783574244563-68442",
       "impactTimeMs": 68442.30692307692,
       "rawTimeMs": 68457.34066126856,
@@ -1611,14 +1603,6 @@
       "id": "manual-1783574205846-82144",
       "impactTimeMs": 82144.23,
       "rawTimeMs": 82138.77392982457,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783575486722-82288",
-      "impactTimeMs": 82288.46076923076,
-      "rawTimeMs": 82290.36468421052,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
@@ -2081,7 +2065,7 @@
     }
   ],
   "source": "manual",
-  "updatedAt": "2026-07-09T05:40:15.788Z",
+  "updatedAt": "2026-07-09T05:34:02.506Z",
   "createdAt": "2026-07-09T03:24:01.822Z",
-  "version": 19
+  "version": 17
 }

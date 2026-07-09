@@ -721,443 +721,443 @@
     },
     {
       "id": "manual-1783571427366-55606",
-      "impactTimeMs": 55557.69153846153,
-      "rawTimeMs": 55559.136954116046,
+      "impactTimeMs": 55605.768461538464,
+      "rawTimeMs": 55607.21387719298,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573827543-55750",
-      "impactTimeMs": 55701.92230769229,
-      "rawTimeMs": 55701.348758434535,
+      "impactTimeMs": 55749.99923076923,
+      "rawTimeMs": 55749.42568151147,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573828270-55894",
-      "impactTimeMs": 55846.15307692306,
-      "rawTimeMs": 55838.89261808366,
+      "impactTimeMs": 55894.229999999996,
+      "rawTimeMs": 55886.96954116059,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783571415846-56038",
-      "impactTimeMs": 55990.383846153825,
-      "rawTimeMs": 55970.36502429148,
+      "impactTimeMs": 56038.46076923076,
+      "rawTimeMs": 56018.44194736842,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573830138-56183",
-      "impactTimeMs": 56134.614615384606,
-      "rawTimeMs": 56130.82244264506,
+      "impactTimeMs": 56182.69153846154,
+      "rawTimeMs": 56178.899365722,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573832793-56327",
-      "impactTimeMs": 56278.84538461537,
-      "rawTimeMs": 56282.40139001348,
+      "impactTimeMs": 56326.92230769231,
+      "rawTimeMs": 56330.47831309042,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783571455521-56471",
-      "impactTimeMs": 56423.07615384614,
-      "rawTimeMs": 56434.76151551955,
+      "impactTimeMs": 56471.153076923074,
+      "rawTimeMs": 56482.83843859649,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573839138-56615",
-      "impactTimeMs": 56567.3069230769,
-      "rawTimeMs": 56544.96730499324,
+      "impactTimeMs": 56615.38384615384,
+      "rawTimeMs": 56593.044228070175,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573840608-56760",
-      "impactTimeMs": 56711.537692307684,
-      "rawTimeMs": 56702.16028744938,
+      "impactTimeMs": 56759.61461538462,
+      "rawTimeMs": 56750.23721052631,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783571461588-56904",
-      "impactTimeMs": 56855.76846153845,
-      "rawTimeMs": 56850.20011201078,
+      "impactTimeMs": 56903.845384615386,
+      "rawTimeMs": 56898.27703508772,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573842438-57048",
-      "impactTimeMs": 56999.999230769216,
-      "rawTimeMs": 56982.862041835346,
+      "impactTimeMs": 57048.07615384615,
+      "rawTimeMs": 57030.93896491228,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573842993-57192",
-      "impactTimeMs": 57144.22999999998,
-      "rawTimeMs": 57134.440989203766,
+      "impactTimeMs": 57192.30692307692,
+      "rawTimeMs": 57182.5179122807,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573852056-57337",
-      "impactTimeMs": 57288.46076923075,
-      "rawTimeMs": 57282.27318488527,
+      "impactTimeMs": 57336.537692307684,
+      "rawTimeMs": 57330.35010796221,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "paste-1783571519705-0-manual-1783571461588-56904",
-      "impactTimeMs": 57432.69153846153,
-      "rawTimeMs": 57427.12318893386,
+      "impactTimeMs": 57480.768461538464,
+      "rawTimeMs": 57475.200112010796,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid-paste"
     },
     {
       "id": "manual-1783573852916-57625",
-      "impactTimeMs": 57576.92230769229,
-      "rawTimeMs": 57571.39599190281,
+      "impactTimeMs": 57624.99923076923,
+      "rawTimeMs": 57619.47291497975,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573854042-57769",
-      "impactTimeMs": 57721.15307692306,
-      "rawTimeMs": 57703.32581646422,
+      "impactTimeMs": 57769.229999999996,
+      "rawTimeMs": 57751.402739541154,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571427366-55606",
-      "impactTimeMs": 57865.38384615383,
-      "rawTimeMs": 57866.82926180835,
+      "impactTimeMs": 57913.46076923077,
+      "rawTimeMs": 57914.90618488529,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid-repeat"
     },
     {
       "id": "manual-1783573855428-58058",
-      "impactTimeMs": 58009.614615384606,
-      "rawTimeMs": 57998.06265856948,
+      "impactTimeMs": 58057.69153846154,
+      "rawTimeMs": 58046.139581646414,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573856388-58202",
-      "impactTimeMs": 58153.84538461537,
-      "rawTimeMs": 58146.83458839404,
+      "impactTimeMs": 58201.92230769231,
+      "rawTimeMs": 58194.91151147098,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571415846-56038",
-      "impactTimeMs": 58298.07615384613,
-      "rawTimeMs": 58278.057331983786,
+      "impactTimeMs": 58346.15307692307,
+      "rawTimeMs": 58326.13425506072,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid-repeat"
     },
     {
       "id": "manual-1783573857840-58490",
-      "impactTimeMs": 58442.3069230769,
-      "rawTimeMs": 58441.5714304993,
+      "impactTimeMs": 58490.38384615384,
+      "rawTimeMs": 58489.64835357624,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573858466-58635",
-      "impactTimeMs": 58586.537692307684,
-      "rawTimeMs": 58556.659149797546,
+      "impactTimeMs": 58634.61461538462,
+      "rawTimeMs": 58604.73607287448,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571455521-56471",
-      "impactTimeMs": 58730.76846153844,
-      "rawTimeMs": 58742.45382321186,
+      "impactTimeMs": 58778.84538461538,
+      "rawTimeMs": 58790.530746288794,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid-repeat"
     },
     {
       "id": "manual-1783573860056-58923",
-      "impactTimeMs": 58874.999230769216,
-      "rawTimeMs": 58893.501255060706,
+      "impactTimeMs": 58923.07615384615,
+      "rawTimeMs": 58941.57817813764,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "manual-1783573860611-59067",
-      "impactTimeMs": 59019.22999999998,
-      "rawTimeMs": 59031.04511470983,
+      "impactTimeMs": 59067.30692307692,
+      "rawTimeMs": 59079.122037786765,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571461588-56904",
-      "impactTimeMs": 59163.460769230755,
-      "rawTimeMs": 59157.89241970309,
+      "impactTimeMs": 59211.53769230769,
+      "rawTimeMs": 59205.96934278002,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid-repeat"
     },
     {
       "id": "manual-1783573862088-59356",
-      "impactTimeMs": 59307.69153846153,
-      "rawTimeMs": 59294.90476383264,
+      "impactTimeMs": 59355.768461538464,
+      "rawTimeMs": 59342.981686909574,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783574944523-60317",
-      "impactTimeMs": 60317.30692307692,
-      "rawTimeMs": 60311.75461403509,
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571427366-55606",
+      "impactTimeMs": 60221.153076923074,
+      "rawTimeMs": 60222.59849257759,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    },
+    {
+      "id": "manual-1783573880703-60365",
+      "impactTimeMs": 60365.38384615384,
+      "rawTimeMs": 60345.021789473685,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-0-manual-1783571427366-55606",
-      "impactTimeMs": 60461.537692307684,
-      "rawTimeMs": 60462.9831079622,
+      "id": "manual-1783573881251-60510",
+      "impactTimeMs": 60509.61461538462,
+      "rawTimeMs": 60488.179684210525,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-1-manual-1783573827543-55750",
-      "impactTimeMs": 60605.76846153845,
-      "rawTimeMs": 60605.19491228069,
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571415846-56038",
+      "impactTimeMs": 60653.84538461537,
+      "rawTimeMs": 60633.82656275303,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-2-manual-1783573828270-55894",
-      "impactTimeMs": 60749.999230769216,
-      "rawTimeMs": 60742.73877192981,
+      "id": "manual-1783573882901-60798",
+      "impactTimeMs": 60798.07615384615,
+      "rawTimeMs": 60799.758631578945,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-3-manual-1783571415846-56038",
-      "impactTimeMs": 60894.22999999998,
-      "rawTimeMs": 60874.21117813764,
+      "id": "manual-1783573883471-60942",
+      "impactTimeMs": 60942.30692307692,
+      "rawTimeMs": 60926.07442105263,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-4-manual-1783573830138-56183",
-      "impactTimeMs": 61038.46076923076,
-      "rawTimeMs": 61034.66859649122,
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571455521-56471",
+      "impactTimeMs": 61086.537692307684,
+      "rawTimeMs": 61098.2230539811,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-5-manual-1783573832793-56327",
-      "impactTimeMs": 61182.69153846153,
-      "rawTimeMs": 61186.24754385964,
+      "id": "manual-1783573885406-61231",
+      "impactTimeMs": 61230.768461538464,
+      "rawTimeMs": 61243.26740350877,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-6-manual-1783571455521-56471",
-      "impactTimeMs": 61326.92230769229,
-      "rawTimeMs": 61338.60766936571,
+      "id": "manual-1783573885946-61375",
+      "impactTimeMs": 61374.99923076923,
+      "rawTimeMs": 61327.477929824556,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-7-manual-1783573839138-56615",
-      "impactTimeMs": 61471.15307692306,
-      "rawTimeMs": 61448.813458839395,
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571461588-56904",
+      "impactTimeMs": 61519.229999999996,
+      "rawTimeMs": 61513.66165047233,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-8-manual-1783573840608-56760",
-      "impactTimeMs": 61615.38384615384,
-      "rawTimeMs": 61606.00644129553,
+      "id": "manual-1783573887049-61663",
+      "impactTimeMs": 61663.46076923076,
+      "rawTimeMs": 61683.96915789474,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-9-manual-1783571461588-56904",
-      "impactTimeMs": 61759.614615384606,
-      "rawTimeMs": 61754.04626585694,
+      "id": "manual-1783573887919-61808",
+      "impactTimeMs": 61807.69153846154,
+      "rawTimeMs": 61810.28494736842,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-10-manual-1783573842438-57048",
-      "impactTimeMs": 61903.84538461537,
-      "rawTimeMs": 61886.7081956815,
+      "id": "manual-1783573893544-61952",
+      "impactTimeMs": 61951.92230769231,
+      "rawTimeMs": 61926.84078947369,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-11-manual-1783573842993-57192",
-      "impactTimeMs": 62048.07615384614,
-      "rawTimeMs": 62038.28714304992,
+      "id": "paste-1783571608163-0-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571461588-56904",
+      "impactTimeMs": 62096.153076923074,
+      "rawTimeMs": 62090.584727395406,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat-paste"
     },
     {
-      "id": "paste-1783574897193-12-manual-1783573852056-57337",
-      "impactTimeMs": 62192.3069230769,
-      "rawTimeMs": 62186.11933873143,
+      "id": "manual-1783573894641-62240",
+      "impactTimeMs": 62240.38384615384,
+      "rawTimeMs": 62238.41973684211,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-13-paste-1783571519705-0-manual-1783571461588-56904",
-      "impactTimeMs": 62336.537692307684,
-      "rawTimeMs": 62330.969342780016,
+      "id": "manual-1783573895179-62385",
+      "impactTimeMs": 62384.61461538462,
+      "rawTimeMs": 62353.50745614035,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-14-manual-1783573852916-57625",
-      "impactTimeMs": 62480.76846153845,
-      "rawTimeMs": 62475.24214574897,
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571427366-55606",
+      "impactTimeMs": 62528.84538461538,
+      "rawTimeMs": 62530.2908002699,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-15-manual-1783573854042-57769",
-      "impactTimeMs": 62624.999230769216,
-      "rawTimeMs": 62607.17197031037,
+      "id": "manual-1783573896154-62673",
+      "impactTimeMs": 62673.07615384615,
+      "rawTimeMs": 62695.96359649123,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-16-repeat-1783571484388-1-manual-1783571427366-55606",
-      "impactTimeMs": 62769.22999999999,
-      "rawTimeMs": 62770.67541565451,
+      "id": "manual-1783573897300-62817",
+      "impactTimeMs": 62817.30692307692,
+      "rawTimeMs": 62827.893421052635,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-repeat-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-17-manual-1783573855428-58058",
-      "impactTimeMs": 62913.46076923076,
-      "rawTimeMs": 62901.90881241563,
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571415846-56038",
+      "impactTimeMs": 62961.53769230768,
+      "rawTimeMs": 62941.51887044533,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-18-manual-1783573856388-58202",
-      "impactTimeMs": 63057.69153846153,
-      "rawTimeMs": 63050.6807422402,
+      "id": "manual-1783573898425-63106",
+      "impactTimeMs": 63105.768461538464,
+      "rawTimeMs": 63080.525,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-19-repeat-1783571484388-1-manual-1783571415846-56038",
-      "impactTimeMs": 63201.922307692286,
-      "rawTimeMs": 63181.90348582994,
+      "id": "manual-1783573899790-63250",
+      "impactTimeMs": 63249.99923076923,
+      "rawTimeMs": 63240.525,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-repeat-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-20-manual-1783573857840-58490",
-      "impactTimeMs": 63346.15307692306,
-      "rawTimeMs": 63345.41758434546,
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571455521-56471",
+      "impactTimeMs": 63394.22999999999,
+      "rawTimeMs": 63405.915361673404,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-21-manual-1783573858466-58635",
-      "impactTimeMs": 63490.38384615384,
-      "rawTimeMs": 63460.5053036437,
+      "id": "manual-1783573900438-63538",
+      "impactTimeMs": 63538.46076923076,
+      "rawTimeMs": 63521.22675438596,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-22-repeat-1783571484388-1-manual-1783571455521-56471",
-      "impactTimeMs": 63634.6146153846,
-      "rawTimeMs": 63646.29997705801,
+      "id": "manual-1783573901119-63683",
+      "impactTimeMs": 63682.69153846154,
+      "rawTimeMs": 63695.26184210526,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-repeat-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-23-manual-1783573860056-58923",
-      "impactTimeMs": 63778.84538461537,
-      "rawTimeMs": 63797.34740890686,
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571461588-56904",
+      "impactTimeMs": 63826.9223076923,
+      "rawTimeMs": 63821.35395816463,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "paste-1783574897193-24-manual-1783573860611-59067",
-      "impactTimeMs": 63923.07615384614,
-      "rawTimeMs": 63934.891268555984,
+      "id": "manual-1783573902835-63971",
+      "impactTimeMs": 63971.153076923074,
+      "rawTimeMs": 63959.12149122807,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
-      "id": "paste-1783574897193-25-repeat-1783571484388-1-manual-1783571461588-56904",
-      "impactTimeMs": 64067.30692307691,
-      "rawTimeMs": 64061.73857354924,
+      "id": "manual-1783573903421-64115",
+      "impactTimeMs": 64115.38384615384,
+      "rawTimeMs": 64124.73552631579,
       "lane": "low",
       "strength": 1,
-      "source": "manual-grid-repeat-paste"
-    },
-    {
-      "id": "paste-1783574897193-26-manual-1783573862088-59356",
-      "impactTimeMs": 64211.537692307684,
-      "rawTimeMs": 64198.75091767879,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid-paste"
+      "source": "manual-grid"
     },
     {
       "id": "paste-1783571634430-0-manual-1783568146834-32096",
@@ -1275,14 +1275,6 @@
       "id": "manual-1783574245432-67865",
       "impactTimeMs": 67865.38384615384,
       "rawTimeMs": 67853.83188933873,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783575278246-68010",
-      "impactTimeMs": 68009.61461538462,
-      "rawTimeMs": 68021.62840350877,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
@@ -1440,6 +1432,14 @@
       "source": "manual-grid-repeat-repeat-paste-paste-paste"
     },
     {
+      "id": "manual-1783573262509-74788",
+      "impactTimeMs": 74788.46076923076,
+      "rawTimeMs": 74790.6276491228,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
       "id": "paste-1783573246406-2-paste-1783572892367-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
       "impactTimeMs": 75221.15307692307,
       "rawTimeMs": 75230.17922267206,
@@ -1467,6 +1467,14 @@
       "id": "manual-1783573949172-76087",
       "impactTimeMs": 76086.53769230768,
       "rawTimeMs": 76105.31366666667,
+      "lane": "low",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783573299191-76231",
+      "impactTimeMs": 76230.76846153845,
+      "rawTimeMs": 76213.76242105263,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
@@ -1534,6 +1542,14 @@
       "lane": "snare",
       "strength": 1,
       "source": "manual-grid-repeat-repeat-paste-paste-paste-paste"
+    },
+    {
+      "id": "manual-1783573380162-79404",
+      "impactTimeMs": 79403.84538461537,
+      "rawTimeMs": 79377.36640350877,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
     },
     {
       "id": "paste-1783573328063-3-paste-1783573246406-2-paste-1783572892367-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
@@ -1611,14 +1627,6 @@
       "id": "manual-1783574205846-82144",
       "impactTimeMs": 82144.23,
       "rawTimeMs": 82138.77392982457,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783575486722-82288",
-      "impactTimeMs": 82288.46076923076,
-      "rawTimeMs": 82290.36468421052,
       "lane": "low",
       "strength": 1,
       "source": "manual-grid"
@@ -2081,7 +2089,7 @@
     }
   ],
   "source": "manual",
-  "updatedAt": "2026-07-09T05:40:15.788Z",
+  "updatedAt": "2026-07-09T05:17:37.465Z",
   "createdAt": "2026-07-09T03:24:01.822Z",
-  "version": 19
+  "version": 15
 }

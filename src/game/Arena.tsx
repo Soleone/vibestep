@@ -70,7 +70,6 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, onPh
     const attack = primaryAttack
     onPhaseChange(attack ? (attackPhase(now, attack.startMs, attack.impactMs, tuning.recoveryMs) === 'windup' ? 'incoming' : attackPhase(now, attack.startMs, attack.impactMs, tuning.recoveryMs)) : 'queued')
 
-    const impactAge = attack ? now - attack.impactMs : Number.POSITIVE_INFINITY
     const parryAge = now - parryPulse
     const feedbackAge = feedback ? now - feedback.startedAtMs : Number.POSITIVE_INFINITY
     const isSuccessfulParry = feedback?.kind === 'good-parry' || feedback?.kind === 'perfect-parry'
@@ -87,17 +86,18 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, onPh
     })
 
     if (impactFlash.current) {
-      const visible = impactAge >= 0 && impactAge < 130
-      const flash = visible ? 1 - impactAge / 130 : 0
+      const visible = feedbackAge >= 0 && feedbackAge < 130 && isSuccessfulParry
+      const flash = visible ? 1 - feedbackAge / 130 : 0
       impactFlash.current.scale.setScalar(0.45 + flash * 1.8)
       impactFlash.current.visible = visible
-      impactFlash.current.position.y = attack ? laneY[attack.lane ?? 'mid'] : 0.06
+      impactFlash.current.position.y = laneY[feedback?.lane ?? 'mid']
     }
     if (parryShield.current) {
       const duration = feedback?.kind === 'perfect-parry' ? 360 : 210
       const visible = parryAge >= 0 && parryAge < duration
       const pulse = visible ? 1 - parryAge / duration : 0
       parryShield.current.visible = visible
+      parryShield.current.position.y = laneY[feedback?.lane ?? 'mid']
       parryShield.current.scale.setScalar(0.82 + pulse * (feedback?.kind === 'perfect-parry' ? 0.72 : 0.42))
     }
 
@@ -129,6 +129,7 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, onPh
       const visible = feedbackAge >= 0 && feedbackAge < 360 && isSuccessfulParry
       const pulse = visible ? 1 - feedbackAge / 360 : 0
       burst.current.visible = visible
+      burst.current.position.y = laneY[feedback?.lane ?? 'mid']
       burst.current.scale.setScalar((feedback?.kind === 'perfect-parry' ? 1.0 : 0.72) * (0.18 + (1 - pulse) * 1.25))
       burst.current.rotation.z = feedbackAge / 150
     }

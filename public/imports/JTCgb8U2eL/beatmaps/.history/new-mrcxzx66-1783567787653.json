@@ -1,0 +1,79 @@
+{
+  "id": "new-mrcxzx66",
+  "songId": "JTCgb8U2eL",
+  "title": "Soleone 2",
+  "difficulty": 2,
+  "bpm": 104,
+  "beatOffsetMs": 9019.23,
+  "durationMs": 179093,
+  "notes": [
+    {
+      "id": "manual-1783567491131-9019",
+      "impactTimeMs": 9019.23,
+      "rawTimeMs": 9022.1618488529,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567494341-9596",
+      "impactTimeMs": 9596.153076923076,
+      "rawTimeMs": 9582.606298245615,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567487478-10173",
+      "impactTimeMs": 10173.076153846154,
+      "rawTimeMs": 10167.147947368423,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567497566-10750",
+      "impactTimeMs": 10749.99923076923,
+      "rawTimeMs": 10753.754291497975,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567499944-11327",
+      "impactTimeMs": 11326.922307692308,
+      "rawTimeMs": 11332.113333333335,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567501083-11904",
+      "impactTimeMs": 11903.845384615384,
+      "rawTimeMs": 11911.762456140352,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567502329-12481",
+      "impactTimeMs": 12480.76846153846,
+      "rawTimeMs": 12480.18350877193,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567504863-13058",
+      "impactTimeMs": 13057.691538461539,
+      "rawTimeMs": 13058.514750337381,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    }
+  ],
+  "source": "manual",
+  "updatedAt": "2026-07-09T03:25:58.125Z",
+  "createdAt": "2026-07-09T03:24:01.822Z",
+  "version": 2
+}

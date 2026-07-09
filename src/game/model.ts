@@ -32,11 +32,11 @@ export const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
 
 export const laneY: Record<Lane, number> = { kick: -0.58, snare: -0.32, low: 0.18, mid: 0.48, high: 0.78 }
 export const laneColor: Record<Lane, string> = {
-  kick: '#4da3ff',
-  snare: '#ff5570',
-  low: '#83ff70',
+  kick: '#ff5570',
+  snare: '#ff9f43',
+  low: '#4da3ff',
   mid: '#b56cff',
-  high: '#ff9f43',
+  high: '#83ff70',
 }
 export const lanes = ['kick', 'snare', 'low', 'mid', 'high'] as const
 export const defaultControls: LaneControls = {

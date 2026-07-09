@@ -1,0 +1,287 @@
+{
+  "id": "new-mrcwhggb",
+  "songId": "JTCgb8U2eL",
+  "title": "Haiyti - La La Land custom",
+  "difficulty": 1,
+  "bpm": 104,
+  "beatOffsetMs": 8875,
+  "durationMs": 179093,
+  "notes": [
+    {
+      "id": "manual-1783565976632-9452",
+      "impactTimeMs": 9451.923076923076,
+      "rawTimeMs": 9431.437246963564,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565977930-10606",
+      "impactTimeMs": 10605.76923076923,
+      "rawTimeMs": 10531.788124156545,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565979136-11760",
+      "impactTimeMs": 11759.615384615385,
+      "rawTimeMs": 11721.963562753037,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565981113-12913",
+      "impactTimeMs": 12913.461538461539,
+      "rawTimeMs": 12857.645074224021,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565982241-14067",
+      "impactTimeMs": 14067.307692307691,
+      "rawTimeMs": 14025.364372469634,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565983930-15221",
+      "impactTimeMs": 15221.153846153846,
+      "rawTimeMs": 15266.390013495278,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565986211-16375",
+      "impactTimeMs": 16375,
+      "rawTimeMs": 16364.09581646424,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565988384-17529",
+      "impactTimeMs": 17528.846153846156,
+      "rawTimeMs": 17554.595141700403,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565989584-18683",
+      "impactTimeMs": 18682.692307692305,
+      "rawTimeMs": 18711.08636977058,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565991212-19837",
+      "impactTimeMs": 19836.53846153846,
+      "rawTimeMs": 19794.919028340082,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565992167-20990",
+      "impactTimeMs": 20990.384615384617,
+      "rawTimeMs": 20968.252361673414,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565993679-22144",
+      "impactTimeMs": 22144.23076923077,
+      "rawTimeMs": 22175.593792172738,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565994767-23298",
+      "impactTimeMs": 23298.076923076922,
+      "rawTimeMs": 23287.17273954116,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567014098-24452",
+      "impactTimeMs": 24451.923076923078,
+      "rawTimeMs": 24517.941970310392,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565997205-25606",
+      "impactTimeMs": 25605.76923076923,
+      "rawTimeMs": 25568.11740890688,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565998839-26760",
+      "impactTimeMs": 26759.615384615383,
+      "rawTimeMs": 26781.072874493922,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783566847334-27913",
+      "impactTimeMs": 27913.46153846154,
+      "rawTimeMs": 27916.255060728745,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783566032814-28202",
+      "impactTimeMs": 28201.923076923078,
+      "rawTimeMs": 28181.22242105263,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783566034367-28635",
+      "impactTimeMs": 28634.615384615383,
+      "rawTimeMs": 28635.959263157893,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783565944322-29067",
+      "impactTimeMs": 29067.30769230769,
+      "rawTimeMs": 29081.33584210526,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783566093220-29356",
+      "impactTimeMs": 29355.76923076923,
+      "rawTimeMs": 29350.09235087719,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783566099304-29788",
+      "impactTimeMs": 29788.46153846154,
+      "rawTimeMs": 29785.180070175436,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "repeat-1783567019625-1-manual-1783566847334-27913",
+      "impactTimeMs": 30221.153846153848,
+      "rawTimeMs": 30223.947368421053,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "repeat-1783566908100-1-manual-1783566032814-28202",
+      "impactTimeMs": 30509.615384615387,
+      "rawTimeMs": 30488.914728744938,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "repeat-1783566908100-1-manual-1783566034367-28635",
+      "impactTimeMs": 30942.30769230769,
+      "rawTimeMs": 30943.6515708502,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "repeat-1783567019625-1-manual-1783565944322-29067",
+      "impactTimeMs": 31375,
+      "rawTimeMs": 31389.02814979757,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "repeat-1783566908100-1-manual-1783566093220-29356",
+      "impactTimeMs": 31663.46153846154,
+      "rawTimeMs": 31657.784658569497,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "repeat-1783566908100-1-manual-1783566099304-29788",
+      "impactTimeMs": 32096.153846153848,
+      "rawTimeMs": 32092.872377867745,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "repeat-1783567020586-1-repeat-1783567019625-1-manual-1783566847334-27913",
+      "impactTimeMs": 32528.846153846156,
+      "rawTimeMs": 32531.639676113362,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    },
+    {
+      "id": "repeat-1783566938205-1-repeat-1783566908100-1-manual-1783566032814-28202",
+      "impactTimeMs": 32817.307692307695,
+      "rawTimeMs": 32796.60703643724,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    },
+    {
+      "id": "repeat-1783566938205-1-repeat-1783566908100-1-manual-1783566034367-28635",
+      "impactTimeMs": 33250,
+      "rawTimeMs": 33251.34387854251,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    },
+    {
+      "id": "repeat-1783567020586-1-repeat-1783567019625-1-manual-1783565944322-29067",
+      "impactTimeMs": 33682.692307692305,
+      "rawTimeMs": 33696.72045748988,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    },
+    {
+      "id": "repeat-1783566938205-1-repeat-1783566908100-1-manual-1783566093220-29356",
+      "impactTimeMs": 33971.153846153844,
+      "rawTimeMs": 33965.476966261806,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    },
+    {
+      "id": "repeat-1783566938205-1-repeat-1783566908100-1-manual-1783566099304-29788",
+      "impactTimeMs": 34403.846153846156,
+      "rawTimeMs": 34400.56468556005,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid-repeat-repeat"
+    }
+  ],
+  "source": "manual",
+  "updatedAt": "2026-07-09T03:17:04.633Z",
+  "createdAt": "2026-07-09T02:41:34.902Z",
+  "version": 3
+}

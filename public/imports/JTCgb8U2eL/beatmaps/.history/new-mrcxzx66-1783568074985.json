@@ -16,10 +16,26 @@
       "source": "manual-grid"
     },
     {
+      "id": "manual-1783567494341-9596",
+      "impactTimeMs": 9596.153076923076,
+      "rawTimeMs": 9582.606298245615,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
       "id": "manual-1783567487478-10173",
       "impactTimeMs": 10173.076153846154,
       "rawTimeMs": 10167.147947368423,
       "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567497566-10750",
+      "impactTimeMs": 10749.99923076923,
+      "rawTimeMs": 10753.754291497975,
+      "lane": "snare",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -32,10 +48,26 @@
       "source": "manual-grid"
     },
     {
+      "id": "manual-1783567501083-11904",
+      "impactTimeMs": 11903.845384615384,
+      "rawTimeMs": 11911.762456140352,
+      "lane": "snare",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
       "id": "manual-1783567502329-12481",
       "impactTimeMs": 12480.76846153846,
       "rawTimeMs": 12480.18350877193,
       "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783567504863-13058",
+      "impactTimeMs": 13057.691538461539,
+      "rawTimeMs": 13058.514750337381,
+      "lane": "snare",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -256,6 +288,14 @@
       "source": "manual-grid"
     },
     {
+      "id": "manual-1783567702387-28635",
+      "impactTimeMs": 28634.614615384613,
+      "rawTimeMs": 28615.539041835356,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
       "id": "manual-1783567703744-29212",
       "impactTimeMs": 29211.53769230769,
       "rawTimeMs": 29188.170620782726,
@@ -296,6 +336,14 @@
       "source": "manual-grid-repeat"
     },
     {
+      "id": "repeat-1783567768170-1-manual-1783567702387-28635",
+      "impactTimeMs": 30942.30692307692,
+      "rawTimeMs": 30923.231349527665,
+      "lane": "kick",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
       "id": "repeat-1783567768170-1-manual-1783567703744-29212",
       "impactTimeMs": 31519.23,
       "rawTimeMs": 31495.862928475035,
@@ -310,58 +358,10 @@
       "lane": "snare",
       "strength": 1,
       "source": "manual-grid-repeat"
-    },
-    {
-      "id": "manual-1783568146834-32096",
-      "impactTimeMs": 32096.153076923078,
-      "rawTimeMs": 32116.611916329286,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 32673.076153846156,
-      "rawTimeMs": 32682.102299595143,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat"
-    },
-    {
-      "id": "repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 33105.76846153846,
-      "rawTimeMs": 33090.52335222672,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat"
-    },
-    {
-      "id": "manual-1783568148536-33250",
-      "impactTimeMs": 33249.99923076923,
-      "rawTimeMs": 33284.3312145749,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567703744-29212",
-      "impactTimeMs": 33826.92230769231,
-      "rawTimeMs": 33803.55523616734,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat"
-    },
-    {
-      "id": "repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567706504-29788",
-      "impactTimeMs": 34259.61461538461,
-      "rawTimeMs": 34240.37709851552,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat"
     }
   ],
   "source": "manual",
-  "updatedAt": "2026-07-09T03:35:53.219Z",
+  "updatedAt": "2026-07-09T03:30:53.050Z",
   "createdAt": "2026-07-09T03:24:01.822Z",
-  "version": 6
+  "version": 4
 }

@@ -1,5 +1,5 @@
 import express from 'express'
-import { mkdir, stat, writeFile, readdir, readFile, copyFile } from 'node:fs/promises'
+import { mkdir, stat, writeFile, readdir, readFile, copyFile, rm } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
@@ -232,6 +232,28 @@ app.patch('/api/imports/:songId', async (req, res) => {
     res.json({ song: next })
   } catch (error) {
     res.status(404).json({ error: error instanceof Error ? error.message : 'Song not found' })
+  }
+})
+
+app.delete('/api/imports/:songId/beatmaps/:mapId', async (req, res) => {
+  const songId = req.params.songId
+  const id = String(req.params.mapId || '').replace(/[^a-zA-Z0-9_-]/g, '-')
+  if (!id) return res.status(400).json({ error: 'Missing beatmap id' })
+  const file = path.join(importsDir, songId, 'beatmaps', `${id}.json`)
+  const legacyFile = path.join(importsDir, songId, 'beatmap.json')
+  try {
+    await rm(file)
+    const remaining = await listBeatmaps(songId)
+    if (remaining.length > 0) {
+      const next = JSON.parse(await readFile(path.join(importsDir, songId, 'beatmaps', `${remaining[0].id}.json`), 'utf8'))
+      await writeFile(legacyFile, JSON.stringify(next, null, 2))
+    } else {
+      const meta = JSON.parse(await readFile(path.join(importsDir, songId, 'meta.json'), 'utf8'))
+      await writeFile(legacyFile, JSON.stringify(makeBlankBeatmap(songId, meta.title ?? 'Imported song', meta.durationMs ?? 0), null, 2))
+    }
+    res.json({ beatmaps: remaining })
+  } catch (error) {
+    res.status(404).json({ error: error instanceof Error ? error.message : 'Beatmap not found' })
   }
 })
 

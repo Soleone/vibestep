@@ -1,33 +1,46 @@
-import type { MouseEvent, PointerEvent, WheelEvent } from 'react'
-import { clamp01, laneColor, lanes, timelineLaneHeightPx, timelineLaneTopPx, type BeatmapNote, type LoopMarkers, type TimelineBounds, type TimelineGridLine } from '../game/model'
+import { useRef, useState, type MouseEvent, type PointerEvent, type WheelEvent } from 'react'
+import { clamp01, laneColor, lanes, timelineLaneAreaHeightPx, timelineLaneHeightPx, timelineLaneTopPx, type BeatmapNote, type Lane, type LoopMarkers, type TimelineBounds, type TimelineGridLine } from '../game/model'
 
 export function EditorTimeline({
   notes,
   gridLines,
   bounds,
   songTimeMs,
-  selectedNoteId,
+  selectedNoteIds,
   loopMarkers,
   onTimelineClick,
   onTimelineWheel,
   onSeek,
   onLoopRulerClick,
   onLoopMarkerDrag,
+  onLoopMarkerRemove,
+  onNoteDrag,
+  onLaneSelect,
+  onSelectionChange,
   onRemoveNote,
 }: {
   notes: Array<BeatmapNote & { pending: boolean }>
   gridLines: TimelineGridLine[]
   bounds: TimelineBounds
   songTimeMs: number
-  selectedNoteId: string | null
+  selectedNoteIds: Set<string>
   loopMarkers: LoopMarkers
   onTimelineClick: (event: MouseEvent<HTMLDivElement>) => void
   onTimelineWheel: (event: WheelEvent<HTMLDivElement>) => void
   onSeek: (timeMs: number, bypassSnap?: boolean) => void
   onLoopRulerClick: (timeMs: number, marker: 'start' | 'end', bypassSnap?: boolean) => void
   onLoopMarkerDrag: (timeMs: number, marker: 'start' | 'end', bypassSnap?: boolean) => void
+  onLoopMarkerRemove: (marker: 'start' | 'end') => void
+  onNoteDrag: (noteId: string, timeMs: number, lane: Lane, bypassSnap?: boolean) => void
+  onLaneSelect: (lane: Lane) => void
+  onSelectionChange: (noteIds: Set<string>) => void
   onRemoveNote: (noteId: string) => void
 }) {
+  const notePointer = useRef<{ noteId: string; startedAt: number; pointerId: number; dragging: boolean } | null>(null)
+  const markerPointer = useRef<{ marker: 'start' | 'end'; startedAt: number; pointerId: number; dragging: boolean } | null>(null)
+  const selectionPointer = useRef<{ pointerId: number; startX: number; startY: number; currentX: number; currentY: number; dragging: boolean } | null>(null)
+  const suppressNextClick = useRef(false)
+  const [selectionBox, setSelectionBox] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
   const playheadLeft = ((songTimeMs - bounds.startMs) / bounds.spanMs) * 100
   const loopStartLeft = loopMarkers.startMs === null ? null : ((loopMarkers.startMs - bounds.startMs) / bounds.spanMs) * 100
   const loopEndLeft = loopMarkers.endMs === null ? null : ((loopMarkers.endMs - bounds.startMs) / bounds.spanMs) * 100
@@ -50,7 +63,100 @@ export function EditorTimeline({
     if (!rect) return
     onLoopMarkerDrag(timeFromPointer(event.clientX, rect.width, rect.left), marker, event.shiftKey)
   }
+  const startMarkerPointer = (event: PointerEvent<HTMLDivElement>, marker: 'start' | 'end') => {
+    event.stopPropagation()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    markerPointer.current = { marker, startedAt: performance.now(), pointerId: event.pointerId, dragging: false }
+  }
+  const moveMarkerPointer = (event: PointerEvent<HTMLDivElement>, marker: 'start' | 'end') => {
+    const pointer = markerPointer.current
+    if (!pointer || pointer.marker !== marker || !event.currentTarget.hasPointerCapture(event.pointerId)) return
+    if (performance.now() - pointer.startedAt < 300) return
+    pointer.dragging = true
+    dragLoopMarker(event, marker)
+  }
+  const endMarkerPointer = (event: PointerEvent<HTMLDivElement>, marker: 'start' | 'end') => {
+    event.stopPropagation()
+    const pointer = markerPointer.current
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId)
+    markerPointer.current = null
+    if (!pointer || pointer.marker !== marker || pointer.dragging || performance.now() - pointer.startedAt >= 300) return
+    onLoopMarkerRemove(marker)
+  }
+  const dragNote = (event: PointerEvent<HTMLElement>, noteId: string) => {
+    const rect = event.currentTarget.parentElement?.getBoundingClientRect()
+    if (!rect) return
+    const yPx = event.clientY - rect.top - timelineLaneTopPx
+    const yRatio = clamp01(yPx / timelineLaneAreaHeightPx)
+    const laneIndex = Math.min(lanes.length - 1, Math.max(0, Math.floor(yRatio * lanes.length)))
+    onNoteDrag(noteId, timeFromPointer(event.clientX, rect.width, rect.left), lanes[laneIndex], event.shiftKey)
+  }
+  const startNotePointer = (event: PointerEvent<HTMLElement>, noteId: string) => {
+    event.stopPropagation()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    notePointer.current = { noteId, startedAt: performance.now(), pointerId: event.pointerId, dragging: false }
+  }
+  const moveNotePointer = (event: PointerEvent<HTMLElement>, noteId: string) => {
+    const pointer = notePointer.current
+    if (!pointer || pointer.noteId !== noteId || !event.currentTarget.hasPointerCapture(event.pointerId)) return
+    if (performance.now() - pointer.startedAt < 300) return
+    pointer.dragging = true
+    dragNote(event, noteId)
+  }
+  const endNotePointer = (event: PointerEvent<HTMLElement>, noteId: string) => {
+    event.stopPropagation()
+    const pointer = notePointer.current
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId)
+    notePointer.current = null
+    if (!pointer || pointer.noteId !== noteId || pointer.dragging || performance.now() - pointer.startedAt >= 300) return
+    onRemoveNote(noteId)
+  }
+  const updateBoxSelection = (event: PointerEvent<HTMLDivElement>) => {
+    const pointer = selectionPointer.current
+    if (!pointer || !event.currentTarget.hasPointerCapture(event.pointerId)) return
+    const rect = event.currentTarget.getBoundingClientRect()
+    const currentX = Math.min(Math.max(event.clientX - rect.left, 0), rect.width)
+    const currentY = Math.min(Math.max(event.clientY - rect.top, timelineLaneTopPx), timelineLaneTopPx + timelineLaneAreaHeightPx)
+    pointer.currentX = currentX
+    pointer.currentY = currentY
+    const box = {
+      left: Math.min(pointer.startX, currentX),
+      top: Math.min(pointer.startY, currentY),
+      width: Math.abs(currentX - pointer.startX),
+      height: Math.abs(currentY - pointer.startY),
+    }
+    pointer.dragging = pointer.dragging || box.width > 4 || box.height > 4
+    if (!pointer.dragging) return
+    setSelectionBox(box)
+    const startTimeMs = bounds.startMs + (box.left / rect.width) * bounds.spanMs
+    const endTimeMs = bounds.startMs + ((box.left + box.width) / rect.width) * bounds.spanMs
+    const startLaneIndex = Math.min(lanes.length - 1, Math.max(0, Math.floor(((box.top - timelineLaneTopPx) / timelineLaneAreaHeightPx) * lanes.length)))
+    const endLaneIndex = Math.min(lanes.length - 1, Math.max(0, Math.floor((((box.top + box.height) - timelineLaneTopPx) / timelineLaneAreaHeightPx) * lanes.length)))
+    const selected = new Set(notes.filter((note) => note.impactTimeMs >= startTimeMs && note.impactTimeMs <= endTimeMs && lanes.indexOf(note.lane) >= startLaneIndex && lanes.indexOf(note.lane) <= endLaneIndex).map((note) => note.id))
+    onSelectionChange(selected)
+  }
+  const startSelectionPointer = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0) return
+    const rect = event.currentTarget.getBoundingClientRect()
+    const yPx = event.clientY - rect.top
+    if (yPx < timelineLaneTopPx || yPx > timelineLaneTopPx + timelineLaneAreaHeightPx) return
+    event.currentTarget.setPointerCapture(event.pointerId)
+    selectionPointer.current = { pointerId: event.pointerId, startX: event.clientX - rect.left, startY: yPx, currentX: event.clientX - rect.left, currentY: yPx, dragging: false }
+  }
+  const moveSelectionPointer = (event: PointerEvent<HTMLDivElement>) => updateBoxSelection(event)
+  const endSelectionPointer = (event: PointerEvent<HTMLDivElement>) => {
+    const pointer = selectionPointer.current
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId)
+    selectionPointer.current = null
+    setSelectionBox(null)
+    if (pointer?.dragging) suppressNextClick.current = true
+  }
   const handleTimelineRootClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (suppressNextClick.current) {
+      suppressNextClick.current = false
+      event.preventDefault()
+      return
+    }
     const rect = event.currentTarget.getBoundingClientRect()
     const yPx = event.clientY - rect.top
     if (yPx < timelineLaneTopPx) {
@@ -64,15 +170,16 @@ export function EditorTimeline({
   }
 
   return (
-    <div className="timeline timeline--expanded" onClick={handleTimelineRootClick} onWheel={onTimelineWheel}>
+    <div className="timeline timeline--expanded" onClick={handleTimelineRootClick} onPointerDown={startSelectionPointer} onPointerMove={moveSelectionPointer} onPointerUp={endSelectionPointer} onPointerCancel={endSelectionPointer} onWheel={onTimelineWheel}>
       <div className="timeline-ruler">{gridLines.filter((line) => line.label).map((line, index) => <span key={`label-${line.left}-${index}`} className={`timeline-ruler__mark timeline-ruler__mark--${line.strength}`} style={{ left: `${line.left}%` }}>{line.label}</span>)}</div>
       {hasVisibleLoopRange && <div className="timeline-loop-range" style={{ left: `${loopStartLeft}%`, width: `${loopEndLeft - loopStartLeft}%` }} />}
-      {loopStartLeft !== null && loopStartLeft >= 0 && loopStartLeft <= 100 && <div className="timeline-loop-marker timeline-loop-marker--start" style={{ left: `${loopStartLeft}%` }} title="Drag loop start" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => { event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId); dragLoopMarker(event, 'start') }} onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) dragLoopMarker(event, 'start') }} onPointerUp={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} />}
-      {loopEndLeft !== null && loopEndLeft >= 0 && loopEndLeft <= 100 && <div className="timeline-loop-marker timeline-loop-marker--end" style={{ left: `${loopEndLeft}%` }} title="Drag loop stop" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => { event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId); dragLoopMarker(event, 'end') }} onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) dragLoopMarker(event, 'end') }} onPointerUp={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} />}
+      {loopStartLeft !== null && loopStartLeft >= 0 && loopStartLeft <= 100 && <div className="timeline-loop-marker timeline-loop-marker--start" style={{ left: `${loopStartLeft}%` }} title="Click to remove. Hold 300ms and drag loop start." onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startMarkerPointer(event, 'start')} onPointerMove={(event) => moveMarkerPointer(event, 'start')} onPointerUp={(event) => endMarkerPointer(event, 'start')} onPointerCancel={(event) => endMarkerPointer(event, 'start')} />}
+      {loopEndLeft !== null && loopEndLeft >= 0 && loopEndLeft <= 100 && <div className="timeline-loop-marker timeline-loop-marker--end" style={{ left: `${loopEndLeft}%` }} title="Click to remove. Hold 300ms and drag loop stop." onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startMarkerPointer(event, 'end')} onPointerMove={(event) => moveMarkerPointer(event, 'end')} onPointerUp={(event) => endMarkerPointer(event, 'end')} onPointerCancel={(event) => endMarkerPointer(event, 'end')} />}
       <div className="timeline-grid">{gridLines.map((line, index) => <span key={`${line.left}-${index}`} className={`timeline-grid__line timeline-grid__line--${line.strength}`} style={{ left: `${line.left}%` }} />)}</div>
-      <div className="timeline-labels">{lanes.map((lane) => <span key={lane}>{lane}</span>)}</div>
+      <div className="timeline-labels" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => event.stopPropagation()}>{lanes.map((lane) => <span key={lane} role="button" tabIndex={0} title={`Select all ${lane} notes`} onClick={(event) => { event.stopPropagation(); onLaneSelect(lane) }} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onLaneSelect(lane) } }}>{lane}</span>)}</div>
+      {selectionBox && <div className="timeline-selection-box" style={selectionBox} />}
       {playheadLeft >= 0 && playheadLeft <= 100 && <div className="playhead" style={{ left: `${playheadLeft}%` }}><div className="playhead-handle" title="Drag to seek" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => { event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId); dragPlayhead(event) }} onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) dragPlayhead(event) }} onPointerUp={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} /></div>}
-      {notes.filter((note) => note.impactTimeMs >= bounds.startMs && note.impactTimeMs <= bounds.endMs).map((note) => <i key={`stage-${note.pending ? 'pending' : 'saved'}-${note.id}`} className={`${note.pending ? 'pending ' : ''}${selectedNoteId === note.id ? 'selected' : ''}`} onClick={(event) => { event.stopPropagation(); onRemoveNote(note.id) }} title={`Remove ${note.lane} ${Math.round(note.impactTimeMs)}ms`} style={{ left: `${((note.impactTimeMs - bounds.startMs) / bounds.spanMs) * 100}%`, top: `${timelineLaneTopPx + lanes.indexOf(note.lane) * timelineLaneHeightPx + 14}px`, width: note.durationMs ? `${Math.max(8, (note.durationMs / bounds.spanMs) * 100)}%` : undefined, background: laneColor[note.lane] }} />)}
+      {notes.filter((note) => note.impactTimeMs >= bounds.startMs && note.impactTimeMs <= bounds.endMs).map((note) => <i key={`stage-${note.pending ? 'pending' : 'saved'}-${note.id}`} className={`${note.pending ? 'pending ' : ''}${selectedNoteIds.has(note.id) ? 'selected' : ''}`} onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startNotePointer(event, note.id)} onPointerMove={(event) => moveNotePointer(event, note.id)} onPointerUp={(event) => endNotePointer(event, note.id)} onPointerCancel={(event) => endNotePointer(event, note.id)} title={`Click to remove. Hold 300ms and drag ${note.lane} ${Math.round(note.impactTimeMs)}ms.`} style={{ left: `${((note.impactTimeMs - bounds.startMs) / bounds.spanMs) * 100}%`, top: `${timelineLaneTopPx + lanes.indexOf(note.lane) * timelineLaneHeightPx + 14}px`, width: note.durationMs ? `${Math.max(8, (note.durationMs / bounds.spanMs) * 100)}%` : undefined, background: laneColor[note.lane] }} />)}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 {
   "id": "new-mrcxzx66",
   "songId": "JTCgb8U2eL",
-  "title": "Soleone 2",
+  "title": "Soleone",
   "difficulty": 2,
   "bpm": 104,
   "beatOffsetMs": 9019.23,
@@ -361,7 +361,7 @@
     }
   ],
   "source": "manual",
-  "updatedAt": "2026-07-09T03:35:53.219Z",
+  "updatedAt": "2026-07-09T03:42:12.299Z",
   "createdAt": "2026-07-09T03:24:01.822Z",
-  "version": 6
+  "version": 7
 }

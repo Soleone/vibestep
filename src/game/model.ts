@@ -14,6 +14,20 @@ export type TimelineGridLine = { left: number; strength: 'bar' | 'beat' | 'sub';
 export type LoopMarkers = { startMs: number | null; endMs: number | null }
 
 export const initialTuning: Tuning = { parryWindowMs: 80, perfectWindowMs: 40, telegraphMs: 1150, recoveryMs: 260, inputOffsetMs: 0 }
+export const judgementColors = {
+  perfect: '#83ff70',
+  good: '#ffd166',
+  miss: '#ff5570',
+  early: '#ffd166',
+  late: '#ff5570',
+} as const
+export const judgementCssVars = {
+  perfect: 'var(--ff-judgement-perfect)',
+  good: 'var(--ff-judgement-good)',
+  miss: 'var(--ff-judgement-miss)',
+  early: 'var(--ff-judgement-early)',
+  late: 'var(--ff-judgement-late)',
+} as const
 export const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
 
 export const laneY: Record<Lane, number> = { kick: -0.58, snare: -0.32, low: 0.18, mid: 0.48, high: 0.78 }

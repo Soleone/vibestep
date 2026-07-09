@@ -4,7 +4,7 @@ import { Color } from 'three'
 import type { Group, Mesh, MeshStandardMaterial } from 'three'
 import { useRef } from 'react'
 import { attackPhase } from './timing'
-import { clamp01, laneColor, laneY, type Attack, type FeedbackEvent, type Lane, type Tuning } from './model'
+import { clamp01, judgementColors, laneColor, laneY, type Attack, type FeedbackEvent, type Lane, type Tuning } from './model'
 
 function ProjectileVisual({ attack, hidden }: { attack: Attack; hidden: boolean }) {
   const projectile = useRef<Mesh>(null)
@@ -118,9 +118,9 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, onPh
       }
       if (material) {
         const baseColor = new Color(color)
-        const flashColor = new Color(feedback?.kind === 'perfect-parry' ? '#fff4a3' : '#ffd166')
+        const flashColor = new Color(feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good)
         const baseEmissive = new Color(color).multiplyScalar(0.35)
-        const flashEmissive = new Color(feedback?.kind === 'perfect-parry' ? '#ffdd00' : '#ff9500')
+        const flashEmissive = new Color(feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good)
         material.color.copy(baseColor.lerp(flashColor, padFlash))
         material.emissive.copy(baseEmissive.lerp(flashEmissive, padFlash))
       }
@@ -152,7 +152,7 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, onPh
           </group>
         )
       })}
-      <mesh ref={parryShield} position={[-0.98, laneY[feedback?.lane ?? 'mid'], 0.16]} visible={false}><torusGeometry args={[0.18, 0.018, 12, 48]} /><meshStandardMaterial color="#83ff70" emissive="#34d399" transparent opacity={0.9} /></mesh>
+      <mesh ref={parryShield} position={[-0.98, laneY[feedback?.lane ?? 'mid'], 0.16]} visible={false}><torusGeometry args={[0.18, 0.018, 12, 48]} /><meshStandardMaterial color={judgementColors.perfect} emissive={judgementColors.perfect} transparent opacity={0.9} /></mesh>
       {Object.entries(laneColor).map(([lane, color]) => {
         const typedLane = lane as Lane
         return (
@@ -162,11 +162,11 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, onPh
         )
       })}
       {attacks.map((attack) => <ProjectileVisual key={attack.id} attack={attack} hidden={false} />)}
-      <mesh ref={impactFlash} position={[-0.98, 0.06, 0.18]} visible={false}><ringGeometry args={[0.12, 0.15, 48]} /><meshStandardMaterial color="#fff1b8" emissive="#ffd166" transparent opacity={0.95} /></mesh>
+      <mesh ref={impactFlash} position={[-0.98, 0.06, 0.18]} visible={false}><ringGeometry args={[0.12, 0.15, 48]} /><meshStandardMaterial color={judgementColors.good} emissive={judgementColors.good} transparent opacity={0.95} /></mesh>
       <group ref={burst} position={[-0.98, laneY[feedback?.lane ?? 'mid'], 0.22]} visible={false}>
-        <mesh><ringGeometry args={[0.18, 0.22, 64]} /><meshStandardMaterial color={feedback?.kind === 'perfect-parry' ? '#ffffff' : '#83ff70'} emissive="#34d399" transparent opacity={0.62} /></mesh>
-        <mesh rotation={[0, 0, Math.PI / 4]}><boxGeometry args={[0.48, 0.028, 0.035]} /><meshStandardMaterial color={feedback?.kind === 'perfect-parry' ? '#ffffff' : '#83ff70'} emissive="#34d399" transparent opacity={0.55} /></mesh>
-        <mesh rotation={[0, 0, -Math.PI / 4]}><boxGeometry args={[0.48, 0.028, 0.035]} /><meshStandardMaterial color={feedback?.kind === 'perfect-parry' ? '#ffffff' : '#83ff70'} emissive="#34d399" transparent opacity={0.55} /></mesh>
+        <mesh><ringGeometry args={[0.18, 0.22, 64]} /><meshStandardMaterial color={feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good} emissive={feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good} transparent opacity={0.62} /></mesh>
+        <mesh rotation={[0, 0, Math.PI / 4]}><boxGeometry args={[0.48, 0.028, 0.035]} /><meshStandardMaterial color={feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good} emissive={feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good} transparent opacity={0.55} /></mesh>
+        <mesh rotation={[0, 0, -Math.PI / 4]}><boxGeometry args={[0.48, 0.028, 0.035]} /><meshStandardMaterial color={feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good} emissive={feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good} transparent opacity={0.55} /></mesh>
       </group>
     </>
   )

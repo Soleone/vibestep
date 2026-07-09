@@ -728,18 +728,18 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573827543-55750",
+      "id": "manual-1783571426135-55750",
       "impactTimeMs": 55749.99923076923,
-      "rawTimeMs": 55749.42568151147,
-      "lane": "low",
+      "rawTimeMs": 55744.757736842104,
+      "lane": "mid",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573828270-55894",
+      "id": "manual-1783571424327-55894",
       "impactTimeMs": 55894.229999999996,
-      "rawTimeMs": 55886.96954116059,
-      "lane": "low",
+      "rawTimeMs": 55896.336684210524,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -752,18 +752,18 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573830138-56183",
+      "id": "manual-1783571431603-56183",
       "impactTimeMs": 56182.69153846154,
-      "rawTimeMs": 56178.899365722,
-      "lane": "low",
+      "rawTimeMs": 56182.65247368421,
+      "lane": "mid",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573832793-56327",
+      "id": "manual-1783571432338-56327",
       "impactTimeMs": 56326.92230769231,
-      "rawTimeMs": 56330.47831309042,
-      "lane": "low",
+      "rawTimeMs": 56314.58229824561,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -776,18 +776,18 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573839138-56615",
+      "id": "manual-1783571456166-56615",
       "impactTimeMs": 56615.38384615384,
-      "rawTimeMs": 56593.044228070175,
-      "lane": "low",
+      "rawTimeMs": 56614.768263157894,
+      "lane": "mid",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573840608-56760",
+      "id": "manual-1783571456878-56760",
       "impactTimeMs": 56759.61461538462,
-      "rawTimeMs": 56750.23721052631,
-      "lane": "low",
+      "rawTimeMs": 56757.92615789474,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -800,26 +800,18 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573842438-57048",
+      "id": "manual-1783571462766-57048",
       "impactTimeMs": 57048.07615384615,
-      "rawTimeMs": 57030.93896491228,
-      "lane": "low",
+      "rawTimeMs": 56990.908614035085,
+      "lane": "mid",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573842993-57192",
+      "id": "manual-1783571464896-57192",
       "impactTimeMs": 57192.30692307692,
-      "rawTimeMs": 57182.5179122807,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573852056-57337",
-      "impactTimeMs": 57336.537692307684,
-      "rawTimeMs": 57330.35010796221,
-      "lane": "low",
+      "rawTimeMs": 57178.97878947369,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -832,20 +824,20 @@
       "source": "manual-grid-paste"
     },
     {
-      "id": "manual-1783573852916-57625",
+      "id": "paste-1783571519705-1-manual-1783571462766-57048",
       "impactTimeMs": 57624.99923076923,
-      "rawTimeMs": 57619.47291497975,
-      "lane": "low",
+      "rawTimeMs": 57567.83169095816,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-paste"
     },
     {
-      "id": "manual-1783573854042-57769",
+      "id": "paste-1783571519705-2-manual-1783571464896-57192",
       "impactTimeMs": 57769.229999999996,
-      "rawTimeMs": 57751.402739541154,
-      "lane": "low",
+      "rawTimeMs": 57755.901866396765,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-paste"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571427366-55606",
@@ -856,20 +848,20 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573855428-58058",
-      "impactTimeMs": 58057.69153846154,
-      "rawTimeMs": 58046.139581646414,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571426135-55750",
+      "impactTimeMs": 58057.691538461535,
+      "rawTimeMs": 58052.45004453441,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573856388-58202",
-      "impactTimeMs": 58201.92230769231,
-      "rawTimeMs": 58194.91151147098,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571424327-55894",
+      "impactTimeMs": 58201.9223076923,
+      "rawTimeMs": 58204.02899190283,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571415846-56038",
@@ -880,20 +872,20 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573857840-58490",
-      "impactTimeMs": 58490.38384615384,
-      "rawTimeMs": 58489.64835357624,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571431603-56183",
+      "impactTimeMs": 58490.38384615385,
+      "rawTimeMs": 58490.344781376516,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573858466-58635",
-      "impactTimeMs": 58634.61461538462,
-      "rawTimeMs": 58604.73607287448,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571432338-56327",
+      "impactTimeMs": 58634.61461538461,
+      "rawTimeMs": 58622.27460593791,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571455521-56471",
@@ -904,20 +896,20 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573860056-58923",
-      "impactTimeMs": 58923.07615384615,
-      "rawTimeMs": 58941.57817813764,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571456166-56615",
+      "impactTimeMs": 58923.076153846145,
+      "rawTimeMs": 58922.4605708502,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573860611-59067",
-      "impactTimeMs": 59067.30692307692,
-      "rawTimeMs": 59079.122037786765,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571456878-56760",
+      "impactTimeMs": 59067.306923076925,
+      "rawTimeMs": 59065.618465587046,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
       "id": "repeat-1783571484388-1-manual-1783571461588-56904",
@@ -928,12 +920,12 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573862088-59356",
-      "impactTimeMs": 59355.768461538464,
-      "rawTimeMs": 59342.981686909574,
-      "lane": "low",
+      "id": "repeat-1783571484388-1-manual-1783571462766-57048",
+      "impactTimeMs": 59355.76846153846,
+      "rawTimeMs": 59298.60092172739,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
       "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571427366-55606",
@@ -944,20 +936,20 @@
       "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573880703-60365",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571426135-55750",
       "impactTimeMs": 60365.38384615384,
-      "rawTimeMs": 60345.021789473685,
-      "lane": "low",
+      "rawTimeMs": 60360.142352226714,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573881251-60510",
-      "impactTimeMs": 60509.61461538462,
-      "rawTimeMs": 60488.179684210525,
-      "lane": "low",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571424327-55894",
+      "impactTimeMs": 60509.614615384606,
+      "rawTimeMs": 60511.721299595134,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
       "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571415846-56038",
@@ -968,20 +960,20 @@
       "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573882901-60798",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571431603-56183",
       "impactTimeMs": 60798.07615384615,
-      "rawTimeMs": 60799.758631578945,
-      "lane": "low",
+      "rawTimeMs": 60798.03708906882,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573883471-60942",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571432338-56327",
       "impactTimeMs": 60942.30692307692,
-      "rawTimeMs": 60926.07442105263,
-      "lane": "low",
+      "rawTimeMs": 60929.96691363022,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
       "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571455521-56471",
@@ -992,20 +984,20 @@
       "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573885406-61231",
-      "impactTimeMs": 61230.768461538464,
-      "rawTimeMs": 61243.26740350877,
-      "lane": "low",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571456166-56615",
+      "impactTimeMs": 61230.76846153845,
+      "rawTimeMs": 61230.1528785425,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573885946-61375",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571456878-56760",
       "impactTimeMs": 61374.99923076923,
-      "rawTimeMs": 61327.477929824556,
-      "lane": "low",
+      "rawTimeMs": 61373.31077327935,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
       "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571461588-56904",
@@ -1016,26 +1008,18 @@
       "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573887049-61663",
+      "id": "repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571462766-57048",
       "impactTimeMs": 61663.46076923076,
-      "rawTimeMs": 61683.96915789474,
-      "lane": "low",
+      "rawTimeMs": 61606.293229419694,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat"
     },
     {
-      "id": "manual-1783573887919-61808",
+      "id": "manual-1783571572252-61808",
       "impactTimeMs": 61807.69153846154,
-      "rawTimeMs": 61810.28494736842,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573893544-61952",
-      "impactTimeMs": 61951.92230769231,
-      "rawTimeMs": 61926.84078947369,
-      "lane": "low",
+      "rawTimeMs": 61824.03431848852,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -1048,20 +1032,20 @@
       "source": "manual-grid-repeat-repeat-paste"
     },
     {
-      "id": "manual-1783573894641-62240",
+      "id": "paste-1783571608163-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571462766-57048",
       "impactTimeMs": 62240.38384615384,
-      "rawTimeMs": 62238.41973684211,
-      "lane": "low",
+      "rawTimeMs": 62183.21630634277,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-paste"
     },
     {
-      "id": "manual-1783573895179-62385",
+      "id": "paste-1783571608163-2-manual-1783571572252-61808",
       "impactTimeMs": 62384.61461538462,
-      "rawTimeMs": 62353.50745614035,
-      "lane": "low",
+      "rawTimeMs": 62400.9573954116,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-paste"
     },
     {
       "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571427366-55606",
@@ -1072,20 +1056,20 @@
       "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573896154-62673",
-      "impactTimeMs": 62673.07615384615,
-      "rawTimeMs": 62695.96359649123,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571426135-55750",
+      "impactTimeMs": 62673.076153846145,
+      "rawTimeMs": 62667.83465991902,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573897300-62817",
-      "impactTimeMs": 62817.30692307692,
-      "rawTimeMs": 62827.893421052635,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571424327-55894",
+      "impactTimeMs": 62817.30692307691,
+      "rawTimeMs": 62819.41360728744,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
       "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571415846-56038",
@@ -1096,20 +1080,20 @@
       "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573898425-63106",
-      "impactTimeMs": 63105.768461538464,
-      "rawTimeMs": 63080.525,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571431603-56183",
+      "impactTimeMs": 63105.76846153846,
+      "rawTimeMs": 63105.729396761126,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573899790-63250",
-      "impactTimeMs": 63249.99923076923,
-      "rawTimeMs": 63240.525,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571432338-56327",
+      "impactTimeMs": 63249.99923076922,
+      "rawTimeMs": 63237.65922132252,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
       "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571455521-56471",
@@ -1120,20 +1104,20 @@
       "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573900438-63538",
-      "impactTimeMs": 63538.46076923076,
-      "rawTimeMs": 63521.22675438596,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571456166-56615",
+      "impactTimeMs": 63538.460769230755,
+      "rawTimeMs": 63537.84518623481,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573901119-63683",
-      "impactTimeMs": 63682.69153846154,
-      "rawTimeMs": 63695.26184210526,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571456878-56760",
+      "impactTimeMs": 63682.691538461535,
+      "rawTimeMs": 63681.003080971655,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
       "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571461588-56904",
@@ -1144,20 +1128,20 @@
       "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573902835-63971",
-      "impactTimeMs": 63971.153076923074,
-      "rawTimeMs": 63959.12149122807,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-repeat-1783571554657-1-repeat-1783571484388-1-manual-1783571462766-57048",
+      "impactTimeMs": 63971.15307692307,
+      "rawTimeMs": 63913.985537112,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-repeat"
     },
     {
-      "id": "manual-1783573903421-64115",
-      "impactTimeMs": 64115.38384615384,
-      "rawTimeMs": 64124.73552631579,
-      "lane": "low",
+      "id": "repeat-1783571585767-1-manual-1783571572252-61808",
+      "impactTimeMs": 64115.38384615385,
+      "rawTimeMs": 64131.726626180825,
+      "lane": "high",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
       "id": "paste-1783571634430-0-manual-1783568146834-32096",
@@ -1216,18 +1200,18 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573911888-66856",
+      "id": "manual-1783571685684-66856",
       "impactTimeMs": 66855.76846153846,
-      "rawTimeMs": 66842.96043859649,
-      "lane": "low",
+      "rawTimeMs": 66875.53303508772,
+      "lane": "mid",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573912332-67000",
+      "id": "manual-1783571697420-67000",
       "impactTimeMs": 66999.99923076923,
-      "rawTimeMs": 67000.15342105263,
-      "lane": "low",
+      "rawTimeMs": 67007.45487719297,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -1240,18 +1224,18 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573913066-67288",
+      "id": "manual-1783571700645-67288",
       "impactTimeMs": 67288.46076923076,
-      "rawTimeMs": 67294.8902631579,
-      "lane": "low",
+      "rawTimeMs": 67310.61277192982,
+      "lane": "mid",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783573913502-67433",
+      "id": "manual-1783571701208-67433",
       "impactTimeMs": 67432.69153846154,
-      "rawTimeMs": 67426.8200877193,
-      "lane": "low",
+      "rawTimeMs": 67467.80575438596,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -1264,42 +1248,42 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783573918459-67721",
-      "impactTimeMs": 67721.15307692307,
-      "rawTimeMs": 67715.94289473684,
-      "lane": "low",
+      "id": "repeat-1783571782045-1-manual-1783571685684-66856",
+      "impactTimeMs": 67721.15307692309,
+      "rawTimeMs": 67740.91765047234,
+      "lane": "mid",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783574245432-67865",
-      "impactTimeMs": 67865.38384615384,
-      "rawTimeMs": 67853.83188933873,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574244563-68442",
-      "impactTimeMs": 68442.30692307692,
-      "rawTimeMs": 68457.34066126856,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574243918-68587",
-      "impactTimeMs": 68586.53769230768,
-      "rawTimeMs": 68600.4985560054,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574241989-69019",
-      "impactTimeMs": 69019.23,
-      "rawTimeMs": 69015.93715249663,
+      "id": "repeat-1783571782045-1-manual-1783571697420-67000",
+      "impactTimeMs": 67865.38384615385,
+      "rawTimeMs": 67872.8394925776,
       "lane": "high",
+      "strength": 1,
+      "source": "manual-grid-repeat"
+    },
+    {
+      "id": "manual-1783571749793-68442",
+      "impactTimeMs": 68442.30692307692,
+      "rawTimeMs": 68407.47768421052,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783572925058-68587",
+      "impactTimeMs": 68586.53769230768,
+      "rawTimeMs": 68611.12733333332,
+      "lane": "high",
+      "strength": 1,
+      "source": "manual-grid"
+    },
+    {
+      "id": "manual-1783571730570-69019",
+      "impactTimeMs": 69019.23,
+      "rawTimeMs": 68993.06198245614,
+      "lane": "kick",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -1336,760 +1320,48 @@
       "source": "manual-grid-repeat-repeat-paste-paste"
     },
     {
-      "id": "manual-1783574061151-71327",
-      "impactTimeMs": 71326.92230769231,
-      "rawTimeMs": 71330.22865047235,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574061666-71471",
-      "impactTimeMs": 71471.15307692307,
-      "rawTimeMs": 71445.31636977059,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574062273-71615",
-      "impactTimeMs": 71615.38384615384,
-      "rawTimeMs": 71605.31636977059,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574062821-71760",
+      "id": "paste-1783572828437-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
       "impactTimeMs": 71759.61461538462,
-      "rawTimeMs": 71756.895317139,
-      "lane": "low",
+      "rawTimeMs": 71768.6407611336,
+      "lane": "snare",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-paste-paste"
     },
     {
-      "id": "manual-1783574063496-71904",
-      "impactTimeMs": 71903.84538461539,
-      "rawTimeMs": 71897.246194332,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574064073-72048",
-      "impactTimeMs": 72048.07615384615,
-      "rawTimeMs": 72020.75496626181,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574069083-72192",
+      "id": "paste-1783572828437-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
       "impactTimeMs": 72192.30692307692,
-      "rawTimeMs": 72182.04531578948,
-      "lane": "low",
+      "rawTimeMs": 72177.06181376519,
+      "lane": "snare",
       "strength": 1,
-      "source": "manual-grid"
+      "source": "manual-grid-repeat-repeat-paste-paste"
     },
     {
-      "id": "manual-1783574234054-72481",
+      "id": "manual-1783572715801-72481",
       "impactTimeMs": 72480.76846153846,
-      "rawTimeMs": 72465.15701754385,
-      "lane": "low",
+      "rawTimeMs": 72480.8428245614,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783574234962-73202",
+      "id": "manual-1783572900669-73202",
       "impactTimeMs": 73201.92230769231,
-      "rawTimeMs": 73217.43771929824,
-      "lane": "low",
+      "rawTimeMs": 73186.39278947368,
+      "lane": "high",
       "strength": 1,
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783574235802-73635",
+      "id": "manual-1783572697797-73635",
       "impactTimeMs": 73634.6146153846,
-      "rawTimeMs": 73624.45526315788,
-      "lane": "high",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 74067.30692307692,
-      "rawTimeMs": 74076.3330688259,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 74499.99923076922,
-      "rawTimeMs": 74484.75412145749,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste"
-    },
-    {
-      "id": "manual-1783573262509-74788",
-      "impactTimeMs": 74788.46076923076,
-      "rawTimeMs": 74790.6276491228,
+      "rawTimeMs": 73630.1852631579,
       "lane": "kick",
       "strength": 1,
       "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573246406-2-paste-1783572892367-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 75221.15307692307,
-      "rawTimeMs": 75230.17922267206,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573246406-3-paste-1783572892367-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 75653.84538461537,
-      "rawTimeMs": 75638.60027530364,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste"
-    },
-    {
-      "id": "manual-1783574011460-75942",
-      "impactTimeMs": 75942.30692307692,
-      "rawTimeMs": 75945.61326585695,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573949172-76087",
-      "impactTimeMs": 76086.53769230768,
-      "rawTimeMs": 76105.31366666667,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573299191-76231",
-      "impactTimeMs": 76230.76846153845,
-      "rawTimeMs": 76213.76242105263,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574014407-76375",
-      "impactTimeMs": 76374.99923076923,
-      "rawTimeMs": 76368.25977192982,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573950305-76519",
-      "impactTimeMs": 76519.23,
-      "rawTimeMs": 76534.78735087719,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574187614-76663",
-      "impactTimeMs": 76663.46076923076,
-      "rawTimeMs": 76678.64198245613,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574188919-77096",
-      "impactTimeMs": 77096.15307692307,
-      "rawTimeMs": 77110.92268421051,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574190404-77817",
-      "impactTimeMs": 77817.30692307692,
-      "rawTimeMs": 77818.29110526315,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574185259-78250",
-      "impactTimeMs": 78249.99923076923,
-      "rawTimeMs": 78256.18584210526,
-      "lane": "high",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 78682.69153846153,
-      "rawTimeMs": 78691.71768421051,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 79115.38384615383,
-      "rawTimeMs": 79100.1387368421,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste"
-    },
-    {
-      "id": "manual-1783573380162-79404",
-      "impactTimeMs": 79403.84538461537,
-      "rawTimeMs": 79377.36640350877,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573328063-3-paste-1783573246406-2-paste-1783572892367-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 79836.53769230768,
-      "rawTimeMs": 79845.56383805667,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573328063-4-paste-1783573246406-3-paste-1783572892367-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 80269.22999999998,
-      "rawTimeMs": 80253.98489068825,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste"
-    },
-    {
-      "id": "manual-1783573976472-80558",
-      "impactTimeMs": 80557.69153846153,
-      "rawTimeMs": 80557.71698245614,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573976961-80702",
-      "impactTimeMs": 80701.92230769231,
-      "rawTimeMs": 80686.83978947368,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573345581-0-manual-1783573299191-76231",
-      "impactTimeMs": 80846.15307692307,
-      "rawTimeMs": 80829.14703643725,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "manual-1783573966169-80990",
-      "impactTimeMs": 80990.38384615384,
-      "rawTimeMs": 80981.33936842106,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573967330-81135",
-      "impactTimeMs": 81134.6146153846,
-      "rawTimeMs": 81121.69024561404,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574204122-81279",
-      "impactTimeMs": 81278.84538461537,
-      "rawTimeMs": 81254.56340350879,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574204962-81567",
-      "impactTimeMs": 81567.30692307692,
-      "rawTimeMs": 81552.1072631579,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574205846-82144",
-      "impactTimeMs": 82144.23,
-      "rawTimeMs": 82138.77392982457,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783574207422-82865",
-      "impactTimeMs": 82865.38384615384,
-      "rawTimeMs": 82862.98445614036,
-      "lane": "high",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573465640-84596",
-      "impactTimeMs": 84596.15307692307,
-      "rawTimeMs": 84605.58552631579,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573466360-84740",
-      "impactTimeMs": 84740.38384615384,
-      "rawTimeMs": 84723.4802631579,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573478022-85173",
-      "impactTimeMs": 85173.07615384615,
-      "rawTimeMs": 85206.72557894737,
-      "lane": "high",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573482036-86904",
-      "impactTimeMs": 86903.84538461537,
-      "rawTimeMs": 86907.77821052632,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573482597-87048",
-      "impactTimeMs": 87048.07615384615,
-      "rawTimeMs": 87053.74312280702,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573484232-87481",
-      "impactTimeMs": 87480.76846153845,
-      "rawTimeMs": 87452.33961403508,
-      "lane": "mid",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573498085-0-manual-1783573465640-84596",
-      "impactTimeMs": 89211.53769230768,
-      "rawTimeMs": 89220.9701417004,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "paste-1783573498085-1-manual-1783573466360-84740",
-      "impactTimeMs": 89355.76846153845,
-      "rawTimeMs": 89338.8648785425,
-      "lane": "low",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "paste-1783573498085-2-manual-1783573478022-85173",
-      "impactTimeMs": 89788.46076923076,
-      "rawTimeMs": 89822.11019433198,
-      "lane": "high",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "manual-1783574224671-90077",
-      "impactTimeMs": 90076.92230769231,
-      "rawTimeMs": 90078.92843859649,
-      "lane": "mid",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783573995043-90365",
-      "impactTimeMs": 90365.38384615384,
-      "rawTimeMs": 90360.43645614035,
-      "lane": "high",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573525962-0-manual-1783573284963-78250",
-      "impactTimeMs": 92096.15307692307,
-      "rawTimeMs": 92103.00192982455,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 92528.84538461537,
-      "rawTimeMs": 92537.87153036435,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 92961.53769230767,
-      "rawTimeMs": 92946.29258299594,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 93682.69153846153,
-      "rawTimeMs": 93691.71768421051,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste"
-    },
-    {
-      "id": "paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 94115.38384615383,
-      "rawTimeMs": 94100.1387368421,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste"
-    },
-    {
-      "id": "repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 94836.53769230768,
-      "rawTimeMs": 94845.56383805667,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573547735-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 95269.22999999998,
-      "rawTimeMs": 95253.98489068825,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 95990.38384615384,
-      "rawTimeMs": 95999.40999190282,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573547735-1-paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 96423.07615384614,
-      "rawTimeMs": 96407.83104453441,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat"
-    },
-    {
-      "id": "manual-1783573556098-96712",
-      "impactTimeMs": 96711.53769230768,
-      "rawTimeMs": 96695.02854385965,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 97144.23,
-      "rawTimeMs": 97153.25614574898,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat"
-    },
-    {
-      "id": "repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 97576.9223076923,
-      "rawTimeMs": 97561.67719838057,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat"
-    },
-    {
-      "id": "manual-1783573596111-97865",
-      "impactTimeMs": 97865.38384615384,
-      "rawTimeMs": 97871.04422807018,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 98298.07615384615,
-      "rawTimeMs": 98307.10229959514,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat"
-    },
-    {
-      "id": "repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 98730.76846153845,
-      "rawTimeMs": 98715.52335222672,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat"
-    },
-    {
-      "id": "repeat-1783573563711-1-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 99451.92230769231,
-      "rawTimeMs": 99460.94845344129,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-repeat"
-    },
-    {
-      "id": "repeat-1783573563711-1-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 100605.76846153846,
-      "rawTimeMs": 100614.79460728745,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-repeat"
-    },
-    {
-      "id": "paste-1783573625250-0-manual-1783573556098-96712",
-      "impactTimeMs": 101326.92230769231,
-      "rawTimeMs": 101310.41315924427,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "paste-1783573625250-1-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 101759.61461538462,
-      "rawTimeMs": 101768.6407611336,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste"
-    },
-    {
-      "id": "paste-1783573625250-2-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 102192.30692307692,
-      "rawTimeMs": 102177.06181376519,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste"
-    },
-    {
-      "id": "paste-1783573625250-3-manual-1783573596111-97865",
-      "impactTimeMs": 102480.76846153846,
-      "rawTimeMs": 102486.4288434548,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste"
-    },
-    {
-      "id": "paste-1783573625250-4-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 102913.46076923078,
-      "rawTimeMs": 102922.48691497976,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste"
-    },
-    {
-      "id": "manual-1783573631549-103202",
-      "impactTimeMs": 103057.69153846153,
-      "rawTimeMs": 102988.80389743591,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "paste-1783573625250-5-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 103346.15307692307,
-      "rawTimeMs": 103330.90796761135,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste"
-    },
-    {
-      "id": "repeat-1783573643355-1-paste-1783573625250-0-manual-1783573556098-96712",
-      "impactTimeMs": 103634.61461538462,
-      "rawTimeMs": 103618.10546693658,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573643355-1-paste-1783573625250-1-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 104067.30692307693,
-      "rawTimeMs": 104076.33306882592,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573643355-1-paste-1783573625250-2-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 104499.99923076923,
-      "rawTimeMs": 104484.7541214575,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573643355-1-paste-1783573625250-3-manual-1783573596111-97865",
-      "impactTimeMs": 104788.46076923078,
-      "rawTimeMs": 104794.12115114712,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573643355-1-paste-1783573625250-4-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 105221.15307692309,
-      "rawTimeMs": 105230.17922267207,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat"
-    },
-    {
-      "id": "repeat-1783573643355-1-manual-1783573631549-103202",
-      "impactTimeMs": 105365.38384615384,
-      "rawTimeMs": 105296.49620512822,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-repeat"
-    },
-    {
-      "id": "repeat-1783573643355-1-paste-1783573625250-5-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 105653.84538461539,
-      "rawTimeMs": 105638.60027530366,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat"
-    },
-    {
-      "id": "paste-1783573653620-0-repeat-1783573643355-1-paste-1783573625250-0-manual-1783573556098-96712",
-      "impactTimeMs": 105942.30692307692,
-      "rawTimeMs": 105925.79777462888,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573653620-1-repeat-1783573643355-1-paste-1783573625250-1-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 106374.99923076923,
-      "rawTimeMs": 106384.02537651821,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573653620-2-repeat-1783573643355-1-paste-1783573625250-2-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 106807.69153846153,
-      "rawTimeMs": 106792.4464291498,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573653620-3-repeat-1783573643355-1-paste-1783573625250-3-manual-1783573596111-97865",
-      "impactTimeMs": 107096.15307692307,
-      "rawTimeMs": 107101.81345883942,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573653620-4-repeat-1783573643355-1-paste-1783573625250-4-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 107528.84538461539,
-      "rawTimeMs": 107537.87153036437,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573653620-5-repeat-1783573643355-1-manual-1783573631549-103202",
-      "impactTimeMs": 107673.07615384614,
-      "rawTimeMs": 107604.18851282052,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-repeat-paste"
-    },
-    {
-      "id": "paste-1783573653620-6-repeat-1783573643355-1-paste-1783573625250-5-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 107961.53769230768,
-      "rawTimeMs": 107946.29258299596,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-0-repeat-1783573643355-1-paste-1783573625250-0-manual-1783573556098-96712",
-      "impactTimeMs": 108249.99923076923,
-      "rawTimeMs": 108233.4900823212,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-1-repeat-1783573643355-1-paste-1783573625250-1-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 108682.69153846154,
-      "rawTimeMs": 108691.71768421053,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-2-repeat-1783573643355-1-paste-1783573625250-2-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 109115.38384615384,
-      "rawTimeMs": 109100.13873684211,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-3-repeat-1783573643355-1-paste-1783573625250-3-manual-1783573596111-97865",
-      "impactTimeMs": 109403.84538461539,
-      "rawTimeMs": 109409.50576653173,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-4-repeat-1783573643355-1-paste-1783573625250-4-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-0-paste-1783573525962-1-paste-1783573328063-0-paste-1783573246406-0-paste-1783572858869-0-paste-1783571634430-1-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567684672-28058",
-      "impactTimeMs": 109836.5376923077,
-      "rawTimeMs": 109845.56383805668,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-5-repeat-1783573643355-1-manual-1783573631549-103202",
-      "impactTimeMs": 109980.76846153845,
-      "rawTimeMs": 109911.88082051283,
-      "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid-repeat-paste"
-    },
-    {
-      "id": "paste-1783573659767-6-repeat-1783573643355-1-paste-1783573625250-5-repeat-1783573560801-1-repeat-1783573547735-1-paste-1783573536051-1-paste-1783573525962-2-paste-1783573328063-1-paste-1783573246406-1-paste-1783572858869-1-paste-1783571634430-2-repeat-1783568142446-1-repeat-1783567768170-1-manual-1783567693604-28490",
-      "impactTimeMs": 110269.23,
-      "rawTimeMs": 110253.98489068827,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid-repeat-repeat-paste-paste-paste-paste-paste-paste-repeat-repeat-paste-repeat-paste"
     }
   ],
   "source": "manual",
-  "updatedAt": "2026-07-09T05:17:37.465Z",
+  "updatedAt": "2026-07-09T04:55:45.988Z",
   "createdAt": "2026-07-09T03:24:01.822Z",
-  "version": 15
+  "version": 11
 }

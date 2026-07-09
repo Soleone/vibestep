@@ -6,6 +6,7 @@ export function EditorTimeline({
   gridLines,
   bounds,
   songTimeMs,
+  playheadActive,
   selectedNoteIds,
   loopMarkers,
   onTimelineClick,
@@ -23,6 +24,7 @@ export function EditorTimeline({
   gridLines: TimelineGridLine[]
   bounds: TimelineBounds
   songTimeMs: number
+  playheadActive: boolean
   selectedNoteIds: Set<string>
   loopMarkers: LoopMarkers
   onTimelineClick: (event: MouseEvent<HTMLDivElement>) => void
@@ -45,6 +47,7 @@ export function EditorTimeline({
   const loopStartLeft = loopMarkers.startMs === null ? null : ((loopMarkers.startMs - bounds.startMs) / bounds.spanMs) * 100
   const loopEndLeft = loopMarkers.endMs === null ? null : ((loopMarkers.endMs - bounds.startMs) / bounds.spanMs) * 100
   const hasVisibleLoopRange = loopStartLeft !== null && loopEndLeft !== null && loopStartLeft >= 0 && loopEndLeft <= 100 && loopEndLeft > loopStartLeft
+  const noteTriggerWindowMs = 180
   const seekFromPointer = (clientX: number, width: number, left: number, bypassSnap = false) => {
     const xRatio = clamp01((clientX - left) / width)
     onSeek(bounds.startMs + xRatio * bounds.spanMs, bypassSnap)
@@ -179,7 +182,12 @@ export function EditorTimeline({
       <div className="timeline-labels" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => event.stopPropagation()}>{lanes.map((lane) => <span key={lane} role="button" tabIndex={0} title={`Select all ${lane} notes`} onClick={(event) => { event.stopPropagation(); onLaneSelect(lane) }} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onLaneSelect(lane) } }}>{lane}</span>)}</div>
       {selectionBox && <div className="timeline-selection-box" style={selectionBox} />}
       {playheadLeft >= 0 && playheadLeft <= 100 && <div className="playhead" style={{ left: `${playheadLeft}%` }}><div className="playhead-handle" title="Drag to seek" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => { event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId); dragPlayhead(event) }} onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) dragPlayhead(event) }} onPointerUp={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} /></div>}
-      {notes.filter((note) => note.impactTimeMs >= bounds.startMs && note.impactTimeMs <= bounds.endMs).map((note) => <i key={`stage-${note.pending ? 'pending' : 'saved'}-${note.id}`} className={`${note.pending ? 'pending ' : ''}${selectedNoteIds.has(note.id) ? 'selected' : ''}`} onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startNotePointer(event, note.id)} onPointerMove={(event) => moveNotePointer(event, note.id)} onPointerUp={(event) => endNotePointer(event, note.id)} onPointerCancel={(event) => endNotePointer(event, note.id)} title={`Click to remove. Hold 300ms and drag ${note.lane} ${Math.round(note.impactTimeMs)}ms.`} style={{ left: `${((note.impactTimeMs - bounds.startMs) / bounds.spanMs) * 100}%`, top: `${timelineLaneTopPx + lanes.indexOf(note.lane) * timelineLaneHeightPx + 14}px`, width: note.durationMs ? `${Math.max(8, (note.durationMs / bounds.spanMs) * 100)}%` : undefined, background: laneColor[note.lane] }} />)}
+      {notes.filter((note) => note.impactTimeMs >= bounds.startMs && note.impactTimeMs <= bounds.endMs).map((note) => {
+        const triggerAgeMs = songTimeMs - note.impactTimeMs
+        const holdEndMs = note.impactTimeMs + (note.durationMs ?? 0)
+        const isTriggered = playheadActive && (note.durationMs ? songTimeMs >= note.impactTimeMs && songTimeMs <= holdEndMs + noteTriggerWindowMs : triggerAgeMs >= 0 && triggerAgeMs <= noteTriggerWindowMs)
+        return <i key={`stage-${note.pending ? 'pending' : 'saved'}-${note.id}`} className={`${note.pending ? 'pending ' : ''}${selectedNoteIds.has(note.id) ? 'selected ' : ''}${isTriggered ? 'triggered' : ''}`} onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startNotePointer(event, note.id)} onPointerMove={(event) => moveNotePointer(event, note.id)} onPointerUp={(event) => endNotePointer(event, note.id)} onPointerCancel={(event) => endNotePointer(event, note.id)} title={`Click to remove. Hold 300ms and drag ${note.lane} ${Math.round(note.impactTimeMs)}ms.`} style={{ left: `${((note.impactTimeMs - bounds.startMs) / bounds.spanMs) * 100}%`, top: `${timelineLaneTopPx + lanes.indexOf(note.lane) * timelineLaneHeightPx + 14}px`, width: note.durationMs ? `${Math.max(8, (note.durationMs / bounds.spanMs) * 100)}%` : undefined, background: laneColor[note.lane], color: laneColor[note.lane] }} />
+      })}
     </div>
   )
 }

@@ -189,6 +189,8 @@ async function listImports() {
     try {
       const meta = JSON.parse(await readFile(path.join(importsDir, entry.name, 'meta.json'), 'utf8'))
       const beatmap = JSON.parse(await readFile(path.join(importsDir, entry.name, 'beatmap.json'), 'utf8'))
+      const beatmaps = await listBeatmaps(entry.name)
+      const primaryBeatmap = beatmaps.find((map) => map.id === beatmap.id) ?? (beatmaps.length === 1 ? beatmaps[0] : null)
       imports.push({
         id: meta.id ?? entry.name,
         title: meta.title ?? 'Imported song',
@@ -197,9 +199,9 @@ async function listImports() {
         bpm: meta.bpm,
         beatOffsetMs: meta.beatOffsetMs,
         audioUrl: `/imports/${entry.name}/audio.mp3`,
-        beatmapUrl: `/imports/${entry.name}/beatmap.json`,
-        noteCount: beatmap.notes?.length ?? 0,
-        beatmaps: await listBeatmaps(entry.name),
+        beatmapUrl: primaryBeatmap?.url ?? `/imports/${entry.name}/beatmap.json`,
+        noteCount: primaryBeatmap?.noteCount ?? beatmap.notes?.length ?? 0,
+        beatmaps,
       })
     } catch {
       // Ignore partial/failed imports.
@@ -270,7 +272,9 @@ app.post('/api/imports/:songId/beatmaps', async (req, res) => {
   const file = path.join(dir, `${id}.json`)
   try { await copyFile(file, path.join(historyDir, `${id}-${Date.now()}.json`)) } catch {}
   const beatmap = { ...incoming, id, songId, updatedAt: now, createdAt: incoming.createdAt ?? now, version: (incoming.version ?? 0) + 1 }
-  await writeFile(file, JSON.stringify(beatmap, null, 2))
+  const serializedBeatmap = JSON.stringify(beatmap, null, 2)
+  await writeFile(file, serializedBeatmap)
+  await writeFile(path.join(importsDir, songId, 'beatmap.json'), serializedBeatmap)
   res.json({ beatmap, url: `/imports/${songId}/beatmaps/${id}.json`, beatmaps: await listBeatmaps(songId) })
 })
 

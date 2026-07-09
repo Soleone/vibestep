@@ -432,6 +432,19 @@ input[type='range'],
 .timeline i:active { cursor: grabbing; }
 .timeline i.pending { width: 8px; height: 14px; outline: 1px solid rgba(255, 255, 255, 0.8); z-index: 2; }
 .timeline i.selected { outline: 2px solid rgba(255, 255, 255, 0.95); z-index: 4; box-shadow: 0 0 0 4px color-mix(in srgb, var(--ff-accent) 18%, transparent), 0 0 16px currentColor; }
+.timeline i.triggered { z-index: 5; animation: timeline-note-trigger 180ms ease-out both; }
+.timeline i.triggered::after { content: ''; position: absolute; inset: -3px; border-radius: 7px; border: 1px solid color-mix(in srgb, currentColor 70%, white); opacity: 0.88; animation: timeline-note-trigger-ring 180ms ease-out both; pointer-events: none; }
+
+@keyframes timeline-note-trigger {
+  0% { transform: translateX(-50%) scale(1); filter: brightness(1); box-shadow: 0 0 8px currentColor; }
+  45% { transform: translateX(-50%) scale(1.55); filter: brightness(1.55); box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 20%, transparent), 0 0 22px currentColor; }
+  100% { transform: translateX(-50%) scale(1.12); filter: brightness(1.16); box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 10%, transparent), 0 0 12px currentColor; }
+}
+@keyframes timeline-note-trigger-ring {
+  0% { transform: scale(0.65); opacity: 0; }
+  35% { opacity: 0.88; }
+  100% { transform: scale(1.65); opacity: 0; }
+}
 
 .edit-stage {
   padding: 22px;

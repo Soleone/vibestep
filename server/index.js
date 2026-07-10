@@ -1,10 +1,11 @@
 import express from 'express'
-import { mkdir, stat, writeFile, readdir, readFile, copyFile, rm } from 'node:fs/promises'
+import { mkdir, stat, readdir, readFile, copyFile, rm } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
 import { nanoid } from 'nanoid'
 import fftPackage from 'fft-js'
+import { assertSafeId, songPath, validateBeatmap, writeJsonAtomically } from './beatmap-validation.js'
 
 const { fft, util: fftUtil } = fftPackage
 
@@ -167,7 +168,7 @@ async function getDurationMs(audioPath) {
 }
 
 async function listBeatmaps(songId) {
-  const dir = path.join(importsDir, songId, 'beatmaps')
+  const dir = songPath(importsDir, songId, 'beatmaps')
   await mkdir(dir, { recursive: true })
   const files = await readdir(dir).catch(() => [])
   const maps = []
@@ -223,14 +224,14 @@ app.get('/api/imports/:songId/beatmaps', async (req, res) => {
 })
 
 app.patch('/api/imports/:songId', async (req, res) => {
-  const songId = req.params.songId
-  const file = path.join(importsDir, songId, 'meta.json')
+  const songId = assertSafeId(req.params.songId, 'song id')
+  const file = songPath(importsDir, songId, 'meta.json')
   try {
     const meta = JSON.parse(await readFile(file, 'utf8'))
     const next = { ...meta }
     if (Number.isFinite(Number(req.body?.bpm)) && Number(req.body.bpm) > 0) next.bpm = Number(req.body.bpm)
     if (Number.isFinite(Number(req.body?.beatOffsetMs)) && Number(req.body.beatOffsetMs) >= 0) next.beatOffsetMs = Number(req.body.beatOffsetMs)
-    await writeFile(file, JSON.stringify(next, null, 2))
+    await writeJsonAtomically(file, next)
     res.json({ song: next })
   } catch (error) {
     res.status(404).json({ error: error instanceof Error ? error.message : 'Song not found' })
@@ -238,20 +239,19 @@ app.patch('/api/imports/:songId', async (req, res) => {
 })
 
 app.delete('/api/imports/:songId/beatmaps/:mapId', async (req, res) => {
-  const songId = req.params.songId
-  const id = String(req.params.mapId || '').replace(/[^a-zA-Z0-9_-]/g, '-')
-  if (!id) return res.status(400).json({ error: 'Missing beatmap id' })
-  const file = path.join(importsDir, songId, 'beatmaps', `${id}.json`)
-  const legacyFile = path.join(importsDir, songId, 'beatmap.json')
+  const songId = assertSafeId(req.params.songId, 'song id')
+  const id = assertSafeId(req.params.mapId, 'beatmap id')
+  const file = songPath(importsDir, songId, 'beatmaps', `${id}.json`)
+  const legacyFile = songPath(importsDir, songId, 'beatmap.json')
   try {
     await rm(file)
     const remaining = await listBeatmaps(songId)
     if (remaining.length > 0) {
-      const next = JSON.parse(await readFile(path.join(importsDir, songId, 'beatmaps', `${remaining[0].id}.json`), 'utf8'))
-      await writeFile(legacyFile, JSON.stringify(next, null, 2))
+      const next = JSON.parse(await readFile(songPath(importsDir, songId, 'beatmaps', `${remaining[0].id}.json`), 'utf8'))
+      await writeJsonAtomically(legacyFile, next)
     } else {
       const meta = JSON.parse(await readFile(path.join(importsDir, songId, 'meta.json'), 'utf8'))
-      await writeFile(legacyFile, JSON.stringify(makeBlankBeatmap(songId, meta.title ?? 'Imported song', meta.durationMs ?? 0), null, 2))
+      await writeJsonAtomically(legacyFile, makeBlankBeatmap(songId, meta.title ?? 'Imported song', meta.durationMs ?? 0))
     }
     res.json({ beatmaps: remaining })
   } catch (error) {
@@ -260,22 +260,25 @@ app.delete('/api/imports/:songId/beatmaps/:mapId', async (req, res) => {
 })
 
 app.post('/api/imports/:songId/beatmaps', async (req, res) => {
-  const songId = req.params.songId
-  const incoming = req.body?.beatmap
-  if (!incoming?.notes) return res.status(400).json({ error: 'Missing beatmap' })
-  const dir = path.join(importsDir, songId, 'beatmaps')
-  const historyDir = path.join(dir, '.history')
-  await mkdir(dir, { recursive: true })
-  await mkdir(historyDir, { recursive: true })
-  const now = new Date().toISOString()
-  const id = String(incoming.id || nanoid(8)).replace(/[^a-zA-Z0-9_-]/g, '-')
-  const file = path.join(dir, `${id}.json`)
-  try { await copyFile(file, path.join(historyDir, `${id}-${Date.now()}.json`)) } catch {}
-  const beatmap = { ...incoming, id, songId, updatedAt: now, createdAt: incoming.createdAt ?? now, version: (incoming.version ?? 0) + 1 }
-  const serializedBeatmap = JSON.stringify(beatmap, null, 2)
-  await writeFile(file, serializedBeatmap)
-  await writeFile(path.join(importsDir, songId, 'beatmap.json'), serializedBeatmap)
-  res.json({ beatmap, url: `/imports/${songId}/beatmaps/${id}.json`, beatmaps: await listBeatmaps(songId) })
+  try {
+    const songId = assertSafeId(req.params.songId, 'song id')
+    const incoming = req.body?.beatmap
+    const id = String(incoming?.id || nanoid(8)).replace(/[^a-zA-Z0-9_-]/g, '-')
+    if (!id) throw new Error('Missing beatmap id')
+    const dir = songPath(importsDir, songId, 'beatmaps')
+    const historyDir = path.join(dir, '.history')
+    await mkdir(historyDir, { recursive: true })
+    const now = new Date().toISOString()
+    const file = path.join(dir, `${id}.json`)
+    try { await copyFile(file, path.join(historyDir, `${id}-${Date.now()}.json`)) } catch {}
+    const validated = validateBeatmap(incoming, { id, songId })
+    const beatmap = { ...validated, updatedAt: now, createdAt: incoming.createdAt ?? now, version: validated.version + 1 }
+    await writeJsonAtomically(file, beatmap)
+    await writeJsonAtomically(songPath(importsDir, songId, 'beatmap.json'), beatmap)
+    res.json({ beatmap, url: `/imports/${songId}/beatmaps/${id}.json`, beatmaps: await listBeatmaps(songId) })
+  } catch (error) {
+    res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid beatmap' })
+  }
 })
 
 app.post('/api/import-youtube', async (req, res) => {
@@ -332,10 +335,10 @@ app.post('/api/import-youtube', async (req, res) => {
     const durationMs = await getDurationMs(audioPath)
     const beatmap = makeBlankBeatmap(id, title, durationMs)
     const now = new Date().toISOString()
-    await writeFile(path.join(outDir, 'beatmap.json'), JSON.stringify(beatmap, null, 2))
+    await writeJsonAtomically(path.join(outDir, 'beatmap.json'), beatmap)
     await mkdir(path.join(outDir, 'beatmaps'), { recursive: true })
-    await writeFile(path.join(outDir, 'beatmaps', 'blank.json'), JSON.stringify({ ...beatmap, id: 'blank', songId: id, difficulty: 1, version: 1, source: 'blank', createdAt: now, updatedAt: now }, null, 2))
-    await writeFile(path.join(outDir, 'meta.json'), JSON.stringify({ id, title, sourceUrl: url, durationMs }, null, 2))
+    await writeJsonAtomically(path.join(outDir, 'beatmaps', 'blank.json'), { ...beatmap, id: 'blank', songId: id, difficulty: 1, version: 1, source: 'blank', createdAt: now, updatedAt: now })
+    await writeJsonAtomically(path.join(outDir, 'meta.json'), { id, title, sourceUrl: url, durationMs })
 
     res.json({
       id,

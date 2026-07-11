@@ -30,7 +30,7 @@ export function EditorTimeline({
   selectedNoteIds: Set<string>
   loopMarkers: LoopMarkers
   onTimelineClick: (event: MouseEvent<HTMLDivElement>) => void
-  onTimelineWheel: (event: globalThis.WheelEvent) => void
+  onTimelineWheel: (event: globalThis.WheelEvent, zoomFromRuler: boolean) => void
   onSeek: (timeMs: number, bypassSnap?: boolean) => void
   onLoopRulerClick: (timeMs: number, marker: 'start' | 'end', bypassSnap?: boolean) => void
   onLoopMarkerDrag: (timeMs: number, marker: 'start' | 'end', bypassSnap?: boolean) => void
@@ -56,7 +56,10 @@ export function EditorTimeline({
   useEffect(() => {
     const timeline = timelineRef.current
     if (!timeline) return
-    const handleWheel = (event: globalThis.WheelEvent) => onTimelineWheel(event)
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      const rect = timeline.getBoundingClientRect()
+      onTimelineWheel(event, event.clientY - rect.top < timelineLaneTopPx)
+    }
     timeline.addEventListener('wheel', handleWheel, { passive: false })
     return () => timeline.removeEventListener('wheel', handleWheel)
   }, [onTimelineWheel])

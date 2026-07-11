@@ -3,7 +3,7 @@
   "songId": "JTCgb8U2eL",
   "title": "Soleone 2",
   "difficulty": 2,
-  "version": 24,
+  "version": 22,
   "bpm": 104,
   "beatOffsetMs": 9019.23,
   "durationMs": 179093,
@@ -2593,14 +2593,6 @@
       "source": "manual-grid"
     },
     {
-      "id": "manual-1783748493990-148058",
-      "impactTimeMs": 148057.69153846154,
-      "rawTimeMs": 148020.38063157897,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
       "id": "paste-1783748162481-0-repeat-1783748076377-0-repeat-1783748076144-0-repeat-1783748026720-0-repeat-1783748026185-0-paste-1783747917138-1-manual-1783747814947-120",
       "impactTimeMs": 148346.1530769231,
       "rawTimeMs": 148364.71334143053,
@@ -2633,14 +2625,6 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783748499329-150365",
-      "impactTimeMs": 150365.38384615385,
-      "rawTimeMs": 150350.20519298245,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
       "id": "repeat-1783748202422-1-paste-1783748162481-0-repeat-1783748076377-0-repeat-1783748076144-0-repeat-1783748026720-0-repeat-1783748026185-0-paste-1783747917138-1-m",
       "impactTimeMs": 150653.84538461542,
       "rawTimeMs": 150672.40564912284,
@@ -2669,14 +2653,6 @@
       "impactTimeMs": 152096.15307692307,
       "rawTimeMs": 152086.92230769232,
       "lane": "kick",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
-      "id": "manual-1783748501594-152673",
-      "impactTimeMs": 152673.07615384617,
-      "rawTimeMs": 152646.65240215923,
-      "lane": "snare",
       "strength": 1,
       "source": "manual-grid"
     },
@@ -2713,14 +2689,6 @@
       "source": "manual-grid-repeat"
     },
     {
-      "id": "manual-1783748512462-154981",
-      "impactTimeMs": 154980.76846153848,
-      "rawTimeMs": 154976.59336842105,
-      "lane": "snare",
-      "strength": 1,
-      "source": "manual-grid"
-    },
-    {
       "id": "duplicate-1783748445186-0-repeat-1783748407805-0-repeat-1783748202422-1-paste-1783748162481-0-repeat-1783748076377-0-repeat-1783748076144-0-repeat-1783748026720",
       "impactTimeMs": 155269.23,
       "rawTimeMs": 155287.79026450744,
@@ -2737,6 +2705,6 @@
       "source": "manual-grid-paste-repeat-repeat-repeat-repeat-paste-repeat-repeat-duplicate"
     }
   ],
-  "updatedAt": "2026-07-11T05:42:23.982Z",
+  "updatedAt": "2026-07-11T05:41:13.453Z",
   "createdAt": "2026-07-09T03:24:01.822Z"
 }

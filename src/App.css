@@ -311,6 +311,9 @@ input[type='range'],
 .transport-icon-button:disabled,
 .transport-play-button:disabled { opacity: 0.45; cursor: not-allowed; }
 .transport-divider { width: 1px; height: 28px; margin: 0 3px; background: rgba(255,255,255,0.14); }
+.transport-loop-button { min-width: 38px !important; color: var(--ff-muted); }
+.transport-loop-button--start.transport-loop-button--active { color: var(--ff-accent); background: color-mix(in srgb, var(--ff-accent) 14%, transparent); }
+.transport-loop-button--end.transport-loop-button--active { color: var(--ff-warning); background: color-mix(in srgb, var(--ff-warning) 14%, transparent); }
 .transport-record-button { min-width: 44px; color: var(--ff-danger); background: rgba(255,85,112,0.1); border-color: rgba(255,85,112,0.24); }
 .transport-record-button svg { width: 16px; height: 16px; }
 .transport-record-button--active { background: var(--ff-danger); color: #fff0f3; box-shadow: 0 0 20px rgba(255,85,112,0.28); }

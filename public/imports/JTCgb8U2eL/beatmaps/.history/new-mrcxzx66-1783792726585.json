@@ -2,8 +2,8 @@
   "id": "new-mrcxzx66",
   "songId": "JTCgb8U2eL",
   "title": "Soleone",
-  "difficulty": 3,
-  "version": 31,
+  "difficulty": 2,
+  "version": 30,
   "bpm": 104,
   "beatOffsetMs": 9019.23,
   "durationMs": 179093,
@@ -2942,6 +2942,6 @@
       "source": "manual-grid-paste"
     }
   ],
-  "updatedAt": "2026-07-11T17:58:46.585Z",
+  "updatedAt": "2026-07-11T17:58:42.581Z",
   "createdAt": "2026-07-09T03:24:01.822Z"
 }

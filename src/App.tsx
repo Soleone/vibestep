@@ -4,7 +4,7 @@ import './App.css'
 import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Disclosure, DisclosureSummary, Field, FieldLabel, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Slider, Stack, Tabs, TabsList, TabsTrigger } from './components/ui'
 import { Toolbar } from './components/Toolbar'
 import { CompanionClient, type CompanionAudio } from './companion/client'
-import { SONG_PACKAGE_SCHEMA, SONG_PACKAGE_VERSION, type SongPackage } from './domain/song-package'
+import { parseSongPackage, SONG_PACKAGE_SCHEMA, SONG_PACKAGE_VERSION, type SongPackage } from './domain/song-package'
 import { EditorTimeline } from './editor/EditorTimeline'
 import { HitNotify } from './game/HitNotify'
 import { judgeParryTiming, type ParryTimingResult } from './game/timing'
@@ -50,6 +50,24 @@ type EditorSnapshot = {
   difficulty: number
   bpm: number
   beatOffsetMs: number
+}
+
+type BeatmapLibraryBackup = {
+  schema: 'beat-fiend/library-backup'
+  schemaVersion: 1
+  exportedAt: string
+  packages: SongPackage[]
+}
+
+const editorSignature = (beatmap: Beatmap | null, title: string, difficulty: number, bpm: number, beatOffsetMs: number) => JSON.stringify({ beatmap, title, difficulty, bpm, beatOffsetMs })
+
+function downloadJson(value: unknown, filename: string) {
+  const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  link.click()
+  URL.revokeObjectURL(url)
 }
 
 function isTextEditingTarget(target: EventTarget | null) {
@@ -118,6 +136,8 @@ function App() {
   const browserAudioUrl = useRef<string | null>(null)
   const audioLoadSequence = useRef(0)
   const localAudioInputRef = useRef<HTMLInputElement>(null)
+  const libraryImportInputRef = useRef<HTMLInputElement>(null)
+  const [savedEditorSignature, setSavedEditorSignature] = useState<string | null>(null)
   const companion = useMemo(() => new CompanionClient(), [])
   const packageRepository = useMemo(() => createLocalStorageSongPackageRepository(), [])
   const scheduledNoteIds = useRef(new Set<string>())
@@ -136,6 +156,17 @@ function App() {
   const [historyVersion, setHistoryVersion] = useState(0)
   const editorState = useRef<EditorSnapshot>({ beatmap, recordedNotes, mapTitle, difficulty, bpm, beatOffsetMs })
   editorState.current = { beatmap, recordedNotes, mapTitle, difficulty, bpm, beatOffsetMs }
+  const currentEditorSignature = editorSignature(beatmap, mapTitle, difficulty, bpm, beatOffsetMs)
+  const hasUnsavedChanges = beatmap !== null && currentEditorSignature !== savedEditorSignature
+
+  useEffect(() => {
+    if (!hasUnsavedChanges) return
+    const warnBeforeUnload = (event: BeforeUnloadEvent) => event.preventDefault()
+    window.addEventListener('beforeunload', warnBeforeUnload)
+    return () => window.removeEventListener('beforeunload', warnBeforeUnload)
+  }, [hasUnsavedChanges])
+
+  const confirmDiscardChanges = useCallback(() => !hasUnsavedChanges || window.confirm('Discard unsaved beatmap changes?'), [hasUnsavedChanges])
 
   const restoreEditorSnapshot = useCallback((snapshot: EditorSnapshot) => {
     setBeatmap(snapshot.beatmap)
@@ -269,9 +300,12 @@ function App() {
       const savedSongBeatOffset = readStoredNumber(beatOffsetStorageKey(song.id))
       const savedMapBeatOffset = readStoredNumber(beatOffsetStorageKey(song.id, loadedBeatmap.id))
       resetEditorHistory()
-      setBeatmap(normalizeBeatmap(loadedBeatmap))
-      setMapTitle(loadedBeatmap.title ?? song.title)
-      setDifficulty(loadedBeatmap.difficulty ?? 1)
+      const normalizedBeatmap = normalizeBeatmap(loadedBeatmap)
+      const loadedTitle = loadedBeatmap.title ?? song.title
+      const loadedDifficulty = loadedBeatmap.difficulty ?? 1
+      setBeatmap(normalizedBeatmap)
+      setMapTitle(loadedTitle)
+      setDifficulty(loadedDifficulty)
       const isBrowserPackage = song.beatmapUrl.startsWith('package:')
       const nextBpm = isBrowserPackage
         ? loadedBeatmap.bpm ?? 120
@@ -281,6 +315,7 @@ function App() {
         : savedMapBeatOffset ?? savedSongBeatOffset ?? song.beatOffsetMs ?? loadedBeatmap.beatOffsetMs ?? 0
       setBpm(nextBpm)
       setBeatOffsetMs(nextBeatOffsetMs)
+      setSavedEditorSignature(editorSignature(normalizedBeatmap, loadedTitle, loadedDifficulty, nextBpm, nextBeatOffsetMs))
       persistedCalibration.current = `${song.id}:${nextBpm}:${nextBeatOffsetMs}`
       calibrationHydrated.current = true
       resetGameplayPlayback()
@@ -670,14 +705,18 @@ function App() {
         await packageRepository.put(nextPackage)
         const nextImport = await packageToImport(nextPackage)
         setImportedSong({ ...nextImport, beatmapUrl: `package:${nextPackage.id}:${id}` })
-        setBeatmap(normalizeBeatmap({ ...editable, version: nextMap.version }))
+        const savedBeatmap = normalizeBeatmap({ ...editable, version: nextMap.version })
+        setBeatmap(savedBeatmap)
+        setSavedEditorSignature(editorSignature(savedBeatmap, titleToSave, difficultyToSave, bpm, beatOffsetMs))
         setSongBeatmaps(nextImport.beatmaps ?? [])
         setSavedImports((imports) => imports.map((song) => song.id === importedSong.id ? nextImport : song))
         setImportStatus(`Saved ${titleToSave} v${nextMap.version} in browser storage`)
         return
       }
       const data = await fetchJson(`/api/imports/${importedSong.id}/beatmaps`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ beatmap: editable }) })
-      setBeatmap(normalizeBeatmap(data.beatmap))
+      const savedBeatmap = normalizeBeatmap(data.beatmap)
+      setBeatmap(savedBeatmap)
+      setSavedEditorSignature(editorSignature(savedBeatmap, titleToSave, difficultyToSave, bpm, beatOffsetMs))
       localStorage.setItem(bpmStorageKey(importedSong.id, data.beatmap.id) ?? '', String(bpm))
       localStorage.setItem(bpmStorageKey(importedSong.id) ?? '', String(bpm))
       localStorage.setItem(beatOffsetStorageKey(importedSong.id, data.beatmap.id) ?? '', String(beatOffsetMs))
@@ -686,7 +725,7 @@ function App() {
       setSavedImports((imports) => imports.map((song) => song.id === importedSong.id ? { ...song, beatmaps: data.beatmaps ?? song.beatmaps, noteCount: data.beatmap.notes?.length ?? song.noteCount, beatmapUrl: `/api/imports/${importedSong.id}/beatmaps/${data.beatmap.id}` } : song))
       setImportStatus(`Saved ${data.beatmap.title} v${data.beatmap.version}`)
     } catch (error) {
-      setImportStatus(error instanceof Error ? error.message : 'Save failed')
+      setImportStatus(error instanceof Error ? `Save failed: ${error.message}` : 'Save failed')
     }
   }, [beatOffsetMs, beatmap, bpm, difficulty, fetchJson, importedSong, mapTitle, packageRepository, packageToImport])
 
@@ -708,9 +747,11 @@ function App() {
         loaded = await fetchJson(map.url)
       }
       resetEditorHistory()
-      setBeatmap(normalizeBeatmap(loaded))
+      const normalizedBeatmap = normalizeBeatmap(loaded)
+      const loadedDifficulty = loaded.difficulty ?? 1
+      setBeatmap(normalizedBeatmap)
       setMapTitle(loaded.title)
-      setDifficulty(loaded.difficulty ?? 1)
+      setDifficulty(loadedDifficulty)
       const songId = loaded.songId ?? importedSong?.id
       const savedSongBpm = readStoredNumber(bpmStorageKey(songId))
       const savedMapBpm = readStoredNumber(bpmStorageKey(songId, loaded.id))
@@ -720,6 +761,7 @@ function App() {
       const nextBeatOffsetMs = savedSongBeatOffset ?? importedSong?.beatOffsetMs ?? savedMapBeatOffset ?? loaded.beatOffsetMs ?? 0
       setBpm(nextBpm)
       setBeatOffsetMs(nextBeatOffsetMs)
+      setSavedEditorSignature(editorSignature(normalizedBeatmap, loaded.title, loadedDifficulty, nextBpm, nextBeatOffsetMs))
       if (songId) persistedCalibration.current = `${songId}:${nextBpm}:${nextBeatOffsetMs}`
       resetGameplayPlayback()
       setImportStatus(`Loaded ${loaded.title ?? map.title} v${loaded.version ?? 0}`)
@@ -751,7 +793,9 @@ function App() {
         setSongBeatmaps(nextImport.beatmaps ?? [])
         setSavedImports((imports) => imports.map((song) => song.id === importedSong.id ? nextImport : song))
         const next = maps[0]
-        setBeatmap(normalizeBeatmap({ ...next, songId: importedSong.id, bpm, beatOffsetMs }))
+        const nextBeatmap = normalizeBeatmap({ ...next, songId: importedSong.id, bpm, beatOffsetMs })
+        setBeatmap(nextBeatmap)
+        setSavedEditorSignature(editorSignature(nextBeatmap, next.title, next.difficulty, bpm, beatOffsetMs))
         setMapTitle(next.title)
         setDifficulty(next.difficulty)
         setDeleteOpen(false)
@@ -768,12 +812,16 @@ function App() {
     resetScheduledNotes()
     if (remaining[0]) {
       const next = await fetchJson(remaining[0].url)
-      setBeatmap(normalizeBeatmap(next))
+      const nextBeatmap = normalizeBeatmap(next)
+      const nextDifficulty = next.difficulty ?? 1
+      setBeatmap(nextBeatmap)
+      setSavedEditorSignature(editorSignature(nextBeatmap, next.title, nextDifficulty, bpm, beatOffsetMs))
       setMapTitle(next.title)
-      setDifficulty(next.difficulty ?? 1)
+      setDifficulty(nextDifficulty)
     } else {
       const title = `${importedSong.title} custom`
       setBeatmap({ id: `new-${Date.now().toString(36)}`, songId: importedSong.id, title, difficulty, bpm, beatOffsetMs, durationMs: importedSong.durationMs, notes: [] })
+      setSavedEditorSignature(null)
       setMapTitle(title)
     }
     } catch (error) {
@@ -782,14 +830,15 @@ function App() {
   }, [beatOffsetMs, beatmap, bpm, difficulty, fetchJson, importedSong, mapTitle, packageRepository, packageToImport, resetScheduledNotes])
 
   const createBlankBeatmap = useCallback(() => {
-    if (!importedSong) return
+    if (!importedSong || !confirmDiscardChanges()) return
     resetEditorHistory()
     const title = `${importedSong.title} custom`
     setBeatmap({ id: `new-${Date.now().toString(36)}`, songId: importedSong.id, title, difficulty, bpm, beatOffsetMs, durationMs: importedSong.durationMs, notes: [] })
+    setSavedEditorSignature(null)
     setMapTitle(title)
     setRecordedNotes([])
     resetScheduledNotes()
-  }, [beatOffsetMs, bpm, difficulty, importedSong, resetEditorHistory, resetScheduledNotes])
+  }, [beatOffsetMs, bpm, confirmDiscardChanges, difficulty, importedSong, resetEditorHistory, resetScheduledNotes])
   const applyRenameBeatmap = useCallback((title = renameDraft) => {
     if (!beatmap) return
     const nextTitle = title.trim()
@@ -801,8 +850,7 @@ function App() {
     setSongBeatmaps((maps) => maps.map((map) => map.id === beatmap.id ? { ...map, title: nextTitle } : map))
     setSavedImports((imports) => imports.map((song) => song.id === importedSong?.id ? { ...song, beatmaps: song.beatmaps?.map((map) => map.id === beatmap.id ? { ...map, title: nextTitle } : map) } : song))
     setRenameOpen(false)
-    void saveBeatmap(false, { title: nextTitle })
-  }, [beatmap, checkpointEditor, importedSong?.id, renameDraft, saveBeatmap])
+  }, [beatmap, checkpointEditor, importedSong?.id, renameDraft])
   const setBeatmapDifficulty = useCallback((nextDifficulty: number) => {
     if (!beatmap) return
     const clampedDifficulty = Math.min(5, Math.max(1, Math.round(nextDifficulty)))
@@ -822,14 +870,38 @@ function App() {
 
   const exportBeatmap = useCallback(() => {
     if (!beatmap) return
-    const blob = new Blob([JSON.stringify({ ...beatmap, title: mapTitle, difficulty, bpm, beatOffsetMs }, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `${beatmap.id}-edited.beatmap.json`
-    link.click()
-    URL.revokeObjectURL(url)
+    downloadJson({ ...beatmap, title: mapTitle, difficulty, bpm, beatOffsetMs }, `${beatmap.id}-edited.beatmap.json`)
   }, [beatOffsetMs, beatmap, bpm, difficulty, mapTitle])
+
+  const exportLibrary = useCallback(async () => {
+    try {
+      const summaries = await packageRepository.list()
+      const packages = (await Promise.all(summaries.map((summary) => packageRepository.get(summary.id)))).filter((item): item is SongPackage => item !== null)
+      const backup: BeatmapLibraryBackup = { schema: 'beat-fiend/library-backup', schemaVersion: 1, exportedAt: new Date().toISOString(), packages }
+      downloadJson(backup, `beat-fiend-library-${new Date().toISOString().slice(0, 10)}.json`)
+      setImportStatus(`Exported ${packages.length} song package${packages.length === 1 ? '' : 's'}`)
+    } catch (error) {
+      setImportStatus(error instanceof Error ? `Library export failed: ${error.message}` : 'Library export failed')
+    }
+  }, [packageRepository])
+
+  const importLibrary = useCallback(async (file: File) => {
+    try {
+      const value: unknown = JSON.parse(await file.text())
+      const candidates = typeof value === 'object' && value !== null && 'schema' in value && value.schema === 'beat-fiend/library-backup'
+        ? ('packages' in value && Array.isArray(value.packages) ? value.packages : (() => { throw new Error('Backup has no packages') })())
+        : [value]
+      const packages = candidates.map(parseSongPackage)
+      const existingIds = new Set((await packageRepository.list()).map((summary) => summary.id))
+      const replacementCount = packages.filter((songPackage) => existingIds.has(songPackage.id)).length
+      if (replacementCount > 0 && !window.confirm(`Replace ${replacementCount} existing song package${replacementCount === 1 ? '' : 's'} with the imported backup?`)) return
+      for (const songPackage of packages) await packageRepository.put(songPackage)
+      await loadImports()
+      setImportStatus(`Imported ${packages.length} song package${packages.length === 1 ? '' : 's'} into browser storage`)
+    } catch (error) {
+      setImportStatus(error instanceof Error ? `Library import failed: ${error.message}` : 'Library import failed')
+    }
+  }, [loadImports, packageRepository])
 
   const seekSong = useCallback((timeMs: number) => {
     const audio = audioRef.current
@@ -1223,7 +1295,7 @@ function App() {
   const restartTooltip = 'Restart from beginning'
   const difficultyColor = ['#83ff70', '#4da3ff', '#ffd166', '#ff9f43', '#ff5570'][difficulty - 1] ?? '#83ff70'
   const transport = <div className="transport-bar" aria-label="Transport controls"><Button type="button" variant="ghost" className="transport-icon-button" onClick={(event) => restartSong((event.ctrlKey || event.metaKey) && loopMarkers.startMs !== null)} disabled={!importedSong} title={restartTooltip} tooltip={`${restartTooltip}. Ctrl click restarts from the loop start.`} shortcut="Shift+Space">↺</Button><Button type="button" variant="ghost" className="transport-icon-button" onClick={() => seekRelativeSong(-5000)} disabled={!importedSong} title="Back 5 seconds" tooltip="Back 5 seconds">-5s</Button><Button type="button" className={`transport-play-button ${isSongPlaying ? 'transport-play-button--pause' : 'transport-play-button--play'}`} onClick={isSongPlaying ? pauseSong : playSong} disabled={!importedSong} title={isSongPlaying ? 'Pause' : 'Play'} tooltip={isSongPlaying ? 'Pause' : 'Play'} shortcut="Space">{isSongPlaying ? '⏸' : '▶'}</Button><Button type="button" variant="ghost" className="transport-icon-button" onClick={() => seekRelativeSong(5000)} disabled={!importedSong} title="Forward 5 seconds" tooltip="Forward 5 seconds">+5s</Button>{activeTab === 'editor' && <><span className="transport-divider" /><Button type="button" variant="ghost" size="icon" className={`transport-loop-button transport-loop-button--start ${loopMarkers.startMs !== null ? 'transport-loop-button--active' : ''}`} onClick={() => handleLoopRulerClick(songTimeMs, 'start')} disabled={!importedSong} tooltip={loopMarkers.startMs !== null && Math.abs(loopMarkers.startMs - snapTimelineTime(songTimeMs)) <= Math.max(80, gridMs * 0.45) ? 'Remove loop start' : 'Set loop start at playhead'} shortcut="[" aria-label="Set loop start at playhead"><ArrowLeftToLine /></Button><Button type="button" variant="ghost" size="icon" className={`transport-loop-button transport-loop-button--end ${loopMarkers.endMs !== null ? 'transport-loop-button--active' : ''}`} onClick={() => handleLoopRulerClick(songTimeMs, 'end')} disabled={!importedSong} tooltip={loopMarkers.endMs !== null && Math.abs(loopMarkers.endMs - snapTimelineTime(songTimeMs)) <= Math.max(80, gridMs * 0.45) ? 'Remove loop end' : 'Set loop end at playhead'} shortcut="]" aria-label="Set loop end at playhead"><ArrowRightToLine /></Button><span className="transport-divider" /><Button type="button" variant="ghost" className={`transport-record-button ${isRecording ? 'transport-record-button--active' : ''}`} onClick={isRecording ? stopRecording : startRecording} tooltip={isRecording ? 'Stop recording' : 'Start recording'} aria-label={isRecording ? 'Stop recording' : 'Start recording'}><Circle fill="currentColor" /></Button></>}</div>
-  const beatmapControls = <Card className="beatmap-controls"><CardHeader><CardTitle>Beatmaps</CardTitle><CardDescription>{importedSong ? importedSong.title : 'Choose a cached song or import one from Config.'}</CardDescription></CardHeader>{savedImports.length > 0 ? <Field><FieldLabel>Song</FieldLabel><Select value={importedSong?.id ?? null} onValueChange={(songId) => { const song = savedImports.find((item) => item.id === songId); if (song) void loadImport(song) }}><SelectTrigger className="ui-select"><SelectValue>{(songId: string | null) => savedImports.find((song) => song.id === songId)?.title ?? 'Select cached song...'}</SelectValue></SelectTrigger><SelectContent>{savedImports.map((song) => <SelectItem key={song.id} value={song.id}>{song.title}</SelectItem>)}</SelectContent></Select></Field> : <p className="editor-hint">No cached songs yet. Use Config to import from YouTube.</p>}<Field><FieldLabel>Beatmap</FieldLabel><Select value={beatmap?.id ?? null} onValueChange={(beatmapId) => { if (beatmapId) void loadBeatmap(beatmapId) }} disabled={!importedSong || (!beatmap && songBeatmaps.length === 0)}><SelectTrigger className="ui-select"><SelectValue>{(beatmapId: string | null) => { if (beatmap?.id === beatmapId) return `${mapTitle} (${beatmap.notes.length}) ${'★'.repeat(difficulty)}`; const selectedMap = songBeatmaps.find((map) => map.id === beatmapId); if (selectedMap) return `${selectedMap.title} (${selectedMap.noteCount}) ${'★'.repeat(selectedMap.difficulty ?? 1)}`; return songBeatmaps.length || beatmap ? 'Select beatmap...' : 'No beatmaps' }}</SelectValue></SelectTrigger><SelectContent>{beatmap && !songBeatmaps.some((map) => map.id === beatmap.id) && <SelectItem value={beatmap.id}>{mapTitle} (unsaved) {'★'.repeat(difficulty)}</SelectItem>}{songBeatmaps.map((map) => <SelectItem key={map.id} value={map.id}>{map.title} ({map.noteCount}) {'★'.repeat(map.difficulty ?? 1)}</SelectItem>)}</SelectContent></Select></Field>{activeTab === 'editor' && <><div className="beatmap-action-grid"><Button type="button" variant="secondary" onClick={() => void saveBeatmap(false)} disabled={!beatmap || !importedSong} tooltip="Save changes"><Save />Save</Button><Button type="button" variant="secondary" onClick={createBlankBeatmap} disabled={!importedSong} tooltip="Create an empty beatmap"><FilePlus2 />Create</Button><div className="inline-popover"><Button type="button" variant="secondary" onClick={() => { setRenameDraft(mapTitle); setRenameOpen((open) => !open) }} disabled={!beatmap} tooltip="Rename this beatmap"><Edit3 />Rename</Button>{renameOpen && <div className="inline-popover__panel"><button type="button" className="popover-close" onClick={() => setRenameOpen(false)} aria-label="Close rename dialog"><X /></button><div className="popover-title">Rename beatmap</div><Input value={renameDraft} onChange={(event) => setRenameDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); applyRenameBeatmap(event.currentTarget.value) } }} autoFocus /><div className="popover-actions popover-actions--single"><Button type="button" variant="secondary" size="sm" onClick={() => applyRenameBeatmap()}><Check />Apply</Button></div></div>}</div><Button type="button" variant="secondary" onClick={() => void saveBeatmap(true)} disabled={!beatmap || !importedSong} tooltip="Save a duplicate beatmap"><CopyPlus />Duplicate</Button><div className="inline-popover"><Button type="button" variant="secondary" onClick={() => setDifficultyOpen((open) => !open)} disabled={!beatmap} tooltip={`Difficulty ${difficulty}`} style={{ color: difficultyColor }}><Star fill="currentColor" />Difficulty</Button>{difficultyOpen && <div className="inline-popover__panel"><div className="popover-title">Difficulty</div><Slider min={1} max={5} step={1} value={[difficulty]} onValueChange={(value) => setBeatmapDifficulty(Array.isArray(value) ? value[0] : value)} onValueCommitted={(value) => void saveBeatmap(false, { difficulty: Array.isArray(value) ? value[0] : value })} /><div className="popover-actions"><span style={{ color: difficultyColor }}><Star size={14} fill="currentColor" /> Level {difficulty}</span><Button type="button" variant="secondary" size="sm" onClick={() => setDifficultyOpen(false)}><Check />Done</Button></div></div>}</div><div className="inline-popover"><Button type="button" variant="warning" onClick={() => setDeleteOpen((open) => !open)} disabled={!beatmap || !importedSong || !songBeatmaps.some((map) => map.id === beatmap.id)} tooltip="Delete this saved beatmap"><Trash2 />Delete</Button>{deleteOpen && <div className="inline-popover__panel inline-popover__panel--danger"><button type="button" className="popover-close" onClick={() => setDeleteOpen(false)} aria-label="Close delete confirmation"><X /></button><div className="popover-title">Delete beatmap?</div><p>This removes {mapTitle} from this song.</p><div className="popover-actions popover-actions--single"><Button type="button" variant="warning" size="sm" onClick={() => void deleteBeatmap()}><Trash2 />Delete</Button></div></div>}</div></div><div className="beatmap-secondary-actions"><Button type="button" variant="ghost" onClick={exportBeatmap} disabled={!beatmap} tooltip="Export beatmap JSON"><Download />Export</Button><Button type="button" variant="ghost" onClick={clearBeatmapEvents} disabled={!beatmap} tooltip="Remove all notes from this beatmap"><Edit3 />Wipe notes</Button></div>{tapMode && <p className="editor-hint">Tap tempo is listening for lane keys. Use the main pane's Tap button to save.</p>}</>}</Card>
+  const beatmapControls = <Card className="beatmap-controls"><CardHeader><CardTitle>Beatmaps {hasUnsavedChanges && <Badge tone="warning">Unsaved</Badge>}</CardTitle><CardDescription>{importedSong ? importedSong.title : 'Choose a cached song or import one from Config.'}</CardDescription></CardHeader>{savedImports.length > 0 ? <Field><FieldLabel>Song</FieldLabel><Select value={importedSong?.id ?? null} onValueChange={(songId) => { const song = savedImports.find((item) => item.id === songId); if (song && confirmDiscardChanges()) void loadImport(song) }}><SelectTrigger className="ui-select"><SelectValue>{(songId: string | null) => savedImports.find((song) => song.id === songId)?.title ?? 'Select cached song...'}</SelectValue></SelectTrigger><SelectContent>{savedImports.map((song) => <SelectItem key={song.id} value={song.id}>{song.title}</SelectItem>)}</SelectContent></Select></Field> : <p className="editor-hint">No cached songs yet. Use Config to import from YouTube.</p>}<Field><FieldLabel>Beatmap</FieldLabel><Select value={beatmap?.id ?? null} onValueChange={(beatmapId) => { if (beatmapId && confirmDiscardChanges()) void loadBeatmap(beatmapId) }} disabled={!importedSong || (!beatmap && songBeatmaps.length === 0)}><SelectTrigger className="ui-select"><SelectValue>{(beatmapId: string | null) => { if (beatmap?.id === beatmapId) return `${mapTitle} (${beatmap.notes.length}) ${'★'.repeat(difficulty)}`; const selectedMap = songBeatmaps.find((map) => map.id === beatmapId); if (selectedMap) return `${selectedMap.title} (${selectedMap.noteCount}) ${'★'.repeat(selectedMap.difficulty ?? 1)}`; return songBeatmaps.length || beatmap ? 'Select beatmap...' : 'No beatmaps' }}</SelectValue></SelectTrigger><SelectContent>{beatmap && !songBeatmaps.some((map) => map.id === beatmap.id) && <SelectItem value={beatmap.id}>{mapTitle} (unsaved) {'★'.repeat(difficulty)}</SelectItem>}{songBeatmaps.map((map) => <SelectItem key={map.id} value={map.id}>{map.title} ({map.noteCount}) {'★'.repeat(map.difficulty ?? 1)}</SelectItem>)}</SelectContent></Select></Field>{activeTab === 'editor' && <><div className="beatmap-action-grid"><Button type="button" variant="secondary" onClick={() => void saveBeatmap(false)} disabled={!beatmap || !importedSong} tooltip="Save changes"><Save />Save</Button><Button type="button" variant="secondary" onClick={createBlankBeatmap} disabled={!importedSong} tooltip="Create an empty beatmap"><FilePlus2 />Create</Button><div className="inline-popover"><Button type="button" variant="secondary" onClick={() => { setRenameDraft(mapTitle); setRenameOpen((open) => !open) }} disabled={!beatmap} tooltip="Rename this beatmap"><Edit3 />Rename</Button>{renameOpen && <div className="inline-popover__panel"><button type="button" className="popover-close" onClick={() => setRenameOpen(false)} aria-label="Close rename dialog"><X /></button><div className="popover-title">Rename beatmap</div><Input value={renameDraft} onChange={(event) => setRenameDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); applyRenameBeatmap(event.currentTarget.value) } }} autoFocus /><div className="popover-actions popover-actions--single"><Button type="button" variant="secondary" size="sm" onClick={() => applyRenameBeatmap()}><Check />Apply</Button></div></div>}</div><Button type="button" variant="secondary" onClick={() => void saveBeatmap(true)} disabled={!beatmap || !importedSong} tooltip="Save a duplicate beatmap"><CopyPlus />Duplicate</Button><div className="inline-popover"><Button type="button" variant="secondary" onClick={() => setDifficultyOpen((open) => !open)} disabled={!beatmap} tooltip={`Difficulty ${difficulty}`} style={{ color: difficultyColor }}><Star fill="currentColor" />Difficulty</Button>{difficultyOpen && <div className="inline-popover__panel"><div className="popover-title">Difficulty</div><Slider min={1} max={5} step={1} value={[difficulty]} onValueChange={(value) => setBeatmapDifficulty(Array.isArray(value) ? value[0] : value)} /><div className="popover-actions"><span style={{ color: difficultyColor }}><Star size={14} fill="currentColor" /> Level {difficulty}</span><Button type="button" variant="secondary" size="sm" onClick={() => setDifficultyOpen(false)}><Check />Done</Button></div></div>}</div><div className="inline-popover"><Button type="button" variant="warning" onClick={() => setDeleteOpen((open) => !open)} disabled={!beatmap || !importedSong || !songBeatmaps.some((map) => map.id === beatmap.id)} tooltip="Delete this saved beatmap"><Trash2 />Delete</Button>{deleteOpen && <div className="inline-popover__panel inline-popover__panel--danger"><button type="button" className="popover-close" onClick={() => setDeleteOpen(false)} aria-label="Close delete confirmation"><X /></button><div className="popover-title">Delete beatmap?</div><p>This removes {mapTitle} from this song.</p><div className="popover-actions popover-actions--single"><Button type="button" variant="warning" size="sm" onClick={() => void deleteBeatmap()}><Trash2 />Delete</Button></div></div>}</div></div><div className="beatmap-secondary-actions"><Button type="button" variant="ghost" onClick={exportBeatmap} disabled={!beatmap} tooltip="Export beatmap JSON"><Download />Export</Button><Button type="button" variant="ghost" onClick={clearBeatmapEvents} disabled={!beatmap} tooltip="Remove all notes from this beatmap"><Edit3 />Wipe notes</Button></div>{tapMode && <p className="editor-hint">Tap tempo is listening for lane keys. Use the main pane's Tap button to save.</p>}</>}</Card>
   const judgementText = lastAutoMiss ? 'miss' : lastResult ? lastResult.grade : 'ready'
   const gradeColor = lastAutoMiss ? judgementCssVars.miss : lastResult?.grade === 'perfect' ? judgementCssVars.perfect : lastResult?.grade === 'good' ? judgementCssVars.good : undefined
   const timingColor = lastResult?.success ? gradeColor : lastResult ? (lastResult.deltaMs < 0 ? judgementCssVars.early : judgementCssVars.late) : undefined
@@ -1279,6 +1351,7 @@ function App() {
               {importStatus && <p className={`import-status${importStatus.toLowerCase().includes('failed') ? ' import-status--error' : ''}`}>{importStatus}</p>}
             </CardContent>
           </Card>
+          <Card><CardHeader><CardTitle>Beatmap backups</CardTitle><CardDescription>Saved maps live in this browser. Export your library regularly to keep an independent backup.</CardDescription></CardHeader><Stack><Button type="button" variant="secondary" onClick={() => void exportLibrary()}><Download />Export library</Button><input ref={libraryImportInputRef} type="file" accept="application/json,.json" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void importLibrary(file); event.currentTarget.value = '' }} /><Button type="button" variant="secondary" onClick={() => libraryImportInputRef.current?.click()}>Import library</Button></Stack></Card>
           <Card><CardHeader><CardTitle>Controls</CardTitle><CardDescription>Configure keyboard event codes and Xbox-style gamepad buttons for each lane.</CardDescription></CardHeader><div className="controls-grid">{lanes.map((lane) => <div key={lane} className="control-row"><strong style={{ color: laneColor[lane] }}>{lane}</strong><Input value={controls[lane].keyboard} onChange={(event) => setControls((current) => ({ ...current, [lane]: { ...current[lane], keyboard: event.target.value } }))} /><Select value={String(controls[lane].gamepadButton)} onValueChange={(button) => setControls((current) => ({ ...current, [lane]: { ...current[lane], gamepadButton: Number(button) } }))}><SelectTrigger className="ui-select"><SelectValue>{(button: string | null) => button === null ? 'Select button...' : gamepadButtonLabels[Number(button)]}</SelectValue></SelectTrigger><SelectContent>{Object.entries(gamepadButtonLabels).map(([button, label]) => <SelectItem key={button} value={button}>{label}</SelectItem>)}</SelectContent></Select></div>)}</div><Button type="button" variant="secondary" onClick={() => setControls(defaultControls)} tooltip="Restore default keyboard and gamepad bindings">Reset controls</Button></Card>
         </>}
 

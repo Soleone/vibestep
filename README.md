@@ -14,50 +14,40 @@ Beat Fiend is a local-first tiny beatmap DAW with a rhythm-game playtest mode. T
 
 ## Quickstart
 
-Install dependencies:
+Requirements:
+
+- Node.js 24 or newer
+- npm
+- Linux x64 or Windows x64
+- Internet access during installation and YouTube imports
+- A modern browser
+
+Install dependencies and start Beat Fiend:
 
 ```bash
 npm install
-```
-
-Run the full local tool, including the React app and local import/save server:
-
-```bash
 npm run dev:all
 ```
 
-Open the Vite URL, usually:
+The first companion startup downloads about 140 MB of pinned, checksum-verified media tools. It then opens Beat Fiend automatically. If the browser does not open, visit:
 
 ```txt
 http://localhost:5173
 ```
 
+No system installation of yt-dlp, FFmpeg, or ffprobe is required on Linux x64 or Windows x64. macOS, ARM64, and other platforms currently require trusted tool paths through `BEAT_FIEND_YT_DLP`, `BEAT_FIEND_FFMPEG`, and `BEAT_FIEND_FFPROBE`.
+
+The development command starts:
+
+- Beat Fiend on `http://localhost:5173`
+- The legacy import/save server on `http://localhost:5174`
+- The local audio companion on `http://127.0.0.1:47831`
+
 ## Local YouTube import
 
-YouTube import is local/dev-only. It shells out to:
+Start Beat Fiend, open **Config**, pair the local companion if necessary, and paste a YouTube URL. The companion downloads and normalizes the audio locally. Re-importing the same URL reuses its cached audio.
 
-- `yt-dlp`
-- `ffmpeg`
-- `ffprobe`
-
-Install them first, for example:
-
-```bash
-sudo apt install ffmpeg yt-dlp
-```
-
-Then use the **Config** tab to paste a YouTube URL. Imported songs are cached under:
-
-```txt
-public/imports/<songId>/
-  audio.mp3
-  source.webm
-  meta.json
-  beatmap.json
-  beatmaps/
-```
-
-Re-importing the same URL reuses the cached song instead of downloading it again.
+Beatmaps remain in browser storage and can be backed up with **Config → Beatmap backups → Export library**. Companion audio remains local and is not included in beatmap exports.
 
 ## App tabs
 

@@ -7,7 +7,7 @@ The companion is a headless local audio service for the hosted Beat Fiend web ap
 Requirements:
 
 - Node.js 24 or newer
-- `yt-dlp`, `ffmpeg`, and `ffprobe` on `PATH`
+- Internet access on first run to install checksum-verified media tools
 
 ```bash
 npm install
@@ -37,7 +37,18 @@ Rotating the secret invalidates paired browsers. Restart normally to pair again.
 
 ## Tool provisioning
 
-`companion/tools.js` contains the checksum-verified provisioning mechanism. Its production manifest is intentionally empty until Linux and Windows binary URLs and SHA-256 checksums are reviewed. Development uses commands on `PATH` or explicit command-path overrides. A production distribution must populate the reviewed manifest before enabling automatic first-run downloads.
+On first startup, `companion/tools.js` downloads release-pinned, checksum-verified x64 tools into the companion data directory. Later startups verify the cached files before reusing them. A corrupted or modified file is replaced from its pinned release.
+
+Reviewed targets:
+
+- Linux x64: official yt-dlp 2026.07.04 standalone binary; Shaka static FFmpeg and ffprobe 8.0.1-1
+- Windows x64: official yt-dlp 2026.07.04 executable; Shaka static FFmpeg and ffprobe 8.0.1-1
+
+The manifest uses immutable, version-specific download URLs rather than `latest` URLs. SHA-256 values are pinned from the corresponding upstream release metadata. GitHub redirects are allowed because the downloaded bytes must match the pinned checksum before installation.
+
+Unsupported platforms must provide all required trusted command paths through `BEAT_FIEND_YT_DLP`, `BEAT_FIEND_FFMPEG`, and `BEAT_FIEND_FFPROBE`. These overrides are also useful for development and offline installation.
+
+The standalone yt-dlp executable and the selected FFmpeg builds include GPL-licensed components. A distributed companion installer must ship the applicable third-party notices and satisfy source-offer requirements before release.
 
 ## Security boundary
 

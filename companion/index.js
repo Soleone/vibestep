@@ -4,7 +4,7 @@ import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { createCompanionApp, DEFAULT_PORT } from './server.js'
-import { configuredTools } from './tools.js'
+import { provisionCompanionTools } from './tools.js'
 
 export function defaultDataDir(platform = process.platform, env = process.env) {
   if (env.BEAT_FIEND_COMPANION_DATA_DIR) return path.resolve(env.BEAT_FIEND_COMPANION_DATA_DIR)
@@ -37,7 +37,9 @@ export async function startCompanion(env = process.env, argv = process.argv.slic
   if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid companion port')
   const webUrl = env.BEAT_FIEND_WEB_URL ?? 'http://localhost:5173/'
   const allowedOrigins = (env.BEAT_FIEND_ALLOWED_ORIGINS ?? 'http://localhost:5173,http://127.0.0.1:5173').split(',').map((value) => value.trim()).filter(Boolean)
-  const { app, secret } = await createCompanionApp({ port, dataDir, allowedOrigins, webUrl, tools: configuredTools(env) })
+  console.log('Checking pinned media tools...')
+  const tools = await provisionCompanionTools({ dataDir, env })
+  const { app, secret } = await createCompanionApp({ port, dataDir, allowedOrigins, webUrl, tools })
   const server = app.listen(port, '127.0.0.1', () => {
     const pairing = Buffer.from(JSON.stringify({ credential: secret, baseUrl: `http://127.0.0.1:${port}` })).toString('base64url')
     const target = new URL(webUrl)

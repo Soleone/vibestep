@@ -3,7 +3,7 @@
   "songId": "vLM24sL-Ee",
   "title": "Soleone",
   "difficulty": 1,
-  "version": 12,
+  "version": 13,
   "bpm": 130,
   "beatOffsetMs": 1096.151,
   "durationMs": 247281,
@@ -370,8 +370,8 @@
     },
     {
       "id": "manual-1783736457926-26712",
-      "impactTimeMs": 26480.76638461539,
-      "rawTimeMs": 26484.921383265857,
+      "impactTimeMs": 26596.151,
+      "rawTimeMs": 26600.30599865047,
       "lane": "snare",
       "strength": 1,
       "source": "manual-grid"
@@ -441,6 +441,6 @@
       "source": "manual-grid"
     }
   ],
-  "updatedAt": "2026-07-11T02:21:38.689Z",
+  "updatedAt": "2026-07-12T21:01:13.919Z",
   "createdAt": "2026-07-10T23:24:33.950Z"
 }

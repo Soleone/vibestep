@@ -4,7 +4,7 @@ import './App.css'
 import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Disclosure, DisclosureSummary, Field, FieldLabel, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Slider, Stack, Tabs, TabsList, TabsTrigger } from './components/ui'
 import { Toolbar } from './components/Toolbar'
 import { CompanionClient, type CompanionAudio } from './companion/client'
-import { parseSongPackage, SONG_PACKAGE_SCHEMA, SONG_PACKAGE_VERSION, type SongPackage } from './domain/song-package'
+import { migrateLegacySongPackage, parseSongPackage, SONG_PACKAGE_SCHEMA, SONG_PACKAGE_VERSION, type SongPackage } from './domain/song-package'
 import { EditorTimeline } from './editor/EditorTimeline'
 import { HitNotify } from './game/HitNotify'
 import { judgeParryTiming, type ParryTimingResult } from './game/timing'
@@ -873,6 +873,67 @@ function App() {
     downloadJson({ ...beatmap, title: mapTitle, difficulty, bpm, beatOffsetMs }, `${beatmap.id}-edited.beatmap.json`)
   }, [beatOffsetMs, beatmap, bpm, difficulty, mapTitle])
 
+  const migrateLegacyMaps = useCallback(async () => {
+    if (!companion.paired) {
+      setImportStatus('Start and pair the companion before migrating legacy maps.')
+      return
+    }
+    try {
+      setImportStatus('Scanning legacy maps...')
+      const data = await fetchJson('/api/imports')
+      const legacyImports = (data.imports ?? []) as ImportResult[]
+      const existingIds = new Set((await packageRepository.list()).map((item) => item.id))
+      const candidates = await Promise.all(legacyImports.filter((song) => !existingIds.has(song.id)).map(async (song) => {
+        const summaries = song.beatmaps ?? []
+        const maps = await Promise.all(summaries.map((map) => fetchJson(map.url)))
+        const customMaps = maps.filter((map) => {
+          const record = map as Record<string, unknown>
+          const id = typeof record.id === 'string' ? record.id.toLowerCase() : ''
+          return record.source !== 'auto' && id !== 'auto-kick-snare' && !id.startsWith('auto-')
+        })
+        return { song, customMaps, generatedCount: maps.length - customMaps.length }
+      }))
+      const migratable = candidates.filter((candidate) => candidate.customMaps.length > 0)
+      const mapCount = migratable.reduce((total, candidate) => total + candidate.customMaps.length, 0)
+      const generatedCount = candidates.reduce((total, candidate) => total + candidate.generatedCount, 0)
+      if (mapCount === 0) {
+        setImportStatus('No unmigrated custom maps were found.')
+        return
+      }
+      if (!window.confirm(`Migrate ${mapCount} custom map${mapCount === 1 ? '' : 's'} from ${migratable.length} legacy song${migratable.length === 1 ? '' : 's'}? ${generatedCount} generated map${generatedCount === 1 ? '' : 's'} will be excluded. Missing companion audio will be imported again from its source URL.`)) return
+
+      let migratedSongs = 0
+      let migratedMaps = 0
+      const failures: string[] = []
+      for (const { song, customMaps } of migratable) {
+        try {
+          if (!song.sourceUrl) throw new Error('no source URL is available to match companion audio')
+          const matched = await companion.lookupSource(song.sourceUrl)
+          let audio = matched.audio
+          if (!audio) {
+            const job = await companion.startImport(song.sourceUrl)
+            const complete = job.state === 'complete' ? job : await companion.waitForImport(job.id, (progress) => setImportStatus(`Preparing audio for ${song.title}: ${progress.progress}%`))
+            audio = complete.audio ?? null
+          }
+          if (!audio) throw new Error('companion audio could not be prepared')
+          const songPackage = migrateLegacySongPackage({ id: song.id, title: song.title, sourceUrl: song.sourceUrl, durationMs: song.durationMs, bpm: song.bpm, beatOffsetMs: song.beatOffsetMs, beatmaps: customMaps })
+          await packageRepository.put(songPackage)
+          await packageRepository.setAudioAssociation(songPackage.id, { audioId: audio.audioId, sourceUrl: song.sourceUrl, updatedAt: new Date().toISOString() })
+          migratedSongs += 1
+          migratedMaps += songPackage.beatmaps.length
+        } catch (error) {
+          failures.push(`${song.title}: ${error instanceof Error ? error.message : 'migration failed'}`)
+        }
+      }
+      await loadImports()
+      setImportStatus(failures.length > 0
+        ? `Migrated ${migratedMaps} maps from ${migratedSongs} songs. ${failures.length} failed: ${failures.join('; ')}`
+        : `Migrated ${migratedMaps} custom maps from ${migratedSongs} songs into browser storage.`)
+    } catch (error) {
+      setImportStatus(error instanceof Error ? `Legacy migration failed: ${error.message}` : 'Legacy migration failed')
+    }
+  }, [companion, fetchJson, loadImports, packageRepository])
+
   const exportLibrary = useCallback(async () => {
     try {
       const summaries = await packageRepository.list()
@@ -1351,7 +1412,7 @@ function App() {
               {importStatus && <p className={`import-status${importStatus.toLowerCase().includes('failed') ? ' import-status--error' : ''}`}>{importStatus}</p>}
             </CardContent>
           </Card>
-          <Card><CardHeader><CardTitle>Beatmap backups</CardTitle><CardDescription>Saved maps live in this browser. Export your library regularly to keep an independent backup.</CardDescription></CardHeader><Stack><Button type="button" variant="secondary" onClick={() => void exportLibrary()}><Download />Export library</Button><input ref={libraryImportInputRef} type="file" accept="application/json,.json" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void importLibrary(file); event.currentTarget.value = '' }} /><Button type="button" variant="secondary" onClick={() => libraryImportInputRef.current?.click()}>Import library</Button></Stack></Card>
+          <Card><CardHeader><CardTitle>Beatmap backups</CardTitle><CardDescription>Saved maps live in this browser. Export your library regularly to keep an independent backup.</CardDescription></CardHeader><Stack><Button type="button" variant="secondary" onClick={() => void exportLibrary()}><Download />Export library</Button><input ref={libraryImportInputRef} type="file" accept="application/json,.json" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void importLibrary(file); event.currentTarget.value = '' }} /><Button type="button" variant="secondary" onClick={() => libraryImportInputRef.current?.click()}>Import library</Button><Button type="button" variant="ghost" onClick={() => void migrateLegacyMaps()} disabled={!companion.paired}>Migrate legacy custom maps</Button></Stack></Card>
           <Card><CardHeader><CardTitle>Controls</CardTitle><CardDescription>Configure keyboard event codes and Xbox-style gamepad buttons for each lane.</CardDescription></CardHeader><div className="controls-grid">{lanes.map((lane) => <div key={lane} className="control-row"><strong style={{ color: laneColor[lane] }}>{lane}</strong><Input value={controls[lane].keyboard} onChange={(event) => setControls((current) => ({ ...current, [lane]: { ...current[lane], keyboard: event.target.value } }))} /><Select value={String(controls[lane].gamepadButton)} onValueChange={(button) => setControls((current) => ({ ...current, [lane]: { ...current[lane], gamepadButton: Number(button) } }))}><SelectTrigger className="ui-select"><SelectValue>{(button: string | null) => button === null ? 'Select button...' : gamepadButtonLabels[Number(button)]}</SelectValue></SelectTrigger><SelectContent>{Object.entries(gamepadButtonLabels).map(([button, label]) => <SelectItem key={button} value={button}>{label}</SelectItem>)}</SelectContent></Select></div>)}</div><Button type="button" variant="secondary" onClick={() => setControls(defaultControls)} tooltip="Restore default keyboard and gamepad bindings">Reset controls</Button></Card>
         </>}
 

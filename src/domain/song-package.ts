@@ -173,7 +173,7 @@ export function migrateLegacySongPackage(value: LegacySongPackage, now = new Dat
   const title = isNonEmptyString(value.title) ? value.title : 'Imported song'
   const durationMs = isFiniteNumber(value.durationMs) && value.durationMs >= 0 ? value.durationMs : 0
   const bpm = isFiniteNumber(value.bpm) && value.bpm > 0 ? value.bpm : 120
-  const beatOffsetMs = isFiniteNumber(value.beatOffsetMs) && value.beatOffsetMs >= 0 ? value.beatOffsetMs : 0
+  const beatOffsetMs = isFiniteNumber(value.beatOffsetMs) ? value.beatOffsetMs : 0
   const source = isNonEmptyString(value.sourceUrl) ? [{ kind: 'youtube' as const, url: value.sourceUrl }] : [{ kind: 'file-description' as const, label: title }]
   const rawMaps = (Array.isArray(value.beatmaps) ? value.beatmaps : value.beatmap ? [value.beatmap] : []).filter(isRecord)
   const timingProfiles: TimingProfile[] = [{ id: 'default', name: 'Default', bpm, beatOffsetMs, timeSignature: [4, 4] }]

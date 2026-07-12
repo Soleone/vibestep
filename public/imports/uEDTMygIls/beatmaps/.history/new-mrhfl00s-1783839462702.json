@@ -2,8 +2,8 @@
   "id": "new-mrhfl00s",
   "songId": "uEDTMygIls",
   "title": "Soleone",
-  "difficulty": 2,
-  "version": 5,
+  "difficulty": 1,
+  "version": 4,
   "bpm": 130,
   "beatOffsetMs": 1384.615,
   "durationMs": 93231,
@@ -391,6 +391,6 @@
       "source": "manual-hold-paste-paste"
     }
   ],
-  "updatedAt": "2026-07-12T06:57:42.702Z",
+  "updatedAt": "2026-07-12T06:56:54.170Z",
   "createdAt": "2026-07-12T06:48:30.993Z"
 }

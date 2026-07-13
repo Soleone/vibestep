@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:companion": "node companion/index.js",
-    "dev:all": "concurrently \"npm run dev:companion\" \"npm run dev\"",
+    "dev:all": "cross-env BEAT_FIEND_WEB_URL=http://localhost:5173 concurrently \"npm run dev:companion\" \"npm run dev\"",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "node --test companion/**/*.test.js desktop/**/*.test.js && node --experimental-transform-types --test tests/**/*.test.mts",
@@ -34,6 +34,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "concurrently": "^10.0.3",
+    "cross-env": "^10.1.0",
     "electron": "^43.1.0",
     "electron-builder": "^26.15.3",
     "lucide-react": "^1.24.0",

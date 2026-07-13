@@ -8,33 +8,36 @@ Beat Fiend is a local-first beatmap studio with a rhythm-game playtest mode. Imp
 
 Open **[beatfiend.vercel.app](https://beatfiend.vercel.app)** in a modern desktop browser. No account or installation is required. Chrome or Edge on Windows is the currently tested setup.
 
-### Add an audio file
+### 1. Playing
 
-1. Open **Config**.
-2. Under **Import audio**, select **Choose an audio file**.
-3. Choose a supported MP3, M4A, WebM, Ogg, or WAV file.
-4. Wait for Beat Fiend to load the song and its empty custom beatmap.
+To play an existing map:
+
+1. Import its shared JSON bundle from the **Beatmaps** card, or select a map already in your local library.
+2. Provide the corresponding audio. Under **Config → Import audio**, choose a supported MP3, M4A, WebM, Ogg, or WAV file.
+3. Open **Play**, select the song and beatmap, then start playback.
 
 The file is copied into this browser profile's IndexedDB storage. It is not uploaded to Beat Fiend.
 
-### Import from YouTube
+For YouTube audio, install the optional Windows companion from **Config → Download companion for Windows**. Run `Beat-Fiend-Companion-Setup.exe`, keep its window open, paste a supported YouTube URL, then select **Import**. The unsigned early installer may require **More info → Run anyway**. Confirm that it came from `github.com/Soleone/beatfiend`.
 
-YouTube import uses the optional Windows companion:
+First companion launch downloads checksum-verified media tools and can take longer. YouTube audio remains in its private cache. Closing the companion stops it completely.
 
-1. Open **Config** and select **Download companion for Windows**.
-2. Run `Beat-Fiend-Companion-Setup.exe`. The early installer is unsigned, so Windows may require **More info → Run anyway**. Confirm that it came from `github.com/Soleone/beatfiend`.
-3. Keep the companion window open while importing. It opens Beat Fiend and pairs the browser automatically.
-4. Paste a supported YouTube URL under **Import audio**, then select **Import**.
+### 2. Editing
 
-First launch downloads checksum-verified media tools and can take longer. YouTube audio remains in the companion cache on this computer. Closing the companion window stops it completely. The companion is not needed for file uploads, editing, playtesting, backups, or shared beatmap metadata.
+Before recording or moving notes, establish these two essentials:
 
-### Create and play a beatmap
+1. **Find the song's BPM.** Look it up, enter a known value, or use **Start tap** in the Editor to tap along and detect it.
+2. **Set beat 1.** Move the playhead to the first downbeat, then select **Set beat 1 here**.
 
-1. Open **Editor** and select the song and beatmap.
-2. Set the BPM and place beat 1 on the correct downbeat.
-3. Arm lanes, choose add or replace recording, then record along with playback.
+These values define the beat grid. If either is wrong, snapping, quantization, bar repeats, timeline grid lines, and rhythm timing will not line up reliably. Recording purely by feel can still capture input, but later editing against the grid will fail.
+
+Once the foundation is correct:
+
+1. Select the song and beatmap in **Editor**.
+2. Arm the lanes you want to record.
+3. Choose add or replace recording, then perform along with playback.
 4. Refine notes in the timeline and select **Save**.
-5. Open **Play** to playtest the saved map.
+5. Open **Play** to test the finished map.
 
 ## Default controls
 

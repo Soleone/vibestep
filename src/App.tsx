@@ -5,6 +5,7 @@ import { Badge, Button, Card, CardDescription, CardHeader, CardTitle, Disclosure
 import { ConfigSection } from './components/ConfigSection'
 import { Toolbar } from './components/Toolbar'
 import { CompanionClient, type CompanionAudio } from './companion/client'
+import { COMPANION_WINDOWS_DOWNLOAD_URL } from './config'
 import { createShareBundle, parseShareBundle, SHARE_BUNDLE_SCHEMA } from './domain/share-bundle'
 import { parseSongPackage, SONG_PACKAGE_SCHEMA, SONG_PACKAGE_VERSION, type SongPackage } from './domain/song-package'
 import { EditorTimeline } from './editor/EditorTimeline'
@@ -1375,6 +1376,8 @@ function App() {
         {activeTab === 'config' && <>
           <ConfigSection className="import-card" icon={<Headphones />} title="Import audio" description="Choose a file in any browser. The companion additionally enables YouTube imports and local caching." status={<Badge tone={companionStatus === 'paired' ? 'success' : companionStatus === 'available' ? 'warning' : companionStatus === 'offline' ? 'danger' : 'muted'}>{companionStatus}</Badge>}>
             <div className="import-card__content">
+              {companionStatus === 'offline' && <Button type="button" onClick={() => window.location.assign(COMPANION_WINDOWS_DOWNLOAD_URL)}>Download companion for Windows</Button>}
+              {companionStatus === 'available' && <Button type="button" onClick={() => companion.pair()}>Pair companion</Button>}
               <div className="url-row">
                 <Input type="url" aria-label="YouTube URL" placeholder="Paste a YouTube URL" value={youtubeUrl} onChange={(event) => setYoutubeUrl(event.target.value)} />
                 <Button type="button" variant="secondary" onClick={activeImportJobId ? cancelCompanionImport : importYoutube} tooltip={activeImportJobId ? 'Cancel local import' : 'Import YouTube audio locally'}>{activeImportJobId ? 'Cancel' : 'Import'}</Button>

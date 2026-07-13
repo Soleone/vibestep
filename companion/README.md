@@ -24,7 +24,9 @@ The companion opens the hosted Beat Fiend app with a one-time pairing credential
 - `BEAT_FIEND_COMPANION_DATA_DIR`: private cache and secret directory
 - `BEAT_FIEND_YT_DLP`, `BEAT_FIEND_FFMPEG`, `BEAT_FIEND_FFPROBE`: trusted command paths
 
-The packaged companion should use the centralized hosted default without requiring environment variables or command-line setup. Do not use wildcard origins or bind the server to a public interface.
+The packaged companion uses the centralized hosted default without requiring environment variables or command-line setup. Do not use wildcard origins or bind the server to a public interface.
+
+Windows packaging, update, and publishing instructions are in [RELEASE.md](./RELEASE.md). Third-party media tool information is in [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
 
 ## Maintenance
 

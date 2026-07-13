@@ -1,0 +1,25 @@
+:root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #edf3ff; background: #090b14; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 50% 0%, #182543, #090b14 58%); }
+main { width: min(100%, 440px); margin: 0 auto; padding: 34px 32px 28px; text-align: center; }
+.logo { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 12px 32px #0008; }
+.eyebrow { margin: 18px 0 5px; color: #7df9ff; font-size: 11px; font-weight: 800; letter-spacing: .22em; }
+h1 { margin: 0 0 24px; font-size: 27px; }
+.status-card, .update-card { border: 1px solid #ffffff18; border-radius: 14px; background: #ffffff08; text-align: left; }
+.status-card { display: flex; align-items: flex-start; gap: 12px; padding: 17px; }
+.status-card p, .update-card p, .privacy { color: #aab4ca; font-size: 13px; line-height: 1.5; }
+.status-card p { margin: 4px 0 0; }
+.indicator { width: 11px; height: 11px; margin-top: 4px; flex: 0 0 auto; border-radius: 50%; background: #ffd166; box-shadow: 0 0 14px currentColor; }
+.indicator.ready { background: #83ff70; }
+.indicator.error { background: #ff5570; }
+.primary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+button { min-height: 42px; border: 1px solid #ffffff22; border-radius: 10px; color: #edf3ff; background: #171b29; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+button:hover { background: #22283a; }
+button.primary { border-color: #4da3ff88; background: #2867b7; }
+button.primary:hover { background: #3478cf; }
+button.quiet { min-height: 34px; padding: 0 14px; color: #aab4ca; background: transparent; }
+.update-card { padding: 15px 17px; }
+.update-card p { min-height: 20px; margin: 5px 0 10px; }
+.update-card button { margin-right: 8px; }
+.privacy { margin: 18px 8px 12px; }
+.hidden { display: none; }

@@ -44,15 +44,18 @@ export async function startCompanion(env = process.env, argv = process.argv.slic
   console.log('Checking pinned media tools...')
   const tools = await provisionCompanionTools({ dataDir, env })
   const { app, secret } = await createCompanionApp({ port, dataDir, allowedOrigins, webUrl, tools })
-  const server = app.listen(port, '127.0.0.1', () => {
-    const pairing = Buffer.from(JSON.stringify({ credential: secret, baseUrl: `http://127.0.0.1:${port}` })).toString('base64url')
-    const target = new URL(webUrl)
-    target.hash = `beat-fiend-companion=${pairing}`
-    console.log(`Beat Fiend Companion ${port} is ready on loopback.`)
-    console.log('Audio stays in the local companion data directory.')
-    console.log(`Pair manually if needed: http://127.0.0.1:${port}/v1/pair`)
-    if (!argv.includes('--no-open')) setTimeout(() => openUrl(target.toString()), 750)
+  const server = app.listen(port, '127.0.0.1')
+  await new Promise((resolve, reject) => {
+    server.once('listening', resolve)
+    server.once('error', reject)
   })
+  const pairing = Buffer.from(JSON.stringify({ credential: secret, baseUrl: `http://127.0.0.1:${port}` })).toString('base64url')
+  const target = new URL(webUrl)
+  target.hash = `beat-fiend-companion=${pairing}`
+  console.log(`Beat Fiend Companion ${port} is ready on loopback.`)
+  console.log('Audio stays in the local companion data directory.')
+  console.log(`Pair manually if needed: http://127.0.0.1:${port}/v1/pair`)
+  if (!argv.includes('--no-open')) setTimeout(() => openUrl(target.toString()), 750)
   return server
 }
 

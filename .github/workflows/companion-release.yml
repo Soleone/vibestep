@@ -1,0 +1,45 @@
+name: Release Windows companion
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - companion-v*
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: windows-2025
+    environment: companion-release
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Test application
+        run: npm test
+
+      - name: Build hosted application
+        run: npm run build
+
+      - name: Build and publish installer
+        run: npm run companion:release:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Attest installer
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: release/Beat-Fiend-Companion-Setup.exe

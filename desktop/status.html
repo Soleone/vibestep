@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self';">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beat Fiend Companion</title>
+  <link rel="stylesheet" href="status.css">
+</head>
+<body>
+  <main>
+    <img class="logo" src="icon.png" alt="">
+    <p class="eyebrow">BEAT FIEND</p>
+    <h1>Audio Companion</h1>
+    <section class="status-card" aria-live="polite">
+      <span id="indicator" class="indicator starting"></span>
+      <div><strong id="state">Starting</strong><p id="message">Preparing the local audio tools...</p></div>
+    </section>
+    <div class="primary-actions">
+      <button id="open" class="primary">Open Beat Fiend</button>
+      <button id="pair">Pair this browser</button>
+    </div>
+    <section class="update-card">
+      <strong>Updates</strong>
+      <p id="update">Updates are checked automatically.</p>
+      <button id="check-update" class="quiet">Check for updates</button>
+      <button id="install-update" class="primary hidden">Restart and install</button>
+    </section>
+    <p class="privacy">Audio stays on this computer. The companion listens only on the local loopback interface.</p>
+    <button id="quit" class="quiet">Quit companion</button>
+  </main>
+  <script src="status.js"></script>
+</body>
+</html>

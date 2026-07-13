@@ -463,6 +463,7 @@ input[type='range'],
 .timeline-note-end { position: absolute; top: -5px; right: -7px; width: 14px; height: calc(100% + 10px); border-radius: 5px; cursor: ew-resize; background: color-mix(in srgb, currentColor 74%, white); box-shadow: 0 0 9px currentColor; touch-action: none; }
 .timeline-note-end:hover { transform: scaleX(1.2); filter: brightness(1.3); }
 .timeline i.pending { width: 8px; height: 14px; outline: 1px solid rgba(255, 255, 255, 0.8); z-index: 2; }
+.timeline i.recording { pointer-events: none; outline: 2px solid rgba(255, 255, 255, 0.95); background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.45) 0 8px, transparent 8px 15px); box-shadow: 0 0 14px currentColor; }
 .timeline i.selected { outline: 2px solid rgba(255, 255, 255, 0.95); z-index: 4; box-shadow: 0 0 0 4px color-mix(in srgb, var(--ff-accent) 18%, transparent), 0 0 16px currentColor; }
 .timeline i.triggered { z-index: 5; animation: timeline-note-trigger 180ms ease-out both; }
 .timeline i.hold.triggered { transform-origin: left center; animation-name: timeline-hold-trigger; }

@@ -62,7 +62,13 @@ export function normalizeLane(lane: unknown): Lane {
 }
 
 export function normalizeBeatmap(beatmap: Beatmap): Beatmap {
-  return { ...beatmap, beatOffsetMs: beatmap.beatOffsetMs ?? 0, notes: beatmap.notes.map((note) => ({ ...note, lane: normalizeLane(note.lane) })) }
+  return {
+    ...beatmap,
+    beatOffsetMs: beatmap.beatOffsetMs ?? 0,
+    notes: beatmap.notes
+      .map((note) => ({ ...note, lane: normalizeLane(note.lane) }))
+      .sort((a, b) => a.impactTimeMs - b.impactTimeMs),
+  }
 }
 
 export function makeBeatmapAttack(timeUntilImpactMs: number, lane: Lane, durationMs?: number, noteId?: string, scheduleKey?: string): Attack {

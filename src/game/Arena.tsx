@@ -6,6 +6,13 @@ import { useRef } from 'react'
 import { attackPhase } from './timing'
 import { clamp01, judgementColors, laneColor, laneY, type Attack, type FeedbackEvent, type Lane, type Tuning } from './model'
 
+const basePadColors = Object.fromEntries(Object.entries(laneColor).map(([lane, color]) => [lane, new Color(color)])) as Record<Lane, Color>
+const basePadEmissives = Object.fromEntries(Object.entries(laneColor).map(([lane, color]) => [lane, new Color(color).multiplyScalar(0.35)])) as Record<Lane, Color>
+const feedbackColors = {
+  perfect: new Color(judgementColors.perfect),
+  good: new Color(judgementColors.good),
+}
+
 function holdVisualLength(durationMs = 0) {
   return Math.min(1.45, 0.42 + durationMs / 2200)
 }
@@ -79,12 +86,18 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, held
   const burst = useRef<Group>(null)
   const grindSparks = useRef<Partial<Record<Lane, Group | null>>>({})
   const holdMeters = useRef<Partial<Record<Lane, Mesh | null>>>({})
+  const publishedPhase = useRef('queued')
   const primaryAttack = attacks[0]
 
   useFrame(() => {
     const now = performance.now()
     const attack = primaryAttack
-    onPhaseChange(attack ? (attackPhase(now, attack.startMs, attack.impactMs, tuning.recoveryMs) === 'windup' ? 'incoming' : attackPhase(now, attack.startMs, attack.impactMs, tuning.recoveryMs)) : 'queued')
+    const rawPhase = attack ? attackPhase(now, attack.startMs, attack.impactMs, tuning.recoveryMs) : 'queued'
+    const nextPhase = rawPhase === 'windup' ? 'incoming' : rawPhase
+    if (nextPhase !== publishedPhase.current) {
+      publishedPhase.current = nextPhase
+      onPhaseChange(nextPhase)
+    }
 
     const parryAge = now - parryPulse
     const feedbackAge = feedback ? now - feedback.startedAtMs : Number.POSITIVE_INFINITY
@@ -119,7 +132,7 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, held
 
     const shieldFlashDurationMs = 200
     const shieldFlash = feedbackAge < shieldFlashDurationMs && isSuccessfulParry ? Math.pow(Math.max(0, Math.sin((feedbackAge / shieldFlashDurationMs) * Math.PI * 4)), 0.35) * (1 - feedbackAge / shieldFlashDurationMs * 0.35) : 0
-    Object.entries(laneColor).forEach(([lane, color]) => {
+    Object.keys(laneColor).forEach((lane) => {
       const typedLane = lane as Lane
       const isHitLane = feedback?.lane === typedLane
       const padFlash = isHitLane ? shieldFlash : 0
@@ -152,12 +165,9 @@ export function Arena({ attacks, tuning, parryPulse, feedback, padTriggers, held
         holdMeter.position.x = -0.91 + meterLength * remaining / 2
       }
       if (material) {
-        const baseColor = new Color(color)
-        const flashColor = new Color(feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good)
-        const baseEmissive = new Color(color).multiplyScalar(0.35)
-        const flashEmissive = new Color(feedback?.kind === 'perfect-parry' ? judgementColors.perfect : judgementColors.good)
-        material.color.copy(baseColor.lerp(flashColor, padFlash))
-        material.emissive.copy(baseEmissive.lerp(flashEmissive, padFlash))
+        const flashColor = feedbackColors[feedback?.kind === 'perfect-parry' ? 'perfect' : 'good']
+        material.color.copy(basePadColors[typedLane]).lerp(flashColor, padFlash)
+        material.emissive.copy(basePadEmissives[typedLane]).lerp(flashColor, padFlash)
       }
     })
     if (burst.current) {

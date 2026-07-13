@@ -406,10 +406,14 @@ input[type='range'],
 .tap-panel span,
 .record-bar span { color: var(--ff-muted); font-size: 12px; }
 
-.import-card { padding: 22px; }
-.import-card__header { margin-bottom: 20px; }
-.import-card__heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.import-card__heading .ui-badge { margin: 0; }
+.config-section { padding: 20px; }
+.config-section__header { display: flex; grid-template-columns: none; align-items: center; gap: 12px; margin-bottom: 16px; }
+.config-section__icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 12px; color: var(--ff-accent); background: color-mix(in srgb, var(--ff-accent) 14%, transparent); border: 1px solid color-mix(in srgb, var(--ff-accent) 24%, transparent); }
+.config-section__icon svg { width: 19px; height: 19px; }
+.config-section__heading { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.config-section__title-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.config-section__title-row .ui-badge { flex: 0 0 auto; margin: 0; }
+.config-section__body { padding: 0; }
 .import-card__content { display: grid; gap: 14px; padding: 0; }
 .url-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; }
 .url-row .ui-button { min-width: 96px; }
@@ -421,6 +425,20 @@ input[type='range'],
 .editor-hint { color: var(--ff-muted); font-size: 13px; }
 .import-card .import-status { margin: 0; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.045); }
 .import-card .import-status--error { color: #ff9baa; background: color-mix(in srgb, var(--ff-danger) 12%, transparent); border: 1px solid color-mix(in srgb, var(--ff-danger) 26%, transparent); }
+
+.library-transfer-card { overflow: hidden; }
+.library-transfer-card__details { display: grid; gap: 8px; padding: 11px 12px; margin-bottom: 12px; border-radius: 13px; color: var(--ff-muted); background: rgba(255, 255, 255, 0.035); border: 1px solid rgba(255, 255, 255, 0.06); font-size: 12px; line-height: 1.45; }
+.library-transfer-card__details .ui-badge { width: fit-content; margin: 0; }
+.library-transfer-card__detail-copy { padding-inline: 10px; }
+.library-transfer-card__actions { display: grid; grid-template-columns: 1fr; gap: 9px; }
+.library-transfer-action.ui-button { justify-content: flex-start; width: 100%; min-width: 0; min-height: 60px; height: auto; padding: 10px 13px; text-align: left; white-space: normal; }
+.library-transfer-action__icon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 10px; background: rgba(255, 255, 255, 0.065); }
+.library-transfer-action__icon svg { width: 17px; height: 17px; }
+.library-transfer-action__copy { display: grid; gap: 2px; min-width: 0; overflow: hidden; }
+.library-transfer-action__copy strong { color: var(--ff-text); font-size: 13px; line-height: 1.2; }
+.library-transfer-action__copy small { color: var(--ff-muted); font-size: 10px; font-weight: 600; line-height: 1.25; overflow-wrap: anywhere; }
+
+
 
 
 .timeline {

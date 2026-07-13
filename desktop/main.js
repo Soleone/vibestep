@@ -1,11 +1,12 @@
 import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage, shell, Tray } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import electronUpdater from 'electron-updater'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DEFAULT_PORT } from '../companion/server.js'
 import { startCompanion } from '../companion/index.js'
 import { BEAT_FIEND_WEB_URL } from '../companion/config.js'
 
+const { autoUpdater } = electronUpdater
 const directory = path.dirname(fileURLToPath(import.meta.url))
 const pairingUrl = `http://127.0.0.1:${DEFAULT_PORT}/v1/pair`
 let companionServer = null

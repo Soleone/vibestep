@@ -40,10 +40,10 @@ export const laneColor: Record<Lane, string> = {
 }
 export const lanes = ['kick', 'snare', 'low', 'mid', 'high'] as const
 export const defaultControls: LaneControls = {
-  kick: { keyboard: 'Space', gamepadButton: 0 },
-  snare: { keyboard: 'KeyW', gamepadButton: 1 },
+  kick: { keyboard: 'KeyA', gamepadButton: 0 },
+  snare: { keyboard: 'KeyD', gamepadButton: 1 },
   low: { keyboard: 'ArrowLeft', gamepadButton: 14 },
-  mid: { keyboard: 'ArrowUp', gamepadButton: 12 },
+  mid: { keyboard: 'ArrowDown', gamepadButton: 13 },
   high: { keyboard: 'ArrowRight', gamepadButton: 15 },
 }
 export const gamepadButtonLabels: Record<number, string> = { 0: 'A', 1: 'B', 2: 'X', 3: 'Y', 4: 'LB', 5: 'RB', 6: 'LT', 7: 'RT', 12: 'D-pad Up', 13: 'D-pad Down', 14: 'D-pad Left', 15: 'D-pad Right' }

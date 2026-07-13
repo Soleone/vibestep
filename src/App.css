@@ -64,6 +64,9 @@ main {
   padding: 2px 2px 10px;
 }
 
+.panel-brand { display: flex; align-items: center; gap: 12px; }
+.panel-brand img { width: 46px; height: 46px; flex: 0 0 auto; object-fit: contain; }
+
 .eyebrow {
   display: inline-flex;
   margin-bottom: 8px;

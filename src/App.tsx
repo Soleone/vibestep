@@ -1360,7 +1360,7 @@ function App() {
       </div>}
       {importedSong && <audio ref={audioRef} src={importedSong.audioUrl} preload="auto" onPlay={() => setIsSongPlaying(true)} onPause={() => setIsSongPlaying(false)} onEnded={() => setIsSongPlaying(false)} onTimeUpdate={(event) => setSongTimeMs(event.currentTarget.currentTime * 1000)} onSeeked={(event) => { setSongTimeMs(event.currentTarget.currentTime * 1000); if (isLoopSeeking.current) isLoopSeeking.current = false; else resetScheduledNotes() }} />}
       <aside className="panel">
-        <div className="panel-hero"><span className="eyebrow">Rhythm Game + Beatmap Studio</span><h1>Beat Fiend</h1><p>Import songs, align the beat grid, record lane events, then playtest the feel.</p></div>
+        <div className="panel-hero"><div className="panel-brand"><img src="/beat-fiend-logo.png" alt="" /><h1>Beat Fiend</h1></div><p>Import songs, align the beat grid, record lane events, then playtest the feel.</p></div>
         <Tabs value={activeTab} className="ui-tabs"><TabsList className="ui-tabs__list">{(['play', 'editor', 'config', 'debug'] as const).map((tab) => <TabsTrigger key={tab} value={tab} className="ui-tabs__trigger" onClick={() => setActiveTab(tab)}>{tab}</TabsTrigger>)}</TabsList></Tabs>
 
         {activeTab === 'play' && <>

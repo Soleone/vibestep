@@ -31,6 +31,7 @@ function createWindow() {
     minHeight: 460,
     show: false,
     title: 'Beat Fiend Companion',
+    icon: path.join(directory, 'icon.png'),
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(directory, 'preload.cjs'),

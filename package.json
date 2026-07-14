@@ -1,7 +1,7 @@
 {
   "name": "beat-fiend",
   "private": true,
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
     "test": "node --test companion/**/*.test.js desktop/**/*.test.js && node --experimental-transform-types --test tests/**/*.test.mts",
     "preview": "vite preview",
     "desktop": "electron .",
-    "companion:dist:win": "electron-builder --win nsis --x64",
+    "companion:dist:win": "electron-builder --win nsis --x64 --publish never",
     "companion:pack": "electron-builder --dir",
     "companion:release:win": "electron-builder --win nsis --x64 --publish always"
   },

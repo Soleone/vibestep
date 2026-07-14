@@ -28,11 +28,11 @@ Builds are unsigned. The installer is written to `release/Beat-Fiend-Companion-S
 Releases are built by `.github/workflows/companion-release.yml` on `windows-2025`. No paid signing service or external release credentials are required. Update the version in both package files, commit it, and push the matching tag:
 
 ```bash
-npm version 0.1.7 --no-git-tag-version
+npm version 0.1.8 --no-git-tag-version
 git add package.json package-lock.json
-git commit -m "chore: prepare companion 0.1.7"
-git tag v0.1.7
-git push origin main v0.1.7
+git commit -m "chore: prepare companion 0.1.8"
+git tag v0.1.8
+git push origin main v0.1.8
 ```
 
 The workflow rejects tags that do not exactly match `v<package version>`. Electron Builder emits the installer and updater metadata, then the workflow creates a public, non-prerelease GitHub Release for the triggering tag and verifies all update assets are present. CI also records a GitHub build-provenance attestation.

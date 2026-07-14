@@ -488,11 +488,11 @@ input[type='range'],
 .timeline i.hold { min-width: 14px; border-radius: 6px; transform: none; background-image: linear-gradient(90deg, rgba(255,255,255,0.34), transparent 16%, transparent 84%, rgba(255,255,255,0.28)); }
 .timeline-note-end { position: absolute; top: -5px; right: -7px; width: 14px; height: calc(100% + 10px); border-radius: 5px; cursor: ew-resize; background: color-mix(in srgb, currentColor 74%, white); box-shadow: 0 0 9px currentColor; touch-action: none; }
 .timeline-note-end:hover { transform: scaleX(1.2); filter: brightness(1.3); }
-.timeline i.heavy { width: 9px; height: 16px; border: 2px solid rgba(255, 242, 168, 0.92); box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent), 0 0 16px currentColor; }
-.timeline i.heavy::before { content: ''; position: absolute; inset: 2px; border-radius: 2px; background: rgba(255,255,255,0.72); opacity: 0.76; pointer-events: none; }
-.timeline i.heavy.hold::before { inset: 3px 8px; background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,209,102,0.24), rgba(255,255,255,0.72)); }
 .timeline i.pending { width: 8px; height: 14px; outline: 1px solid rgba(255, 255, 255, 0.8); z-index: 2; }
 .timeline i.recording { pointer-events: none; outline: 2px solid rgba(255, 255, 255, 0.95); background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.45) 0 8px, transparent 8px 15px); box-shadow: 0 0 14px currentColor; }
+.timeline i.heavy { width: 13px; height: 20px; border: 2px solid rgba(255, 242, 168, 0.92); box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent), 0 0 16px currentColor; }
+.timeline i.heavy::before { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,0.78); border-radius: 3px; background: rgba(255,255,255,0.14); pointer-events: none; }
+.timeline i.heavy.hold::before { inset: 3px; background: linear-gradient(90deg, rgba(255,255,255,0.64), rgba(255,209,102,0.12), rgba(255,255,255,0.56)); }
 .timeline i.selected { outline: 2px solid rgba(255, 255, 255, 0.95); z-index: 4; box-shadow: 0 0 0 4px color-mix(in srgb, var(--ff-accent) 18%, transparent), 0 0 16px currentColor; }
 .timeline i.triggered { z-index: 5; animation: timeline-note-trigger 180ms ease-out both; }
 .timeline i.hold.triggered { transform-origin: left center; animation-name: timeline-hold-trigger; }
@@ -596,6 +596,7 @@ input[type='range'],
 .timeline--expanded .timeline-labels { grid-template-rows: repeat(5, 58px); font-size: 12px; }
 .timeline--expanded i { height: 30px; min-width: 7px; }
 .timeline--expanded i.pending { height: 38px; min-width: 10px; }
+.timeline--expanded i.heavy { width: 19px; height: 46px; }
 
 .ui-stack { display: grid; gap: 2px; }
 .timing-debug-card { margin: 10px 0; padding: 10px 12px; }

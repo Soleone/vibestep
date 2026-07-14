@@ -14,8 +14,8 @@
     "desktop": "electron .",
     "companion:dist:win": "electron-builder --win nsis --x64 --publish never",
     "companion:pack": "electron-builder --dir",
-    "companion:release": "node scripts/release-companion.mjs",
-    "companion:release:minor": "node scripts/release-companion.mjs minor",
+    "release": "node scripts/release-companion.mjs",
+    "release:minor": "node scripts/release-companion.mjs minor",
     "companion:release:win": "electron-builder --win nsis --x64 --publish always"
   },
   "dependencies": {

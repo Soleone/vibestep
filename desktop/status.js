@@ -7,8 +7,12 @@ const installUpdate = document.querySelector('#install-update')
 function render(status) {
   stateLabel.textContent = status.state === 'ready' ? 'Ready' : status.state === 'error' ? 'Needs attention' : 'Starting'
   message.textContent = status.message
+  message.title = status.message
   indicator.className = `indicator ${status.state}`
-  if (status.update) update.textContent = status.update
+  if (status.update) {
+    update.textContent = status.update
+    update.title = status.update
+  }
   installUpdate.classList.toggle('hidden', !status.updateReady)
 }
 

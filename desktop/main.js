@@ -25,10 +25,10 @@ function openBeatFiend(pair = false) {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 480,
-    height: 520,
-    minWidth: 420,
-    minHeight: 460,
+    width: 520,
+    height: 580,
+    minWidth: 480,
+    minHeight: 540,
     show: false,
     title: 'Beat Fiend Companion',
     icon: path.join(directory, 'icon.png'),

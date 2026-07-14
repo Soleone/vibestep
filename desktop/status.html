@@ -9,9 +9,13 @@
 </head>
 <body>
   <main>
-    <img class="logo" src="icon.png" alt="">
-    <p class="eyebrow">BEAT FIEND</p>
-    <h1>Audio Companion</h1>
+    <header class="brand">
+      <img class="logo" src="icon.png" alt="">
+      <div>
+        <p class="eyebrow">BEAT FIEND</p>
+        <h1>Audio Companion</h1>
+      </div>
+    </header>
     <section class="status-card" aria-live="polite">
       <span id="indicator" class="indicator starting"></span>
       <div><strong id="state">Starting</strong><p id="message">Preparing the local audio tools...</p></div>
@@ -21,13 +25,19 @@
       <button id="pair">Pair this browser</button>
     </div>
     <section class="update-card">
-      <strong>Updates</strong>
-      <p id="update">Updates are checked automatically.</p>
-      <button id="check-update" class="quiet">Check for updates</button>
-      <button id="install-update" class="primary hidden">Restart and install</button>
+      <div class="update-copy">
+        <strong>Updates</strong>
+        <p id="update">Updates are checked automatically.</p>
+      </div>
+      <div class="update-actions">
+        <button id="check-update" class="quiet">Check for updates</button>
+        <button id="install-update" class="primary hidden">Restart and install</button>
+      </div>
     </section>
-    <p class="privacy">Audio stays on this computer. The companion listens only on the local loopback interface.</p>
-    <button id="quit" class="quiet">Quit companion</button>
+    <footer>
+      <p class="privacy">Audio stays on this computer. The companion listens only on the local loopback interface.</p>
+      <button id="quit" class="quiet">Quit companion</button>
+    </footer>
   </main>
   <script src="status.js"></script>
 </body>

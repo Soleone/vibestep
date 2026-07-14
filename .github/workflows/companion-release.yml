@@ -1,7 +1,6 @@
 name: Release Windows companion
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - v*
@@ -25,6 +24,17 @@ jobs:
           node-version: 24
           cache: npm
 
+      - name: Validate release version
+        run: >-
+          node --input-type=module -e "import pkg from './package.json' with { type: 'json' };
+          import lock from './package-lock.json' with { type: 'json' };
+          const tag = process.env.GITHUB_REF_NAME;
+          const expected = 'v' + pkg.version;
+          if (tag !== expected || lock.version !== pkg.version || lock.packages[''].version !== pkg.version) {
+            console.error('Release version mismatch:', { tag, packageVersion: pkg.version, lockVersion: lock.version, lockRootVersion: lock.packages[''].version, expected });
+            process.exit(1);
+          }"
+
       - name: Install locked dependencies
         run: npm ci
 
@@ -34,12 +44,42 @@ jobs:
       - name: Build hosted application
         run: npm run build
 
-      - name: Build and publish installer
-        run: npm run companion:release:win
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build installer
+        run: npm run companion:dist:win
 
       - name: Attest installer
         uses: actions/attest-build-provenance@v3
         with:
           subject-path: release/Beat-Fiend-Companion-Setup.exe
+
+      - name: Publish GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          $repo = $env:GITHUB_REPOSITORY
+          $assets = @(
+            "release/Beat-Fiend-Companion-Setup.exe",
+            "release/Beat-Fiend-Companion-Setup.exe.blockmap",
+            "release/latest.yml"
+          )
+
+          gh release view $tag --repo $repo *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @assets --repo $repo --clobber
+          } else {
+            gh release create $tag @assets --repo $repo --verify-tag --generate-notes --latest
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          gh release edit $tag --repo $repo --draft=false --prerelease=false --latest
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          $release = gh release view $tag --repo $repo --json tagName,isDraft,isPrerelease,assets | ConvertFrom-Json
+          $assetNames = @($release.assets | ForEach-Object { $_.name })
+          $missingAssets = @($assets | ForEach-Object { Split-Path $_ -Leaf } | Where-Object { $_ -notin $assetNames })
+          if ($release.tagName -ne $tag -or $release.isDraft -or $release.isPrerelease -or $missingAssets.Count -gt 0) {
+            Write-Error "Release verification failed. Tag: $($release.tagName); draft: $($release.isDraft); prerelease: $($release.isPrerelease); missing assets: $($missingAssets -join ', ')"
+            exit 1
+          }

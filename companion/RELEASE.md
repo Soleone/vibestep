@@ -25,17 +25,19 @@ Builds are unsigned. The installer is written to `release/Beat-Fiend-Companion-S
 
 ## GitHub release
 
-Releases are built by `.github/workflows/companion-release.yml` on `windows-2025`. No paid signing service or external release credentials are required. Update the version in both package files, commit it, and push the matching tag:
+Releases are built by `.github/workflows/companion-release.yml` on `windows-2025`. No paid signing service or external release credentials are required. Start from a clean `main` branch, then run:
 
 ```bash
-npm version 0.1.8 --no-git-tag-version
-git add package.json package-lock.json
-git commit -m "chore: prepare companion 0.1.8"
-git tag v0.1.8
-git push origin main v0.1.8
+npm run companion:release
 ```
 
-The workflow rejects tags that do not exactly match `v<package version>`. Electron Builder emits the installer and updater metadata, then the workflow creates a public, non-prerelease GitHub Release for the triggering tag and verifies all update assets are present. CI also records a GitHub build-provenance attestation.
+This bumps the patch version, updates both package files, creates the release commit and matching tag, then atomically pushes `main` and the tag. To bump the minor version instead, run:
+
+```bash
+npm run companion:release:minor
+```
+
+The release command stops if the worktree is dirty, the current branch is not `main`, or local `main` is behind or has diverged from `origin/main`. The workflow rejects tags that do not exactly match `v<package version>`. Electron Builder emits the installer and updater metadata, then the workflow creates a public, non-prerelease GitHub Release for the triggering tag and verifies all update assets are present. CI also records a GitHub build-provenance attestation.
 
 ## Windows SmartScreen
 

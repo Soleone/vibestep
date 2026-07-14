@@ -423,6 +423,12 @@ input[type='range'],
 .config-section__title-row .ui-badge { flex: 0 0 auto; margin: 0; }
 .config-section__body { padding: 0; }
 .import-card__content { display: grid; gap: 14px; padding: 0; }
+.companion-connect { display: grid; gap: 10px; padding: 12px; border-radius: 13px; background: rgba(255, 255, 255, 0.035); border: 1px solid rgba(255, 255, 255, 0.06); }
+.companion-connect p,
+.companion-dialog-copy p { margin: 0; color: var(--ff-muted); font-size: 12px; line-height: 1.5; }
+.companion-connect__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.companion-dialog-copy { display: grid; gap: 10px; }
+.companion-dialog-copy strong { color: var(--ff-text); }
 .url-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; }
 .url-row .ui-button { min-width: 96px; }
 .import-card__divider { display: flex; align-items: center; gap: 12px; color: var(--ff-muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; }

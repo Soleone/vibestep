@@ -4,6 +4,7 @@ const BASE_URL_KEY = 'beat-fiend:companion:base-url:v1'
 const PAIRING_FRAGMENT_KEY = 'beat-fiend-companion'
 
 export type CompanionStatus = { ok: true; name: 'Beat Fiend Companion'; version: string; paired: boolean }
+export type CompanionPermissionState = PermissionState | 'not-required' | 'unsupported'
 export type CompanionAudio = { audioId: string; title: string; durationMs: number; contentType: string; size: number; sourceUrl?: string }
 export type CompanionImportJob = { id: string; state: 'queued' | 'running' | 'complete' | 'failed' | 'cancelled'; progress: number; error?: string; audio?: CompanionAudio; cached?: boolean }
 
@@ -32,10 +33,12 @@ function consumePairingFragment(): PairingData | null {
 
 export class CompanionClient {
   readonly baseUrl: string
+  readonly pairingReceived: boolean
   private credential: string | null
 
   constructor(storage: Storage = localStorage) {
     const pairing = consumePairingFragment()
+    this.pairingReceived = Boolean(pairing)
     if (pairing) {
       storage.setItem(CREDENTIAL_KEY, pairing.credential)
       if (pairing.baseUrl) storage.setItem(BASE_URL_KEY, pairing.baseUrl)
@@ -45,6 +48,23 @@ export class CompanionClient {
   }
 
   get paired() { return Boolean(this.credential) }
+
+  async permissionState(): Promise<CompanionPermissionState> {
+    if (['localhost', '127.0.0.1', '::1', '[::1]'].includes(window.location.hostname)) return 'not-required'
+    if (!navigator.permissions) return 'unsupported'
+
+    const permissions = navigator.permissions as Permissions & {
+      query(descriptor: { name: string }): Promise<PermissionStatus>
+    }
+    for (const name of ['loopback-network', 'local-network-access']) {
+      try {
+        return (await permissions.query({ name })).state
+      } catch {
+        // Try the permission name used by other Chromium versions.
+      }
+    }
+    return 'unsupported'
+  }
 
   private async request<T>(path: string, init?: RequestInit): Promise<T> {
     const headers = new Headers(init?.headers)

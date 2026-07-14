@@ -1,7 +1,7 @@
 import { ArrowLeftToLine, ArrowRightToLine, Check, Circle, CopyPlus, Database, Download, Edit3, FilePlus2, Gamepad2, Headphones, Redo2, Save, Star, Trash2, Undo2, Upload, X, Zap } from 'lucide-react'
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
-import { Badge, Button, Card, CardDescription, CardHeader, CardTitle, Disclosure, DisclosureSummary, Field, FieldLabel, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Slider, Stack, Tabs, TabsList, TabsTrigger } from './components/ui'
+import { Badge, Button, Card, CardDescription, CardHeader, CardTitle, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Disclosure, DisclosureSummary, Field, FieldLabel, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Slider, Stack, Tabs, TabsList, TabsTrigger } from './components/ui'
 import { ConfigSection } from './components/ConfigSection'
 import { Toolbar } from './components/Toolbar'
 import { CompanionClient, type CompanionAudio } from './companion/client'
@@ -58,6 +58,8 @@ type EditorSnapshot = {
   beatOffsetMs: number
 }
 
+type CompanionConnectionStatus = 'idle' | 'connecting' | 'paired' | 'available' | 'unavailable' | 'permission-blocked'
+
 type BeatmapLibraryBackup = {
   schema: 'beat-fiend/library-backup'
   schemaVersion: 1
@@ -97,7 +99,8 @@ function App() {
   const [phase, setPhase] = useState('queued')
   const [youtubeUrl, setYoutubeUrl] = useState('')
   const [importStatus, setImportStatus] = useState('')
-  const [companionStatus, setCompanionStatus] = useState<'checking' | 'paired' | 'available' | 'offline'>('checking')
+  const [companionStatus, setCompanionStatus] = useState<CompanionConnectionStatus>('idle')
+  const [companionDialogOpen, setCompanionDialogOpen] = useState(false)
   const [activeImportJobId, setActiveImportJobId] = useState<string | null>(null)
   const [importedSong, setImportedSong] = useState<ImportResult | null>(null)
   const [beatmap, setBeatmap] = useState<Beatmap | null>(null)
@@ -379,43 +382,52 @@ function App() {
     }
   }, [companion, packageRepository, packageToImport, resetEditorHistory, resetGameplayPlayback])
 
-  useEffect(() => {
-    let stopped = false
-    let retryTimer = 0
-    let requestController: AbortController | null = null
-
-    const checkCompanion = () => {
-      requestController = new AbortController()
-      const timeout = window.setTimeout(() => requestController?.abort(), 800)
-      companion.status(requestController.signal)
-        .then(() => {
-          if (stopped) return
-          if (companion.paired) {
-            sessionStorage.removeItem('beat-fiend:companion:auto-pair-attempted')
-            setCompanionStatus('paired')
-            return
-          }
-          setCompanionStatus('available')
-          if (!sessionStorage.getItem('beat-fiend:companion:auto-pair-attempted')) {
-            sessionStorage.setItem('beat-fiend:companion:auto-pair-attempted', '1')
-            companion.pair()
-          }
-        })
-        .catch(() => {
-          if (stopped) return
-          setCompanionStatus('offline')
-          retryTimer = window.setTimeout(checkCompanion, 1500)
-        })
-        .finally(() => window.clearTimeout(timeout))
+  const connectCompanion = useCallback(async ({ pairWhenAvailable = true, timeoutMs = 30_000 } = {}) => {
+    const permissionBefore = await companion.permissionState()
+    if (permissionBefore === 'denied') {
+      setCompanionStatus('permission-blocked')
+      return
     }
 
-    checkCompanion()
-    return () => {
-      stopped = true
-      requestController?.abort()
-      window.clearTimeout(retryTimer)
+    setCompanionStatus('connecting')
+    const requestController = new AbortController()
+    const timeout = window.setTimeout(() => requestController.abort(), timeoutMs)
+    try {
+      await companion.status(requestController.signal)
+      if (companion.paired) {
+        setCompanionStatus('paired')
+      } else {
+        setCompanionStatus('available')
+        if (pairWhenAvailable) companion.pair()
+      }
+    } catch {
+      const permissionAfter = await companion.permissionState()
+      setCompanionStatus(permissionAfter === 'denied' ? 'permission-blocked' : 'unavailable')
+    } finally {
+      window.clearTimeout(timeout)
     }
   }, [companion])
+
+  useEffect(() => {
+    if (!companion.paired) return
+    let stopped = false
+
+    void companion.permissionState().then((permission) => {
+      if (stopped) return
+      if (permission === 'denied') {
+        setCompanionStatus('permission-blocked')
+        if (companion.pairingReceived) setCompanionDialogOpen(true)
+        return
+      }
+      if (companion.pairingReceived && permission !== 'granted' && permission !== 'not-required') {
+        setCompanionDialogOpen(true)
+        return
+      }
+      void connectCompanion({ pairWhenAvailable: false, timeoutMs: 5_000 })
+    })
+
+    return () => { stopped = true }
+  }, [companion, connectCompanion])
 
   useEffect(() => { void loadImports() }, [loadImports])
 
@@ -675,8 +687,9 @@ function App() {
 
   const importYoutube = useCallback(async () => {
     const url = youtubeUrl.trim(); if (!url) return
-    if (!companion.paired) {
-      setImportStatus(companionStatus === 'offline' ? 'Start Beat Fiend Companion to import this URL.' : 'Start the companion to pair this browser before importing.')
+    if (companionStatus !== 'paired') {
+      setImportStatus('Connect Beat Fiend Companion to import YouTube audio.')
+      setCompanionDialogOpen(true)
       return
     }
     setImportStatus('Starting local companion import...')
@@ -699,9 +712,10 @@ function App() {
   }, [activeImportJobId, companion])
 
   const importLocalAudio = useCallback(async (file: File) => {
-    setImportStatus(companion.paired ? 'Copying audio into the local companion...' : 'Saving audio in this browser...')
+    const useCompanion = companionStatus === 'paired'
+    setImportStatus(useCompanion ? 'Copying audio into the local companion...' : 'Saving audio in this browser...')
     try {
-      if (companion.paired) {
+      if (useCompanion) {
         const { audio } = await companion.uploadFile(file)
         await createPackageForAudio(audio)
       } else {
@@ -718,7 +732,7 @@ function App() {
       }
       setImportStatus('Local audio attached. Add timing and custom notes in the editor.')
     } catch (error) { setImportStatus(error instanceof Error ? error.message : 'Local file import failed') }
-  }, [companion, createPackageForAudio])
+  }, [companion, companionStatus, createPackageForAudio])
 
   const startRecording = useCallback(() => {
     if (!audioRef.current) return
@@ -1402,6 +1416,14 @@ function App() {
   const timingColor = lastResult?.success ? gradeColor : lastResult ? (lastResult.deltaMs < 0 ? judgementCssVars.early : judgementCssVars.late) : undefined
   const roundedDeltaMs = lastResult ? Math.round(lastResult.deltaMs) : null
   const deltaText = roundedDeltaMs === null ? '-' : `${roundedDeltaMs > 0 ? '+' : ''}${roundedDeltaMs}ms`
+  const companionStatusLabel: Record<CompanionConnectionStatus, string> = {
+    idle: 'optional',
+    connecting: 'connecting',
+    paired: 'connected',
+    available: 'pairing',
+    unavailable: 'not found',
+    'permission-blocked': 'permission blocked',
+  }
 
   return (
     <main className={activeTab === 'editor' ? 'editing-layout' : undefined}>
@@ -1418,6 +1440,21 @@ function App() {
         <div className="toast"><strong style={{ color: timingColor }}>{lastAutoMiss ? '-' : deltaText}</strong></div>
       </div>}
       {importedSong && <audio ref={audioRef} src={importedSong.audioUrl} preload="auto" onPlay={() => setIsSongPlaying(true)} onPause={() => setIsSongPlaying(false)} onEnded={() => setIsSongPlaying(false)} onTimeUpdate={(event) => setSongTimeMs(event.currentTarget.currentTime * 1000)} onSeeked={(event) => { setSongTimeMs(event.currentTarget.currentTime * 1000); if (isLoopSeeking.current) isLoopSeeking.current = false; else resetScheduledNotes() }} />}
+      <Dialog open={companionDialogOpen} onOpenChange={setCompanionDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{companionStatus === 'permission-blocked' ? 'Allow companion access' : 'Connect Beat Fiend Companion'}</DialogTitle>
+            <DialogDescription>{companionStatus === 'permission-blocked' ? 'Chrome has blocked Beat Fiend from contacting software on this computer.' : 'The companion is optional. Browser file imports continue to work without it.'}</DialogDescription>
+          </DialogHeader>
+          {companionStatus === 'permission-blocked'
+            ? <div className="companion-dialog-copy"><p>Open the site controls beside Chrome&apos;s address bar, enable <strong>Apps on device</strong>, then try again.</p><p>Other browsers may call this Local Network Access.</p></div>
+            : <div className="companion-dialog-copy"><p>Beat Fiend needs permission to contact the companion running only on this computer.</p><p>Your browser may ask you to allow <strong>Apps on device</strong>. Beat Fiend uses this access only for the local companion.</p></div>}
+          <DialogFooter>
+            <DialogClose render={<Button type="button" variant="secondary" />}>Not now</DialogClose>
+            <Button type="button" onClick={() => { setCompanionDialogOpen(false); void connectCompanion() }}>{companionStatus === 'permission-blocked' ? 'Try connection again' : 'Continue'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <aside className="panel">
         <div className="panel-hero"><div className="panel-brand"><img src="/beat-fiend-logo.png" alt="" /><h1>Beat Fiend</h1></div><p>Import songs, align the beat grid, record lane events, then playtest the feel.</p></div>
         <Tabs value={activeTab} className="ui-tabs"><TabsList className="ui-tabs__list">{(['play', 'editor', 'config', 'debug'] as const).map((tab) => <TabsTrigger key={tab} value={tab} className="ui-tabs__trigger" onClick={() => setActiveTab(tab)}>{tab}</TabsTrigger>)}</TabsList></Tabs>
@@ -1433,10 +1470,10 @@ function App() {
         </>}
 
         {activeTab === 'config' && <>
-          <ConfigSection className="import-card" icon={<Headphones />} title="Import audio" description="Choose a file in any browser. The companion additionally enables YouTube imports and local caching." status={<Badge tone={companionStatus === 'paired' ? 'success' : companionStatus === 'available' ? 'warning' : companionStatus === 'offline' ? 'danger' : 'muted'}>{companionStatus}</Badge>}>
+          <ConfigSection className="import-card" icon={<Headphones />} title="Import audio" description="Choose a file in any browser. The optional companion additionally enables YouTube imports and local caching." status={<Badge tone={companionStatus === 'paired' ? 'success' : companionStatus === 'available' || companionStatus === 'connecting' ? 'warning' : companionStatus === 'permission-blocked' || companionStatus === 'unavailable' ? 'danger' : 'muted'}>{companionStatusLabel[companionStatus]}</Badge>}>
             <div className="import-card__content">
-              {companionStatus === 'offline' && <Button type="button" onClick={() => window.location.assign(COMPANION_WINDOWS_DOWNLOAD_URL)}>Download companion for Windows</Button>}
-              {companionStatus === 'available' && <Button type="button" onClick={() => companion.pair()}>Pair companion</Button>}
+              {companionStatus !== 'paired' && <div className="companion-connect"><p>{companionStatus === 'permission-blocked' ? 'Chrome is blocking access to the companion on this computer.' : companionStatus === 'unavailable' ? 'The companion was not found. Make sure it is running, then try again.' : 'Use browser file imports without the companion, or connect it for YouTube imports and local caching.'}</p><div className="companion-connect__actions"><Button type="button" disabled={companionStatus === 'connecting'} onClick={() => setCompanionDialogOpen(true)}>{companionStatus === 'connecting' ? 'Waiting for browser…' : companionStatus === 'permission-blocked' ? 'Permission help' : companionStatus === 'unavailable' ? 'Try again' : 'Connect companion'}</Button><Button type="button" variant="secondary" onClick={() => window.location.assign(COMPANION_WINDOWS_DOWNLOAD_URL)}>Download for Windows</Button></div></div>}
+              {companionStatus === 'available' && <Button type="button" onClick={() => companion.pair()}>Finish pairing companion</Button>}
               <div className="url-row">
                 <Input type="url" aria-label="YouTube URL" placeholder="Paste a YouTube URL" value={youtubeUrl} onChange={(event) => setYoutubeUrl(event.target.value)} />
                 <Button type="button" variant="secondary" onClick={activeImportJobId ? cancelCompanionImport : importYoutube} tooltip={activeImportJobId ? 'Cancel local import' : 'Import YouTube audio locally'}>{activeImportJobId ? 'Cancel' : 'Import'}</Button>

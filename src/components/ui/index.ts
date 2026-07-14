@@ -2,6 +2,7 @@ export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./
 export { Badge } from "./badge"
 export { Button, buttonVariants } from "./button"
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card"
+export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "./dialog"
 export { Disclosure, DisclosureSummary } from "./disclosure"
 export { Field, FieldLabel } from "./field"
 export { Input } from "./input"

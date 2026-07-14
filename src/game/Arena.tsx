@@ -36,8 +36,8 @@ function sharpRecoil(ageMs: number) {
 function ProjectileVisual({ attack }: { attack: Attack }) {
   const head = useRef<Group>(null)
   const halo = useRef<Mesh>(null)
-  const ribbon = useRef<Mesh>(null)
-  const ribbonMaterial = useRef<MeshBasicMaterial>(null)
+  const ribbonSegments = useRef<Array<Mesh | null>>([])
+  const ribbonMaterials = useRef<Array<MeshBasicMaterial | null>>([])
   const tether = useRef<Mesh>(null)
   const tetherCore = useRef<Mesh>(null)
   const holdPulses = useRef<Array<Mesh | null>>([])
@@ -45,6 +45,8 @@ function ProjectileVisual({ attack }: { attack: Attack }) {
   const lane = attack.lane ?? 'mid'
   const color = laneColor[lane]
   const isHold = (attack.durationMs ?? 0) > 0
+  const isHeavy = (attack.strength ?? 1) >= 2
+  const syncopation = clamp01(attack.syncopation ?? 0)
   const holdLength = holdVisualLength(attack.durationMs)
 
   useFrame(() => {
@@ -67,19 +69,24 @@ function ProjectileVisual({ attack }: { attack: Attack }) {
     if (head.current) {
       head.current.visible = headVisible
       head.current.position.set(holding || awaitingHold ? IMPACT_X : x, laneY[lane], 0.2)
-      head.current.rotation.x = (now - attack.startMs) / 430
-      head.current.rotation.z = (now - attack.startMs) / 310
-      head.current.scale.setScalar((isHold ? 1.08 : 1) * energyPulse * completionFade * (missedAfterImpact ? 1 - missProgress * 0.45 : 1))
+      head.current.rotation.x = (now - attack.startMs) / (430 - syncopation * 110)
+      head.current.rotation.z = (now - attack.startMs) / (310 - syncopation * 90)
+      head.current.scale.setScalar((isHold ? 1.08 : 1) * (isHeavy ? 1.2 : 1) * energyPulse * completionFade * (missedAfterImpact ? 1 - missProgress * 0.45 : 1))
     }
     if (halo.current) halo.current.scale.setScalar(0.92 + Math.sin(now / 42) * 0.12)
 
-    if (ribbon.current && ribbonMaterial.current) {
-      const length = 0.32 + Math.sin(now / 70) * 0.035
-      ribbon.current.visible = !isHold && visibleBeforeImpact && (impactAge < 0 || missVisible)
-      ribbon.current.position.set(x + length / 2 + 0.035, laneY[lane], 0.13)
-      ribbon.current.scale.x = length
-      ribbonMaterial.current.opacity = missedAfterImpact ? 0.42 * (1 - missProgress) : 0.48
-    }
+    const ribbonLength = (isHeavy ? 0.4 : 0.34) - syncopation * 0.17 + Math.sin(now / 70) * 0.025
+    const ribbonGap = 0.006 + syncopation * 0.028
+    const ribbonSegmentLength = Math.max(0.025, (ribbonLength - ribbonGap * 2) / 3)
+    const ribbonVisible = !isHold && visibleBeforeImpact && (impactAge < 0 || missVisible)
+    ribbonSegments.current.forEach((segment, index) => {
+      if (!segment) return
+      segment.visible = ribbonVisible
+      segment.position.set(x + 0.04 + ribbonSegmentLength / 2 + index * (ribbonSegmentLength + ribbonGap), laneY[lane], 0.13)
+      segment.scale.x = ribbonSegmentLength
+      const material = ribbonMaterials.current[index]
+      if (material) material.opacity = (missedAfterImpact ? 0.42 * (1 - missProgress) : isHeavy ? 0.62 : 0.48) * (1 - index * syncopation * 0.12)
+    })
 
     const tetherRemaining = holding || awaitingHold ? 1 - holdProgress : 1
     const activeTetherLength = Math.max(0.035, holdLength * tetherRemaining)
@@ -125,19 +132,19 @@ function ProjectileVisual({ attack }: { attack: Attack }) {
           <meshBasicMaterial color={color} transparent opacity={opacity} blending={AdditiveBlending} depthWrite={false} toneMapped={false} />
         </mesh>
       ))}
-      <mesh ref={ribbon} visible={false}>
-        <boxGeometry args={[1, 0.045, 0.025]} />
-        <meshBasicMaterial ref={ribbonMaterial} color={color} transparent opacity={0.48} blending={AdditiveBlending} depthWrite={false} toneMapped={false} />
-      </mesh>
+      {[0, 1, 2].map((index) => <mesh key={`ribbon-${index}`} ref={(mesh) => { ribbonSegments.current[index] = mesh }} visible={false}>
+        <boxGeometry args={[1, isHeavy ? 0.062 : 0.045, 0.025]} />
+        <meshBasicMaterial ref={(material) => { ribbonMaterials.current[index] = material }} color={color} transparent opacity={isHeavy ? 0.62 : 0.48} blending={AdditiveBlending} depthWrite={false} toneMapped={false} />
+      </mesh>)}
       {isHold ? <>
         <mesh ref={tether} visible={false}><boxGeometry args={[1, 0.13, 0.035]} /><meshBasicMaterial color={color} transparent opacity={0.36} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
         <mesh ref={tetherCore} visible={false}><boxGeometry args={[1, 0.035, 0.02]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.84} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
         {[0, 1, 2].map((index) => <mesh key={index} ref={(mesh) => { holdPulses.current[index] = mesh }} visible={false}><octahedronGeometry args={[0.055, 0]} /><meshBasicMaterial color="#ffffff" blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>)}
       </> : null}
       <group ref={head} visible={false}>
-        <mesh ref={halo}><sphereGeometry args={[isHold ? 0.15 : 0.125, 16, 10]} /><meshBasicMaterial color={color} transparent opacity={0.2} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
-        <mesh rotation={[0, 0, Math.PI / 4]}><octahedronGeometry args={[isHold ? 0.105 : 0.082, 0]} /><meshStandardMaterial color={color} emissive={color} emissiveIntensity={2.1} roughness={0.25} /></mesh>
-        <mesh><sphereGeometry args={[isHold ? 0.045 : 0.035, 12, 8]} /><meshBasicMaterial color="#ffffff" blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+        <mesh ref={halo}><sphereGeometry args={[isHold ? 0.15 : isHeavy ? 0.155 : 0.125, 16, 10]} /><meshBasicMaterial color={color} transparent opacity={isHeavy ? 0.3 : 0.2} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+        <mesh rotation={[0, 0, Math.PI / 4]}><octahedronGeometry args={[isHold ? 0.105 : isHeavy ? 0.098 : 0.082, 0]} /><meshStandardMaterial color={color} emissive={color} emissiveIntensity={isHeavy ? 3 : 2.1} roughness={0.25} /></mesh>
+        <mesh><sphereGeometry args={[isHold ? 0.045 : isHeavy ? 0.045 : 0.035, 12, 8]} /><meshBasicMaterial color="#ffffff" blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
       </group>
     </>
   )
@@ -165,6 +172,10 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
   const impactRingMaterials = useRef<LaneBasicMaterials>({})
   const impactBursts = useRef<LaneGroups>({})
   const impactBurstMaterials = useRef<Partial<Record<Lane, Array<MeshBasicMaterial | null>>>>({})
+  const heavyImpactRings = useRef<LaneMeshes>({})
+  const heavyImpactRingMaterials = useRef<LaneBasicMaterials>({})
+  const heavyConfetti = useRef<LaneGroups>({})
+  const heavyConfettiMaterials = useRef<Partial<Record<Lane, Array<MeshBasicMaterial | null>>>>({})
   const publishedPhase = useRef('queued')
   const primaryAttack = attacks[0]
 
@@ -188,16 +199,18 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
     for (const lane of lanes) {
       const shotAge = latestShots[lane] ? now - latestShots[lane]!.startMs : Number.POSITIVE_INFINITY
       const recoil = sharpRecoil(shotAge)
+      const heavyShot = (latestShots[lane]?.strength ?? 1) >= 2
+      const recoilWeight = heavyShot ? 1.42 : 1
       const cannon = cannonRefs.current[lane]
-      if (cannon) cannon.position.x = 1.55 + recoil * 0.11
+      if (cannon) cannon.position.x = 1.55 + recoil * 0.11 * recoilWeight
       const chamber = cannonChambers.current[lane]
-      if (chamber) chamber.emissiveIntensity = 0.65 + recoil * 3.1
+      if (chamber) chamber.emissiveIntensity = 0.65 + recoil * (heavyShot ? 4.6 : 3.1)
       const muzzle = muzzleFlashes.current[lane]
       const muzzleMaterial = muzzleMaterials.current[lane]
       const muzzleVisible = shotAge >= 0 && shotAge < 105
       if (muzzle) {
         muzzle.visible = muzzleVisible
-        muzzle.scale.setScalar(0.45 + recoil * 1.45)
+        muzzle.scale.setScalar(0.45 + recoil * (heavyShot ? 2.05 : 1.45))
         muzzle.rotation.x = shotAge / 95
       }
       if (muzzleMaterial) muzzleMaterial.opacity = Math.max(0, recoil * 0.9)
@@ -206,7 +219,8 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
       const feedbackAge = event ? now - event.startedAtMs : Number.POSITIVE_INFINITY
       const successful = event?.kind === 'good-parry' || event?.kind === 'perfect-parry'
       const perfect = event?.kind === 'perfect-parry'
-      const feedbackDuration = successful ? (perfect ? 390 : 300) : 210
+      const heavyImpact = successful && (event?.strength ?? 1) >= 2
+      const feedbackDuration = successful ? (heavyImpact ? 520 : perfect ? 390 : 300) : 210
       const feedbackLife = feedbackAge >= 0 && feedbackAge < feedbackDuration ? 1 - feedbackAge / feedbackDuration : 0
       const hitColor = perfect ? perfectColor : successful ? goodColor : missColor
       const inputAge = now - (padTriggers[lane] || -Infinity)
@@ -246,7 +260,7 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
       const impactVisible = feedbackLife > 0
       if (ring) {
         ring.visible = impactVisible
-        ring.scale.setScalar((successful ? 0.45 : 0.28) + (1 - feedbackLife) * (successful ? 2.4 : 1.1))
+        ring.scale.setScalar((successful ? 0.45 : 0.28) + (1 - feedbackLife) * (heavyImpact ? 3.1 : successful ? 2.4 : 1.1))
         ring.rotation.z = (event?.deltaMs ?? 0) < 0 ? -0.12 : 0.12
       }
       if (ringMaterial) {
@@ -255,7 +269,7 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
       }
       if (burst) {
         burst.visible = impactVisible
-        burst.scale.setScalar((perfect ? 1.15 : successful ? 0.88 : 0.52) * (0.48 + (1 - feedbackLife) * 1.15))
+        burst.scale.setScalar((heavyImpact ? 1.38 : perfect ? 1.15 : successful ? 0.88 : 0.52) * (0.48 + (1 - feedbackLife) * 1.15))
         burst.rotation.z = feedbackAge / (successful ? 120 : 180) * ((event?.deltaMs ?? 1) < 0 ? -1 : 1)
       }
       burstMaterials?.forEach((material) => {
@@ -263,6 +277,23 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
         material.color.copy(hitColor)
         material.opacity = Math.pow(feedbackLife, 0.7) * (successful ? 0.8 : 0.42)
       })
+
+      const heavyRing = heavyImpactRings.current[lane]
+      const heavyRingMaterial = heavyImpactRingMaterials.current[lane]
+      const confetti = heavyConfetti.current[lane]
+      const confettiMaterials = heavyConfettiMaterials.current[lane]
+      if (heavyRing) {
+        heavyRing.visible = heavyImpact && feedbackLife > 0
+        heavyRing.scale.setScalar(0.35 + (1 - feedbackLife) * 3.8)
+        heavyRing.rotation.z = -feedbackAge / 170
+      }
+      if (heavyRingMaterial) heavyRingMaterial.opacity = heavyImpact ? Math.pow(feedbackLife, 0.82) * 0.72 : 0
+      if (confetti) {
+        confetti.visible = heavyImpact && feedbackLife > 0
+        confetti.scale.setScalar(0.35 + (1 - feedbackLife) * 2.3)
+        confetti.rotation.z = -feedbackAge / 210
+      }
+      confettiMaterials?.forEach((material) => { if (material) material.opacity = heavyImpact ? Math.pow(feedbackLife, 0.55) * 0.9 : 0 })
     }
   })
 
@@ -293,6 +324,14 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
               <mesh ref={(mesh) => { impactRings.current[lane] = mesh }} visible={false}><ringGeometry args={[0.11, 0.135, 32]} /><meshBasicMaterial ref={(material) => { impactRingMaterials.current[lane] = material }} color={color} transparent opacity={0} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
               <group ref={(group) => { impactBursts.current[lane] = group }} visible={false}>
                 {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => <mesh key={index} rotation={[0, 0, index * Math.PI / 4]} position={[0.13, 0, 0]}><boxGeometry args={[0.2, 0.012, 0.012]} /><meshBasicMaterial ref={(material) => { const materials = impactBurstMaterials.current[lane] ?? []; materials[index] = material; impactBurstMaterials.current[lane] = materials }} color={color} transparent opacity={0.72} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>)}
+              </group>
+              <mesh ref={(mesh) => { heavyImpactRings.current[lane] = mesh }} visible={false}><ringGeometry args={[0.16, 0.18, 32]} /><meshBasicMaterial ref={(material) => { heavyImpactRingMaterials.current[lane] = material }} color="#fff2a8" transparent opacity={0} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+              <group ref={(group) => { heavyConfetti.current[lane] = group }} visible={false}>
+                {Array.from({ length: 12 }, (_, index) => {
+                  const angle = index * Math.PI / 6
+                  const shardColor = index % 3 === 0 ? '#ffffff' : index % 2 === 0 ? '#fff2a8' : color
+                  return <mesh key={index} rotation={[0, 0, angle + index * 0.17]} position={[Math.cos(angle) * 0.17, Math.sin(angle) * 0.17, index % 2 ? 0.025 : 0]}><boxGeometry args={[0.055 + (index % 3) * 0.012, 0.018, 0.014]} /><meshBasicMaterial ref={(material) => { const materials = heavyConfettiMaterials.current[lane] ?? []; materials[index] = material; heavyConfettiMaterials.current[lane] = materials }} color={shardColor} transparent opacity={0} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+                })}
               </group>
             </group>
             <Text position={[-1.29, laneY[lane] - 0.01, 0.14]} fontSize={0.068} color="#d9e5ff" anchorX="center">{lane.toUpperCase()}</Text>

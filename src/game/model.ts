@@ -1,7 +1,7 @@
 export type Lane = 'kick' | 'snare' | 'low' | 'mid' | 'high'
 export type Tuning = { parryWindowMs: number; perfectWindowMs: number; telegraphMs: number; recoveryMs: number; inputOffsetMs: number }
-export type Attack = { id: number; startMs: number; impactMs: number; travelMs: number; lane?: Lane; durationMs?: number; holdStarted?: boolean; initialMissed?: boolean; noteId?: string; scheduleKey?: string }
-export type FeedbackEvent = { id: number; kind: 'good-parry' | 'perfect-parry' | 'miss'; startedAtMs: number; lane?: Lane; deltaMs?: number }
+export type Attack = { id: number; startMs: number; impactMs: number; travelMs: number; lane?: Lane; durationMs?: number; strength?: number; syncopation?: number; holdStarted?: boolean; initialMissed?: boolean; noteId?: string; scheduleKey?: string }
+export type FeedbackEvent = { id: number; kind: 'good-parry' | 'perfect-parry' | 'miss'; startedAtMs: number; lane?: Lane; deltaMs?: number; strength?: number }
 export type LaneFeedback = Partial<Record<Lane, FeedbackEvent>>
 export type SavedBeatmap = { id: string; title: string; difficulty: number; updatedAt?: string; noteCount: number; url: string }
 export type ImportResult = { id: string; title: string; durationMs: number; audioUrl: string; beatmapUrl: string; noteCount: number; sourceUrl?: string; cached?: boolean; bpm?: number; beatOffsetMs?: number; beatmaps?: SavedBeatmap[] }
@@ -73,10 +73,10 @@ export function normalizeBeatmap(beatmap: Beatmap): Beatmap {
   }
 }
 
-export function makeBeatmapAttack(timeUntilImpactMs: number, lane: Lane, durationMs?: number, noteId?: string, scheduleKey?: string): Attack {
+export function makeBeatmapAttack(timeUntilImpactMs: number, lane: Lane, durationMs?: number, noteId?: string, scheduleKey?: string, strength = 1, syncopation = 0): Attack {
   const now = performance.now()
   const travelMs = Math.max(120, timeUntilImpactMs)
-  return { id: Math.random(), startMs: now, travelMs, impactMs: now + travelMs, lane, durationMs, noteId, scheduleKey }
+  return { id: Math.random(), startMs: now, travelMs, impactMs: now + travelMs, lane, durationMs, noteId, scheduleKey, strength, syncopation }
 }
 
 export function makeIdlePattern(): Attack[] {

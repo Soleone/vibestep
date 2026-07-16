@@ -1,4 +1,4 @@
-import { Text } from '@react-three/drei'
+import { RoundedBox, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, Color } from 'three'
 import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
@@ -9,7 +9,14 @@ import { clamp01, judgementColors, laneColor, laneY, lanes, missedProjectileLing
 
 const PROJECTILE_START_X = PLAYFIELD_PROJECTILE_START_X
 const IMPACT_X = PLAYFIELD_IMPACT_X
-const COLLECTION_X = -1.14
+const COLLECTION_CENTER_X = -1.44
+const COLLECTION_WIDTH = 0.36
+const COLLECTION_INNER_WIDTH = 0.32
+const COLLECTION_LEFT_X = COLLECTION_CENTER_X - COLLECTION_INNER_WIDTH / 2
+const COLLECTION_RIGHT_X = COLLECTION_LEFT_X + COLLECTION_INNER_WIDTH
+const COLLECTION_LANDING_INSET = 0.024
+const COLLECTION_CAPTURE_MS = 520
+const COLLECTION_PARTICLE_POOL_SIZE = 6
 const basePadColors = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane])])) as Record<Lane, Color>
 const basePadEmissives = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane]).multiplyScalar(0.3)])) as Record<Lane, Color>
 const perfectColor = new Color(judgementColors.perfect)
@@ -18,9 +25,16 @@ const missColor = new Color(judgementColors.miss)
 const inputFlashColor = new Color('#ffffff')
 
 type LaneGroups = Partial<Record<Lane, Group | null>>
+type LaneGroupPools = Partial<Record<Lane, Array<Group | null>>>
 type LaneMeshes = Partial<Record<Lane, Mesh | null>>
+type CollectionParticle = { eventId: number; startedAtMs: number; perfect: boolean; targetProgress: number; released: boolean }
+type LaneCollectionParticles = Record<Lane, Array<CollectionParticle | null>>
 type LaneBasicMaterials = Partial<Record<Lane, MeshBasicMaterial | null>>
 type LaneStandardMaterials = Partial<Record<Lane, MeshStandardMaterial | null>>
+
+function createCollectionParticlePools(): LaneCollectionParticles {
+  return { kick: Array(COLLECTION_PARTICLE_POOL_SIZE).fill(null), snare: Array(COLLECTION_PARTICLE_POOL_SIZE).fill(null), low: Array(COLLECTION_PARTICLE_POOL_SIZE).fill(null), mid: Array(COLLECTION_PARTICLE_POOL_SIZE).fill(null), high: Array(COLLECTION_PARTICLE_POOL_SIZE).fill(null) }
+}
 
 function holdVisualLength(durationMs = 0) {
   return Math.min(1.5, 0.46 + durationMs / 2200)
@@ -59,7 +73,8 @@ function ProjectileVisual({ attack }: { attack: Attack }) {
     const travelX = PROJECTILE_START_X + (IMPACT_X - PROJECTILE_START_X) * travel
     const missedAfterImpact = Boolean(!isHold && attack.initialMissed && impactAge >= 0)
     const missProgress = missedAfterImpact ? clamp01(impactAge / missedProjectileLingerMs) : 0
-    const x = missedAfterImpact ? IMPACT_X - missProgress * 0.52 : travelX
+    const x = missedAfterImpact ? IMPACT_X + missProgress * 0.12 : travelX
+    const y = laneY[lane] - (missedAfterImpact ? missProgress * 0.22 : 0)
     const visibleBeforeImpact = now >= attack.startMs
     const holdProgress = isHold && impactAge >= 0 ? clamp01(impactAge / (attack.durationMs ?? 1)) : 0
     const holding = isHold && Boolean(attack.holdStarted) && impactAge >= 0 && holdProgress < 1
@@ -71,17 +86,17 @@ function ProjectileVisual({ attack }: { attack: Attack }) {
 
     if (head.current) {
       head.current.visible = headVisible
-      head.current.position.set(holding || awaitingHold ? IMPACT_X : x, laneY[lane], 0.2)
+      head.current.position.set(holding || awaitingHold ? IMPACT_X : x, holding || awaitingHold ? laneY[lane] : y, 0.2)
       head.current.rotation.x = (now - attack.startMs) / (430 - syncopation * 110)
       head.current.rotation.z = (now - attack.startMs) / (310 - syncopation * 90)
-      head.current.scale.setScalar((isHold ? 1.08 : 1) * (isHeavy ? 1.2 : 1) * energyPulse * completionFade * (missedAfterImpact ? 1 - missProgress * 0.45 : 1))
+      head.current.scale.setScalar((isHold ? 1.08 : 1) * (isHeavy ? 1.2 : 1) * energyPulse * completionFade * (missedAfterImpact ? 1 - missProgress * 0.82 : 1))
     }
     if (halo.current) halo.current.scale.setScalar(0.92 + Math.sin(now / 42) * 0.12)
 
     const ribbonLength = (isHeavy ? 0.4 : 0.34) - syncopation * 0.17 + Math.sin(now / 70) * 0.025
     const ribbonGap = 0.006 + syncopation * 0.028
     const ribbonSegmentLength = Math.max(0.025, (ribbonLength - ribbonGap * 2) / 3)
-    const ribbonVisible = !isHold && visibleBeforeImpact && (impactAge < 0 || missVisible)
+    const ribbonVisible = !isHold && visibleBeforeImpact && impactAge < 0
     ribbonSegments.current.forEach((segment, index) => {
       if (!segment) return
       segment.visible = ribbonVisible
@@ -173,7 +188,13 @@ export function Arena({ attacks, tuning, bpm, collectionProgress, collectionTota
   const padRefs = useRef<LaneGroups>({})
   const padMaterials = useRef<LaneStandardMaterials>({})
   const padRims = useRef<LaneStandardMaterials>({})
-  const collectionMotes = useRef<LaneGroups>({})
+  const collectionMotes = useRef<LaneGroupPools>({})
+  const collectionParticles = useRef<LaneCollectionParticles>(createCollectionParticlePools())
+  const seenCollectionEvents = useRef<Partial<Record<Lane, number>>>({})
+  const collectionFills = useRef<LaneMeshes>({})
+  const displayedCollection = useRef<Record<Lane, number>>({ kick: 0, snare: 0, low: 0, mid: 0, high: 0 })
+  const collectionFillTargets = useRef<Record<Lane, number>>({ kick: 0, snare: 0, low: 0, mid: 0, high: 0 })
+  const collectionSplashAt = useRef<Record<Lane, number>>({ kick: -Infinity, snare: -Infinity, low: -Infinity, mid: -Infinity, high: -Infinity })
   const grindSparks = useRef<LaneGroups>({})
   const impactRings = useRef<LaneMeshes>({})
   const impactRingMaterials = useRef<LaneBasicMaterials>({})
@@ -235,15 +256,77 @@ export function Arena({ attacks, tuning, bpm, collectionProgress, collectionTota
       const inputImpulse = dampedImpulse(inputAge, 190)
       const inputFlash = inputAge >= 0 && inputAge < 130 ? Math.pow(1 - inputAge / 130, 1.7) : 0
       const contactImpulse = successful ? dampedImpulse(feedbackAge, perfect ? 250 : 210, 27) : 0
-      const captureProgress = successful ? clamp01(feedbackAge / 320) : 1
-      const captureMote = collectionMotes.current[lane]
-      if (captureMote) {
-        const captureVisible = successful && feedbackAge >= 0 && feedbackAge < 320
-        const easedCapture = 1 - Math.pow(1 - captureProgress, 3)
-        captureMote.visible = captureVisible
-        captureMote.position.set(IMPACT_X + (COLLECTION_X - IMPACT_X) * easedCapture, laneY[lane] + Math.sin(captureProgress * Math.PI) * 0.055, 0.29)
-        captureMote.rotation.z = feedbackAge / 70
-        captureMote.scale.setScalar((perfect ? 1.18 : 1) * (1 - captureProgress * 0.62))
+      const particlePool = collectionParticles.current[lane]
+      const motePool = collectionMotes.current[lane] ?? []
+      if (event && event.id !== seenCollectionEvents.current[lane]) {
+        seenCollectionEvents.current[lane] = event.id
+        if (successful) {
+          let slot = particlePool.findIndex((particle) => particle === null || now - particle.startedAtMs >= COLLECTION_CAPTURE_MS)
+          if (slot === -1) slot = particlePool.reduce((oldestIndex, particle, index) => (particle?.startedAtMs ?? Infinity) < (particlePool[oldestIndex]?.startedAtMs ?? Infinity) ? index : oldestIndex, 0)
+          particlePool[slot] = { eventId: event.id, startedAtMs: event.startedAtMs, perfect, targetProgress: Math.max(displayedCollection.current[lane], collectionProgress[lane]), released: false }
+        }
+      }
+
+      let activeCollectionParticles = 0
+      particlePool.forEach((particle, index) => {
+        const mote = motePool[index]
+        if (!particle || !mote) return
+        const age = now - particle.startedAtMs
+        const progress = clamp01(age / COLLECTION_CAPTURE_MS)
+        if (age < 0 || age >= COLLECTION_CAPTURE_MS) {
+          mote.visible = false
+          if (age >= COLLECTION_CAPTURE_MS) particlePool[index] = null
+          return
+        }
+        activeCollectionParticles += 1
+        const easedCapture = 1 - Math.pow(1 - progress, 3)
+        const landingProgress = Math.max(particle.targetProgress, displayedCollection.current[lane], collectionProgress[lane])
+        const fluidEdgeX = COLLECTION_LEFT_X + COLLECTION_INNER_WIDTH * landingProgress / 100
+        const moteScale = (particle.perfect ? 1.34 : 1.14) * (1 - progress * 0.78)
+        const moteRadius = 0.052 * moteScale
+        const targetX = Math.min(
+          COLLECTION_RIGHT_X - moteRadius - COLLECTION_LANDING_INSET,
+          Math.max(COLLECTION_LEFT_X + moteRadius + COLLECTION_LANDING_INSET, fluidEdgeX + moteRadius + COLLECTION_LANDING_INSET),
+        )
+        mote.visible = true
+        mote.position.set(IMPACT_X + (targetX - IMPACT_X) * easedCapture, laneY[lane] + Math.sin(progress * Math.PI) * 0.085, 0.31)
+        mote.rotation.z = age / 85 + index * 0.35
+        mote.scale.setScalar(moteScale)
+        const splashProgress = clamp01((progress - 0.7) / 0.3)
+        for (let dropletIndex = 0; dropletIndex < 3; dropletIndex += 1) {
+          const droplet = mote.children[dropletIndex + 3]
+          if (!droplet) continue
+          const angle = dropletIndex * Math.PI * 2 / 3 + index * 0.45
+          if (splashProgress > 0) droplet.position.set(0, Math.sin(angle) * splashProgress * 0.055, 0.012)
+          else droplet.position.set(0.045 + dropletIndex * 0.025, Math.sin(age / 42 + dropletIndex) * 0.018, -0.008)
+          droplet.scale.setScalar(0.78 - splashProgress * 0.38)
+        }
+        if (!particle.released && progress >= 0.7) {
+          particle.released = true
+          particle.targetProgress = landingProgress
+          collectionFillTargets.current[lane] = Math.max(collectionFillTargets.current[lane], landingProgress)
+          collectionSplashAt.current[lane] = now
+        }
+      })
+
+      const targetCollection = collectionProgress[lane]
+      if (targetCollection < collectionFillTargets.current[lane] || targetCollection < displayedCollection.current[lane]) collectionFillTargets.current[lane] = targetCollection
+      else if (activeCollectionParticles === 0 && targetCollection > collectionFillTargets.current[lane]) collectionFillTargets.current[lane] = targetCollection
+      const currentCollection = displayedCollection.current[lane]
+      const fillTarget = collectionFillTargets.current[lane]
+      const nextCollection = currentCollection + (fillTarget - currentCollection) * 0.16
+      displayedCollection.current[lane] = Math.abs(fillTarget - nextCollection) < 0.1 ? fillTarget : nextCollection
+      const collectionFill = collectionFills.current[lane]
+      if (collectionFill) {
+        const displayedWidth = COLLECTION_INNER_WIDTH * displayedCollection.current[lane] / 100
+        const splashAge = now - collectionSplashAt.current[lane]
+        const splashEnergy = splashAge >= 0 ? Math.exp(-splashAge / 190) : 0
+        collectionFill.visible = displayedWidth > 0.001
+        collectionFill.position.x = COLLECTION_LEFT_X + displayedWidth / 2
+        collectionFill.scale.x = displayedCollection.current[lane] / 100
+        collectionFill.scale.y = 0.97 + Math.sin(now / 150 + lanes.indexOf(lane) * 0.8) * 0.035 + splashEnergy * 0.13
+        const collectionMaterial = collectionFill.material as MeshStandardMaterial
+        collectionMaterial.emissiveIntensity = 1.4 + Math.sin(now / 190 + lanes.indexOf(lane)) * 0.2 + splashEnergy * 2.1
       }
       const activeHold = activeHolds[lane]
       const grinding = Boolean(activeHold?.holdStarted && heldLanes.has(lane))
@@ -336,18 +419,24 @@ export function Arena({ attacks, tuning, bpm, collectionProgress, collectionTota
         const color = laneColor[lane]
         return (
           <group key={lane}>
-            <mesh position={[COLLECTION_X, laneY[lane], 0.07]}><boxGeometry args={[0.17, 0.21, 0.08]} /><meshBasicMaterial color="#101a2d" /></mesh>
-            {collectionProgress[lane] > 0 ? <mesh position={[COLLECTION_X, laneY[lane] - 0.08 + (0.16 * collectionProgress[lane] / 100) / 2, 0.115]}><boxGeometry args={[0.135, 0.16 * collectionProgress[lane] / 100, 0.018]} /><meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.7} transparent opacity={0.72} roughness={0.35} /></mesh> : null}
-            {collectionTotals[lane] > 0 ? <Text position={[COLLECTION_X, laneY[lane], 0.145]} fontSize={collectionProgress[lane] >= 100 ? 0.042 : 0.052} color={collectionProgress[lane] > 0 ? '#ffffff' : '#8290a8'} anchorX="center" anchorY="middle">{collectionProgress[lane]}%</Text> : null}
+            {collectionTotals[lane] > 0 ? <Text position={[-1.67, laneY[lane] - 0.004, 0.15]} fontSize={collectionProgress[lane] >= 100 ? 0.047 : 0.052} color="#f3f7ff" anchorX="right" anchorY="middle">{collectionProgress[lane]}%</Text> : null}
+            <RoundedBox position={[COLLECTION_CENTER_X, laneY[lane], 0.07]} args={[COLLECTION_WIDTH, 0.17, 0.08]} radius={0.035} smoothness={4}><meshStandardMaterial color="#1a2a43" emissive="#29405f" emissiveIntensity={0.18} roughness={0.24} metalness={0.1} /></RoundedBox>
+            <mesh ref={(mesh) => { collectionFills.current[lane] = mesh }} position={[COLLECTION_LEFT_X, laneY[lane], 0.115]} scale={[0, 1, 1]} visible={false}><boxGeometry args={[COLLECTION_INNER_WIDTH, 0.115, 0.018]} /><meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.25} transparent opacity={0.94} roughness={0.16} metalness={0.02} toneMapped={false} /></mesh>
+            <RoundedBox position={[COLLECTION_CENTER_X, laneY[lane], 0.135]} args={[COLLECTION_WIDTH, 0.17, 0.018]} radius={0.035} smoothness={4}><meshBasicMaterial color="#d7ebff" transparent opacity={0.1} depthWrite={false} /></RoundedBox>
+            <RoundedBox position={[COLLECTION_CENTER_X, laneY[lane] + 0.055, 0.158]} args={[0.29, 0.008, 0.006]} radius={0.004} smoothness={3}><meshBasicMaterial color="#ffffff" transparent opacity={0.22} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></RoundedBox>
             <mesh position={[-1.055, laneY[lane], 0.12]}><boxGeometry args={[0.078, 0.205, 0.075]} /><meshStandardMaterial ref={(material) => { padRims.current[lane] = material }} color="#253753" emissive={color} emissiveIntensity={0.42} metalness={0.52} roughness={0.32} /></mesh>
             <group ref={(group) => { padRefs.current[lane] = group }} position={[-1.02, laneY[lane], 0.17]}>
               <mesh><boxGeometry args={[0.055, 0.145, 0.09]} /><meshStandardMaterial ref={(material) => { padMaterials.current[lane] = material }} color={color} emissive={color} emissiveIntensity={1.1} metalness={0.18} roughness={0.28} /></mesh>
               <mesh position={[0.031, 0, 0.015]}><boxGeometry args={[0.008, 0.09, 0.05]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.48} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
             </group>
-            <group ref={(group) => { collectionMotes.current[lane] = group }} visible={false}>
-              <mesh><sphereGeometry args={[0.042, 12, 8]} /><meshBasicMaterial color={color} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
-              <mesh><sphereGeometry args={[0.019, 10, 6]} /><meshBasicMaterial color="#ffffff" blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
-            </group>
+            {Array.from({ length: COLLECTION_PARTICLE_POOL_SIZE }, (_, particleIndex) => (
+              <group key={`collection-${particleIndex}`} ref={(group) => { const pool = collectionMotes.current[lane] ?? []; pool[particleIndex] = group; collectionMotes.current[lane] = pool }} visible={false}>
+                <mesh><sphereGeometry args={[0.052, 14, 9]} /><meshBasicMaterial color={color} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+                <mesh><sphereGeometry args={[0.024, 10, 6]} /><meshBasicMaterial color="#ffffff" blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+                <mesh scale={1.75}><sphereGeometry args={[0.052, 12, 8]} /><meshBasicMaterial color={color} transparent opacity={0.18} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+                {[0, 1, 2].map((dropletIndex) => <mesh key={dropletIndex}><sphereGeometry args={[0.016 - dropletIndex * 0.002, 8, 6]} /><meshBasicMaterial color={dropletIndex === 1 ? '#ffffff' : color} transparent opacity={0.9} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>)}
+              </group>
+            ))}
             <group ref={(group) => { grindSparks.current[lane] = group }} position={[-0.88, laneY[lane], 0.25]} visible={false}>
               {[0, 1, 2, 3, 4, 5].map((index) => <mesh key={index} rotation={[0, 0, index * Math.PI / 3]} position={[0.105, 0, 0]}><boxGeometry args={[0.13, 0.012, 0.012]} /><meshBasicMaterial color={index % 2 ? '#ff9f43' : '#fff2a8'} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>)}
             </group>
@@ -365,7 +454,6 @@ export function Arena({ attacks, tuning, bpm, collectionProgress, collectionTota
                 })}
               </group>
             </group>
-            <Text position={[-1.39, laneY[lane] - 0.01, 0.14]} fontSize={0.068} color="#d9e5ff" anchorX="center">{lane.toUpperCase()}</Text>
           </group>
         )
       })}
@@ -383,6 +471,7 @@ export function Arena({ attacks, tuning, bpm, collectionProgress, collectionTota
                 <mesh rotation={[0, 0, Math.PI / 4]}><boxGeometry args={[0.18, 0.018, 0.018]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.8} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
               </group>
             </group>
+            <Text position={[1.88, laneY[lane] - 0.004, 0.14]} fontSize={0.064} color="#d9e5ff" anchorX="left" anchorY="middle">{lane.toUpperCase()}</Text>
           </group>
         )
       })}

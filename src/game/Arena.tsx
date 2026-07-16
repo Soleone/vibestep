@@ -9,6 +9,7 @@ import { clamp01, judgementColors, laneColor, laneY, lanes, missedProjectileLing
 
 const PROJECTILE_START_X = PLAYFIELD_PROJECTILE_START_X
 const IMPACT_X = PLAYFIELD_IMPACT_X
+const COLLECTION_X = -1.14
 const basePadColors = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane])])) as Record<Lane, Color>
 const basePadEmissives = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane]).multiplyScalar(0.3)])) as Record<Lane, Color>
 const perfectColor = new Color(judgementColors.perfect)
@@ -156,13 +157,15 @@ type ArenaProps = {
   attacks: Attack[]
   tuning: Tuning
   bpm: number
+  collectionProgress: Record<Lane, number>
+  collectionTotals: Record<Lane, number>
   laneFeedback: LaneFeedback
   padTriggers: Record<Lane, number>
   heldLanes: Set<Lane>
   onPhaseChange: (phase: string) => void
 }
 
-export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLanes, onPhaseChange }: ArenaProps) {
+export function Arena({ attacks, tuning, bpm, collectionProgress, collectionTotals, laneFeedback, padTriggers, heldLanes, onPhaseChange }: ArenaProps) {
   const cannonRefs = useRef<LaneGroups>({})
   const cannonChambers = useRef<LaneStandardMaterials>({})
   const muzzleFlashes = useRef<LaneGroups>({})
@@ -170,6 +173,7 @@ export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLan
   const padRefs = useRef<LaneGroups>({})
   const padMaterials = useRef<LaneStandardMaterials>({})
   const padRims = useRef<LaneStandardMaterials>({})
+  const collectionMotes = useRef<LaneGroups>({})
   const grindSparks = useRef<LaneGroups>({})
   const impactRings = useRef<LaneMeshes>({})
   const impactRingMaterials = useRef<LaneBasicMaterials>({})
@@ -231,6 +235,16 @@ export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLan
       const inputImpulse = dampedImpulse(inputAge, 190)
       const inputFlash = inputAge >= 0 && inputAge < 130 ? Math.pow(1 - inputAge / 130, 1.7) : 0
       const contactImpulse = successful ? dampedImpulse(feedbackAge, perfect ? 250 : 210, 27) : 0
+      const captureProgress = successful ? clamp01(feedbackAge / 320) : 1
+      const captureMote = collectionMotes.current[lane]
+      if (captureMote) {
+        const captureVisible = successful && feedbackAge >= 0 && feedbackAge < 320
+        const easedCapture = 1 - Math.pow(1 - captureProgress, 3)
+        captureMote.visible = captureVisible
+        captureMote.position.set(IMPACT_X + (COLLECTION_X - IMPACT_X) * easedCapture, laneY[lane] + Math.sin(captureProgress * Math.PI) * 0.055, 0.29)
+        captureMote.rotation.z = feedbackAge / 70
+        captureMote.scale.setScalar((perfect ? 1.18 : 1) * (1 - captureProgress * 0.62))
+      }
       const activeHold = activeHolds[lane]
       const grinding = Boolean(activeHold?.holdStarted && heldLanes.has(lane))
       const grindJitter = grinding ? Math.sin(now / 19) * 0.008 : 0
@@ -322,11 +336,17 @@ export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLan
         const color = laneColor[lane]
         return (
           <group key={lane}>
-            <mesh position={[-1.09, laneY[lane], 0.06]}><boxGeometry args={[0.12, 0.25, 0.1]} /><meshStandardMaterial color="#1b263e" metalness={0.68} roughness={0.38} /></mesh>
+            <mesh position={[COLLECTION_X, laneY[lane], 0.07]}><boxGeometry args={[0.17, 0.21, 0.08]} /><meshBasicMaterial color="#101a2d" /></mesh>
+            {collectionProgress[lane] > 0 ? <mesh position={[COLLECTION_X, laneY[lane] - 0.08 + (0.16 * collectionProgress[lane] / 100) / 2, 0.115]}><boxGeometry args={[0.135, 0.16 * collectionProgress[lane] / 100, 0.018]} /><meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.7} transparent opacity={0.72} roughness={0.35} /></mesh> : null}
+            {collectionTotals[lane] > 0 ? <Text position={[COLLECTION_X, laneY[lane], 0.145]} fontSize={collectionProgress[lane] >= 100 ? 0.042 : 0.052} color={collectionProgress[lane] > 0 ? '#ffffff' : '#8290a8'} anchorX="center" anchorY="middle">{collectionProgress[lane]}%</Text> : null}
             <mesh position={[-1.055, laneY[lane], 0.12]}><boxGeometry args={[0.078, 0.205, 0.075]} /><meshStandardMaterial ref={(material) => { padRims.current[lane] = material }} color="#253753" emissive={color} emissiveIntensity={0.42} metalness={0.52} roughness={0.32} /></mesh>
             <group ref={(group) => { padRefs.current[lane] = group }} position={[-1.02, laneY[lane], 0.17]}>
               <mesh><boxGeometry args={[0.055, 0.145, 0.09]} /><meshStandardMaterial ref={(material) => { padMaterials.current[lane] = material }} color={color} emissive={color} emissiveIntensity={1.1} metalness={0.18} roughness={0.28} /></mesh>
               <mesh position={[0.031, 0, 0.015]}><boxGeometry args={[0.008, 0.09, 0.05]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.48} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+            </group>
+            <group ref={(group) => { collectionMotes.current[lane] = group }} visible={false}>
+              <mesh><sphereGeometry args={[0.042, 12, 8]} /><meshBasicMaterial color={color} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
+              <mesh><sphereGeometry args={[0.019, 10, 6]} /><meshBasicMaterial color="#ffffff" blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
             </group>
             <group ref={(group) => { grindSparks.current[lane] = group }} position={[-0.88, laneY[lane], 0.25]} visible={false}>
               {[0, 1, 2, 3, 4, 5].map((index) => <mesh key={index} rotation={[0, 0, index * Math.PI / 3]} position={[0.105, 0, 0]}><boxGeometry args={[0.13, 0.012, 0.012]} /><meshBasicMaterial color={index % 2 ? '#ff9f43' : '#fff2a8'} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>)}
@@ -345,7 +365,7 @@ export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLan
                 })}
               </group>
             </group>
-            <Text position={[-1.29, laneY[lane] - 0.01, 0.14]} fontSize={0.068} color="#d9e5ff" anchorX="center">{lane.toUpperCase()}</Text>
+            <Text position={[-1.39, laneY[lane] - 0.01, 0.14]} fontSize={0.068} color="#d9e5ff" anchorX="center">{lane.toUpperCase()}</Text>
           </group>
         )
       })}

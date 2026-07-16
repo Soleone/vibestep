@@ -10,6 +10,7 @@ export type Beatmap = { id: string; songId?: string; title: string; difficulty?:
 export type PlayStats = { hit: number; perfect: number; good: number; missed: number; streak: number; bestStreak: number }
 export type GridDivision = 4 | 8 | 16 | 32 | 64
 export type LaneControls = Record<Lane, { keyboard: string; gamepadButton: number }>
+export type LaneCounts = Record<Lane, number>
 export type TimelineBounds = { startMs: number; endMs: number; spanMs: number }
 export type TimelineGridLine = { left: number; strength: 'bar' | 'beat' | 'sub'; label?: string }
 export type LoopMarkers = { startMs: number | null; endMs: number | null }
@@ -41,6 +42,22 @@ export const laneColor: Record<Lane, string> = {
   high: '#83ff70',
 }
 export const lanes = ['kick', 'snare', 'low', 'mid', 'high'] as const
+
+export function createLaneCounts(value = 0): LaneCounts {
+  return { kick: value, snare: value, low: value, mid: value, high: value }
+}
+
+export function countNotesByLane(notes: Array<Pick<BeatmapNote, 'lane'>>): LaneCounts {
+  const counts = createLaneCounts()
+  for (const note of notes) counts[note.lane] += 1
+  return counts
+}
+
+export function collectionPercent(collected: number, total: number) {
+  if (!Number.isFinite(collected) || !Number.isFinite(total) || total <= 0) return 0
+  return Math.round(Math.min(1, Math.max(0, collected / total)) * 100)
+}
+
 export const defaultControls: LaneControls = {
   kick: { keyboard: 'KeyA', gamepadButton: 0 },
   snare: { keyboard: 'KeyD', gamepadButton: 1 },

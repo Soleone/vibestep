@@ -13,6 +13,7 @@ const basePadEmissives = Object.fromEntries(lanes.map((lane) => [lane, new Color
 const perfectColor = new Color(judgementColors.perfect)
 const goodColor = new Color(judgementColors.good)
 const missColor = new Color(judgementColors.miss)
+const inputFlashColor = new Color('#ffffff')
 
 type LaneGroups = Partial<Record<Lane, Group | null>>
 type LaneMeshes = Partial<Record<Lane, Mesh | null>>
@@ -225,6 +226,7 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
       const hitColor = perfect ? perfectColor : successful ? goodColor : missColor
       const inputAge = now - (padTriggers[lane] || -Infinity)
       const inputImpulse = dampedImpulse(inputAge, 190)
+      const inputFlash = inputAge >= 0 && inputAge < 130 ? Math.pow(1 - inputAge / 130, 1.7) : 0
       const contactImpulse = successful ? dampedImpulse(feedbackAge, perfect ? 250 : 210, 27) : 0
       const activeHold = activeHolds[lane]
       const grinding = Boolean(activeHold?.holdStarted && heldLanes.has(lane))
@@ -233,15 +235,15 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
       if (pad) {
         pad.position.x = -1.02 + inputImpulse * 0.065 + contactImpulse * 0.035 - (grinding ? 0.04 : 0)
         pad.position.y = laneY[lane] + grindJitter
-        pad.scale.x = 1 + Math.max(0, contactImpulse) * 0.18 + (grinding ? 0.28 : 0)
-        pad.scale.y = 1 - Math.max(0, inputImpulse) * 0.08 + Math.max(0, contactImpulse) * 0.12 - (grinding ? 0.2 : 0)
+        pad.scale.x = 1 + inputFlash * 0.08 + Math.max(0, contactImpulse) * 0.18 + (grinding ? 0.28 : 0)
+        pad.scale.y = 1 - Math.max(0, inputImpulse) * 0.08 - inputFlash * 0.1 + Math.max(0, contactImpulse) * 0.12 - (grinding ? 0.2 : 0)
       }
       const padMaterial = padMaterials.current[lane]
       if (padMaterial) {
         const flash = successful ? Math.pow(feedbackLife, 0.55) : 0
-        padMaterial.color.copy(basePadColors[lane]).lerp(hitColor, flash * 0.82)
-        padMaterial.emissive.copy(basePadEmissives[lane]).lerp(hitColor, flash)
-        padMaterial.emissiveIntensity = 1.1 + flash * (perfect ? 3.8 : 2.5) + (grinding ? 1.2 : 0)
+        padMaterial.color.copy(basePadColors[lane]).lerp(hitColor, flash * 0.82).lerp(inputFlashColor, inputFlash * 0.22)
+        padMaterial.emissive.copy(basePadEmissives[lane]).lerp(hitColor, flash).lerp(inputFlashColor, inputFlash * 0.32)
+        padMaterial.emissiveIntensity = 1.1 + inputFlash * 3 + flash * (perfect ? 3.8 : 2.5) + (grinding ? 1.2 : 0)
       }
       const rimMaterial = padRims.current[lane]
       if (rimMaterial) rimMaterial.emissiveIntensity = 0.42 + feedbackLife * (perfect ? 3.2 : 1.8) + (grinding ? 0.8 : 0)

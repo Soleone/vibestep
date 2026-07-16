@@ -10,6 +10,7 @@ import { createShareBundle, parseShareBundle, SHARE_BUNDLE_SCHEMA } from './doma
 import { parseSongPackage, SONG_PACKAGE_SCHEMA, SONG_PACKAGE_VERSION, type SongPackage } from './domain/song-package'
 import { EditorTimeline } from './editor/EditorTimeline'
 import { planPatternSync } from './editor/pattern-sync'
+import { notesTouchedByPlayhead } from './editor/playhead-selection'
 import { planSmartDuplicate } from './editor/smart-duplicate'
 import { windowTimelineNotes } from './editor/timeline-window'
 import { HitNotify } from './game/HitNotify'
@@ -155,6 +156,7 @@ function App() {
   const companion = useMemo(() => new CompanionClient(), [])
   const packageRepository = useMemo(() => createLocalStorageSongPackageRepository(), [])
   const scheduledNoteIds = useRef(new Set<string>())
+  const shiftWheelSelection = useRef<{ anchorTimeMs: number; baselineIds: Set<string> } | null>(null)
   const loopCycle = useRef(0)
   const isLoopSeeking = useRef(false)
   const playbackResetAt = useRef(0)
@@ -178,6 +180,19 @@ function App() {
     const stopMetrics = runtimeMetrics.start()
     const publishMetrics = window.setInterval(() => setPerformanceSnapshot(runtimeMetrics.snapshot()), 1000)
     return () => { stopMetrics(); window.clearInterval(publishMetrics) }
+  }, [])
+
+  useEffect(() => {
+    const endShiftWheelSelection = (event: KeyboardEvent) => {
+      if (event.key === 'Shift') shiftWheelSelection.current = null
+    }
+    const cancelShiftWheelSelection = () => { shiftWheelSelection.current = null }
+    window.addEventListener('keyup', endShiftWheelSelection)
+    window.addEventListener('blur', cancelShiftWheelSelection)
+    return () => {
+      window.removeEventListener('keyup', endShiftWheelSelection)
+      window.removeEventListener('blur', cancelShiftWheelSelection)
+    }
   }, [])
 
   useEffect(() => {
@@ -1328,13 +1343,15 @@ function App() {
     const nextIndex = direction === 'in' ? Math.max(0, safeIndex - 1) : Math.min(zoomOptions.length - 1, safeIndex + 1)
     setTimelineZoomPreservingPlayhead(zoomOptions[nextIndex])
   }, [setTimelineZoomPreservingPlayhead, timelineZoomSeconds, zoomOptions])
-  const handleTimelineWheel = useCallback((event: globalThis.WheelEvent, zoomFromRuler: boolean) => {
+  const handleTimelineWheel = useCallback((event: globalThis.WheelEvent) => {
     event.preventDefault()
-    if (zoomFromRuler) {
-      zoomTimeline(event.deltaY < 0 ? 'in' : 'out')
+    const wheelDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
+    if (event.ctrlKey || event.metaKey) {
+      shiftWheelSelection.current = null
+      if (wheelDelta !== 0) zoomTimeline(wheelDelta < 0 ? 'in' : 'out')
       return
     }
-    const wheelDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
+    if (!event.shiftKey) shiftWheelSelection.current = null
     let nextTimeMs: number
     if (quantize && !event.altKey) {
       const gridSteps = Math.max(1, Math.round(Math.abs(wheelDelta) / 100))
@@ -1346,6 +1363,22 @@ function App() {
     seekTimeline(nextTimeMs, event.altKey)
     const previousTimeMs = quantize && !event.altKey ? beatOffsetMs + Math.round((songTimeMs - beatOffsetMs) / gridMs) * gridMs : songTimeMs
     const timelineDeltaMs = snappedTimeMs - previousTimeMs
+    if (event.shiftKey) {
+      const selection = shiftWheelSelection.current ?? {
+        anchorTimeMs: previousTimeMs,
+        baselineIds: new Set(selectedNoteIds),
+      }
+      shiftWheelSelection.current = selection
+      const touchedNoteIds = notesTouchedByPlayhead(
+        [...(beatmap?.notes ?? []), ...recordedNotes],
+        selection.anchorTimeMs,
+        snappedTimeMs,
+        true,
+      )
+      const nextSelection = new Set(selection.baselineIds)
+      touchedNoteIds.forEach((id) => nextSelection.add(id))
+      setSelectedNoteIds(nextSelection)
+    }
     const edgeGuardMs = quantize && !event.altKey ? gridMs * 2 : timelineBounds.spanMs * 0.08
     const leftGuardMs = timelineBounds.startMs + edgeGuardMs
     const rightGuardMs = timelineBounds.endMs - edgeGuardMs
@@ -1355,7 +1388,7 @@ function App() {
     if (timelineDeltaMs > 0 && snappedTimeMs >= rightGuardMs) {
       setTimelineCenterMs(snappedTimeMs - timelineBounds.spanMs / 2 + edgeGuardMs)
     }
-  }, [beatOffsetMs, gridMs, quantize, seekTimeline, songTimeMs, timelineBounds, zoomTimeline])
+  }, [beatOffsetMs, beatmap?.notes, gridMs, quantize, recordedNotes, seekTimeline, selectedNoteIds, songTimeMs, timelineBounds, zoomTimeline])
   const centerTimelineOnPlayhead = useCallback(() => setTimelineCenterMs(songTimeMs), [songTimeMs])
   const setBeatOneAtPlayhead = useCallback(() => { checkpointEditor(); setBeatOffsetMs(Math.max(0, songTimeMs)) }, [checkpointEditor, songTimeMs])
   const nudgeBeatOffset = useCallback((deltaMs: number) => { checkpointEditor('beat-offset'); setBeatOffsetMs((value) => Math.max(0, value + deltaMs)) }, [checkpointEditor])

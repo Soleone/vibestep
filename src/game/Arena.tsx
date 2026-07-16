@@ -2,12 +2,13 @@ import { Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, Color } from 'three'
 import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
+import { PLAYFIELD_IMPACT_X, PLAYFIELD_PROJECTILE_START_X, makePlayfieldBeatDividers } from './playfield-grid'
 import { attackPhase } from './timing'
 import { clamp01, judgementColors, laneColor, laneY, lanes, missedProjectileLingerMs, type Attack, type Lane, type LaneFeedback, type Tuning } from './model'
 
-const PROJECTILE_START_X = 1.34
-const IMPACT_X = -0.91
+const PROJECTILE_START_X = PLAYFIELD_PROJECTILE_START_X
+const IMPACT_X = PLAYFIELD_IMPACT_X
 const basePadColors = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane])])) as Record<Lane, Color>
 const basePadEmissives = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane]).multiplyScalar(0.3)])) as Record<Lane, Color>
 const perfectColor = new Color(judgementColors.perfect)
@@ -154,13 +155,14 @@ function ProjectileVisual({ attack }: { attack: Attack }) {
 type ArenaProps = {
   attacks: Attack[]
   tuning: Tuning
+  bpm: number
   laneFeedback: LaneFeedback
   padTriggers: Record<Lane, number>
   heldLanes: Set<Lane>
   onPhaseChange: (phase: string) => void
 }
 
-export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, onPhaseChange }: ArenaProps) {
+export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLanes, onPhaseChange }: ArenaProps) {
   const cannonRefs = useRef<LaneGroups>({})
   const cannonChambers = useRef<LaneStandardMaterials>({})
   const muzzleFlashes = useRef<LaneGroups>({})
@@ -179,6 +181,7 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
   const heavyConfettiMaterials = useRef<Partial<Record<Lane, Array<MeshBasicMaterial | null>>>>({})
   const publishedPhase = useRef('queued')
   const primaryAttack = attacks[0]
+  const beatDividers = useMemo(() => makePlayfieldBeatDividers(bpm, tuning.telegraphMs), [bpm, tuning.telegraphMs])
 
   useFrame(() => {
     const now = performance.now()
@@ -308,6 +311,13 @@ export function Arena({ attacks, tuning, laneFeedback, padTriggers, heldLanes, o
       <mesh position={[0, -0.89, 0.2]}><boxGeometry args={[5.6, 0.012, 0.16]} /><meshBasicMaterial color="#28345a" transparent opacity={0.42} /></mesh>
       <mesh position={[-1.08, 0.1, -0.05]}><boxGeometry args={[0.08, 1.72, 0.08]} /><meshStandardMaterial color="#11192c" metalness={0.55} roughness={0.45} /></mesh>
       <mesh position={[1.56, 0.1, -0.05]}><boxGeometry args={[0.1, 1.72, 0.08]} /><meshStandardMaterial color="#11192c" metalness={0.55} roughness={0.45} /></mesh>
+
+      {beatDividers.map((divider, index) => (
+        <mesh key={`${divider.strength}-${index}`} position={[divider.x, 0.1, -0.015]}>
+          <boxGeometry args={[divider.strength === 'beat' ? 0.012 : 0.007, 1.58, 0.018]} />
+          <meshBasicMaterial color="#8fa8d4" transparent opacity={divider.strength === 'beat' ? 0.13 : 0.065} depthWrite={false} toneMapped={false} />
+        </mesh>
+      ))}
 
       {lanes.map((lane) => {
         const color = laneColor[lane]

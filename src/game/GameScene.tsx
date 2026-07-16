@@ -14,7 +14,7 @@ type GameSceneProps = {
 
 export function GameScene({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLanes, onPhaseChange }: GameSceneProps) {
   return (
-    <Canvas camera={{ position: [0, 0.18, 7.2], fov: 42 }} dpr={1}>
+    <Canvas camera={{ position: [0, 0.18, 7.2], fov: 42 }} dpr={[1, 1.5]}>
       <Arena attacks={attacks} tuning={tuning} bpm={bpm} laneFeedback={laneFeedback} padTriggers={padTriggers} heldLanes={heldLanes} onPhaseChange={onPhaseChange} />
     </Canvas>
   )

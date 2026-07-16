@@ -310,7 +310,6 @@ export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLan
       <mesh position={[0, -0.92, 0]}><boxGeometry args={[6.2, 0.04, 1.4]} /><meshStandardMaterial color="#151d35" roughness={0.72} metalness={0.22} /></mesh>
       <mesh position={[0, -0.89, 0.2]}><boxGeometry args={[5.6, 0.012, 0.16]} /><meshBasicMaterial color="#28345a" transparent opacity={0.42} /></mesh>
       <mesh position={[-1.08, 0.1, -0.05]}><boxGeometry args={[0.08, 1.72, 0.08]} /><meshStandardMaterial color="#11192c" metalness={0.55} roughness={0.45} /></mesh>
-      <mesh position={[1.56, 0.1, -0.05]}><boxGeometry args={[0.1, 1.72, 0.08]} /><meshStandardMaterial color="#11192c" metalness={0.55} roughness={0.45} /></mesh>
 
       {beatDividers.map((divider, index) => (
         <mesh key={`${divider.strength}-${index}`} position={[divider.x, 0.1, -0.015]}>
@@ -355,11 +354,10 @@ export function Arena({ attacks, tuning, bpm, laneFeedback, padTriggers, heldLan
         const color = laneColor[lane]
         return (
           <group key={`cannon-${lane}`}>
-            <mesh position={[1.59, laneY[lane], 0.02]}><boxGeometry args={[0.11, 0.23, 0.1]} /><meshStandardMaterial color="#182138" metalness={0.72} roughness={0.38} /></mesh>
             <group ref={(group) => { cannonRefs.current[lane] = group }} position={[1.55, laneY[lane], 0.12]}>
-              <mesh position={[0.03, 0, 0]}><boxGeometry args={[0.25, 0.17, 0.13]} /><meshStandardMaterial color="#253451" metalness={0.66} roughness={0.32} /></mesh>
-              <mesh position={[-0.135, 0, 0]}><boxGeometry args={[0.18, 0.095, 0.085]} /><meshStandardMaterial color="#3a4c6a" metalness={0.72} roughness={0.26} /></mesh>
-              <mesh position={[0.04, 0, 0.075]}><boxGeometry args={[0.11, 0.09, 0.035]} /><meshStandardMaterial ref={(material) => { cannonChambers.current[lane] = material }} color={color} emissive={color} emissiveIntensity={0.65} roughness={0.2} /></mesh>
+              <mesh position={[0.03, 0, 0]}><boxGeometry args={[0.24, 0.15, 0.1]} /><meshBasicMaterial color="#1d2e4b" /></mesh>
+              <mesh position={[-0.145, 0, 0]}><boxGeometry args={[0.18, 0.072, 0.065]} /><meshBasicMaterial color="#2b4367" /></mesh>
+              <mesh position={[0.04, 0, 0.055]}><boxGeometry args={[0.105, 0.082, 0.025]} /><meshStandardMaterial ref={(material) => { cannonChambers.current[lane] = material }} color={color} emissive={color} emissiveIntensity={0.8} roughness={0.28} metalness={0.1} /></mesh>
               <group ref={(group) => { muzzleFlashes.current[lane] = group }} position={[-0.245, 0, 0.02]} visible={false}>
                 <mesh rotation={[0, Math.PI / 2, 0]}><ringGeometry args={[0.045, 0.075, 20]} /><meshBasicMaterial ref={(material) => { muzzleMaterials.current[lane] = material }} color={color} transparent opacity={0} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
                 <mesh rotation={[0, 0, Math.PI / 4]}><boxGeometry args={[0.18, 0.018, 0.018]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.8} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>

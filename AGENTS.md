@@ -12,6 +12,12 @@ Do not let the app become sloppy or unmaintainable. Prefer clear, typed modules 
 
 When changing code, leave it easier to navigate than you found it. Use descriptive names, small pure helpers for state transformations, and colocated components for feature-specific UI. Shared constants and types should live in explicit modules, not be duplicated across the app.
 
+### `App.tsx` is a composition root
+
+Treat `src/App.tsx` as wiring and top-level composition, not as the default home for new feature implementations. Do not add a feature-specific lifecycle, state machine, history store, persistence workflow, or cluster of related effects and callbacks directly to `App.tsx`. Extract that behavior into a focused typed hook or module, then expose a small API to `App.tsx`.
+
+A feature is not adequately modularized merely because its interfaces or pure helpers were extracted while its orchestration remains in `App.tsx`. Before finishing a substantial change, review the `App.tsx` diff. If the feature added a coherent block of state, refs, effects, and callbacks, move that block behind a feature boundary. Keep pure transformations separately testable from React lifecycle code.
+
 ## Project vision
 
 Beat Fiend is a tiny beatmap DAW with a rhythm-game playtest mode. The long-term idea is: import any song, align a 4/4 beat grid, generate or record a draft beatmap from musical events, refine the beatmap by jamming along, then playtest it with rhythm-game timing and scoring feedback.
@@ -37,7 +43,7 @@ Projectiles should **hit the pad on the beat**. Do not schedule notes so project
 Important files:
 
 ```txt
-src/App.tsx          Main app, scene, tabs, gameplay state, editor UI
+src/App.tsx          Composition root for top-level scene, tabs, and feature wiring
 src/App.css          Layout and UI styling
 src/game/timing.ts   Timing judgement logic
 companion/           Local audio import/cache service

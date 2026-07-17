@@ -19,10 +19,11 @@ function markerGlyph(aggregate: NoteFeedbackAggregate) {
   if (aggregate.direction === 'mixed') return '↔'
   if (aggregate.direction === 'centered') return '✓'
   if (aggregate.direction === 'no-input') return '×'
+  if (aggregate.latestResult.grade === 'perfect') return '✓'
   if (aggregate.latestResult.deltaMs === null) return '×'
   if (aggregate.latestResult.deltaMs < 0) return '←'
   if (aggregate.latestResult.deltaMs > 0) return '→'
-  return aggregate.latestResult.grade === 'perfect' ? '✓' : '•'
+  return '•'
 }
 
 function timingDescription(deltaMs: number | null) {
@@ -52,7 +53,7 @@ export const RunFeedbackMarker = memo(function RunFeedbackMarker({ aggregate, le
   const [position, setPosition] = useState({ left: 0, top: 0, above: false })
   const quality = markerQuality(aggregate)
   const glyph = markerGlyph(aggregate)
-  const ariaLabel = `${aggregate.attemptCount} attempts across ${aggregate.runCount} runs. ${aggregate.direction} timing, ${aggregate.confidence} confidence. Latest ${describeRunNoteSummary(aggregate.latestResult)}.`
+  const ariaLabel = `${aggregate.attemptCount} ${aggregate.attemptCount === 1 ? 'attempt' : 'attempts'} across ${aggregate.runCount} ${aggregate.runCount === 1 ? 'run' : 'runs'}. ${aggregate.direction} timing, ${aggregate.confidence} confidence. Latest ${describeRunNoteSummary(aggregate.latestResult)}.`
 
   useEffect(() => {
     if (!open) return

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { RunHistoryRepository } from '../storage/run-history-repository'
 import type { Attack, Beatmap } from './model'
-import { aggregateNoteFeedback } from './run-feedback-aggregation'
+import { aggregateNoteFeedback, type NoteFeedbackAggregate } from './run-feedback-aggregation'
 import { createNoteRevisionKey, createPlayRun, createRunNoteSnapshot, type PlayRun, type RunNoteJudgement } from './run-history'
 import type { ParryGrade } from './timing'
 
@@ -26,9 +26,33 @@ type UsePlayRunHistoryOptions = {
 
 const sortRuns = (runs: PlayRun[]) => runs.toSorted((a, b) => a.startedAt.localeCompare(b.startedAt))
 
+function summarizeFeedback(aggregates: ReadonlyMap<string, NoteFeedbackAggregate>) {
+  const summary = {
+    notesWithFeedback: aggregates.size,
+    repeatedIssues: 0,
+    consistentlyEarly: 0,
+    consistentlyLate: 0,
+    mixedTiming: 0,
+    perfectNotes: 0,
+    goodNotes: 0,
+    needsWorkNotes: 0,
+  }
+  aggregates.forEach((aggregate) => {
+    if (aggregate.direction === 'early') summary.consistentlyEarly += 1
+    if (aggregate.direction === 'late') summary.consistentlyLate += 1
+    if (aggregate.direction === 'mixed') summary.mixedTiming += 1
+    if (aggregate.attemptCount >= 3 && (aggregate.direction === 'early' || aggregate.direction === 'late' || aggregate.direction === 'mixed' || aggregate.direction === 'no-input' || aggregate.missRate >= 0.3)) summary.repeatedIssues += 1
+    if (aggregate.latestResult.grade === 'perfect') summary.perfectNotes += 1
+    else if (aggregate.latestResult.grade === 'good') summary.goodNotes += 1
+    else summary.needsWorkNotes += 1
+  })
+  return summary
+}
+
 export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, enabled, repository }: UsePlayRunHistoryOptions) {
   const [runs, setRuns] = useState<PlayRun[]>([])
   const [storageError, setStorageError] = useState<string | null>(null)
+  const [showLastRunOnly, setShowLastRunOnly] = useState(false)
   const activeRun = useRef<ActiveRun | null>(null)
   const stateRevision = useRef(0)
   const operationQueue = useRef<Promise<void>>(Promise.resolve())
@@ -164,22 +188,17 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, enabled,
   const matchingRuns = useMemo(() => sortRuns(runs.filter((run) => run.songId === songId && run.beatmapId === beatmap?.id)), [beatmap?.id, runs, songId])
   const lastRun = matchingRuns.at(-1) ?? null
   const noteFeedbackAggregates = useMemo(() => aggregateNoteFeedback(matchingRuns, beatmap?.notes ?? []), [beatmap?.notes, matchingRuns])
-  const feedbackSummary = useMemo(() => {
-    const summary = { notesWithFeedback: noteFeedbackAggregates.size, repeatedIssues: 0, consistentlyEarly: 0, consistentlyLate: 0, mixedTiming: 0 }
-    noteFeedbackAggregates.forEach((aggregate) => {
-      if (aggregate.direction === 'early') summary.consistentlyEarly += 1
-      if (aggregate.direction === 'late') summary.consistentlyLate += 1
-      if (aggregate.direction === 'mixed') summary.mixedTiming += 1
-      if (aggregate.attemptCount >= 3 && (aggregate.direction === 'early' || aggregate.direction === 'late' || aggregate.direction === 'mixed' || aggregate.direction === 'no-input' || aggregate.missRate >= 0.3)) summary.repeatedIssues += 1
-    })
-    return summary
-  }, [noteFeedbackAggregates])
+  const lastRunFeedbackAggregates = useMemo(() => aggregateNoteFeedback(lastRun ? [lastRun] : [], beatmap?.notes ?? []), [beatmap?.notes, lastRun])
+  const displayedFeedbackAggregates = showLastRunOnly ? lastRunFeedbackAggregates : noteFeedbackAggregates
+  const feedbackSummary = useMemo(() => summarizeFeedback(displayedFeedbackAggregates), [displayedFeedbackAggregates])
 
   return {
     runs,
     lastRun,
-    noteFeedbackAggregates,
+    displayedFeedbackAggregates,
     feedbackSummary,
+    showLastRunOnly,
+    setShowLastRunOnly,
     storageError,
     beginRun,
     finishRun,

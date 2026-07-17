@@ -1,5 +1,5 @@
 import { Trash2 } from 'lucide-react'
-import { Badge, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui'
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Switch } from '../components/ui'
 import type { PlayRun } from '../game/run-history'
 
 export type RunFeedbackSummary = {
@@ -8,15 +8,22 @@ export type RunFeedbackSummary = {
   consistentlyEarly: number
   consistentlyLate: number
   mixedTiming: number
+  perfectNotes: number
+  goodNotes: number
+  needsWorkNotes: number
 }
 
 export function RunFeedbackSummaryCard({
   summary,
   lastRun,
+  showLastRunOnly,
+  onShowLastRunOnlyChange,
   onDiscardRun,
 }: {
   summary: RunFeedbackSummary
   lastRun: PlayRun | null
+  showLastRunOnly: boolean
+  onShowLastRunOnlyChange: (checked: boolean) => void
   onDiscardRun: (runId: string) => Promise<void>
 }) {
   const hasFeedback = summary.notesWithFeedback > 0
@@ -26,37 +33,67 @@ export function RunFeedbackSummaryCard({
         <CardTitle>Run feedback</CardTitle>
         <CardDescription>
           {hasFeedback
-            ? 'Aggregates all Play attempts that match each note’s current timing, lane, and duration.'
+            ? showLastRunOnly
+              ? 'Shows current-revision feedback from the most recent Play run.'
+              : 'Aggregates all Play attempts that match each note’s current timing, lane, and duration.'
             : 'Play this beatmap to collect note timing feedback.'}
         </CardDescription>
       </CardHeader>
       {hasFeedback ? (
         <CardContent className="run-feedback-summary">
-          <div className="metric-row">
-            <Badge tone="muted">Notes {summary.notesWithFeedback}</Badge>
-            <Badge tone={summary.repeatedIssues > 0 ? 'danger' : 'success'}>Repeated issues {summary.repeatedIssues}</Badge>
-          </div>
-          <div className="metric-row">
-            <Badge tone="warning">Early {summary.consistentlyEarly}</Badge>
-            <Badge tone="warning">Late {summary.consistentlyLate}</Badge>
-            <Badge tone={summary.mixedTiming > 0 ? 'danger' : 'muted'}>Mixed {summary.mixedTiming}</Badge>
-          </div>
-          <p>Changing a note’s timing, lane, or duration resets only that note’s feedback. Unchanged notes keep their history.</p>
+          {showLastRunOnly ? (
+            <>
+              <div className="metric-row">
+                <Badge tone="muted">Notes {summary.notesWithFeedback}</Badge>
+                <Badge tone="success">Perfect {summary.perfectNotes}</Badge>
+                <Badge tone="warning">Good {summary.goodNotes}</Badge>
+                <Badge tone="danger">Needs work {summary.needsWorkNotes}</Badge>
+              </div>
+              <p>Markers include every current-revision occurrence from this run.</p>
+            </>
+          ) : (
+            <>
+              <div className="metric-row">
+                <Badge tone="muted">Notes {summary.notesWithFeedback}</Badge>
+                <Badge tone={summary.repeatedIssues > 0 ? 'danger' : 'success'}>Repeated issues {summary.repeatedIssues}</Badge>
+              </div>
+              <div className="metric-row">
+                <Badge tone="warning">Early {summary.consistentlyEarly}</Badge>
+                <Badge tone="warning">Late {summary.consistentlyLate}</Badge>
+                <Badge tone={summary.mixedTiming > 0 ? 'danger' : 'muted'}>Mixed {summary.mixedTiming}</Badge>
+              </div>
+              <p>Changing a note’s timing, lane, or duration resets only that note’s feedback. Unchanged notes keep their history.</p>
+            </>
+          )}
         </CardContent>
       ) : null}
       {lastRun ? (
-        <CardFooter>
+        <CardContent className="run-feedback-controls">
+          <div className="run-feedback-view-setting">
+            <div>
+              <strong>Show last run only</strong>
+              <span>Off uses all revision-compatible runs.</span>
+            </div>
+            <Switch
+              checked={showLastRunOnly}
+              onCheckedChange={onShowLastRunOnlyChange}
+              label="Last run only"
+              className="run-feedback-view-switch"
+              aria-label="Show last run only"
+            />
+          </div>
           <Button
             type="button"
             variant="ghost"
             size="sm"
+            className="run-feedback-discard"
             onClick={() => {
               if (window.confirm('Discard the most recent run and recompute editor feedback?')) void onDiscardRun(lastRun.id)
             }}
           >
-            <Trash2 />Discard most recent run
+            <Trash2 />Discard latest run
           </Button>
-        </CardFooter>
+        </CardContent>
       ) : null}
     </Card>
   )

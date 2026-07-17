@@ -105,6 +105,17 @@ export function filterCurrentNoteRevisions(summaries: ReadonlyMap<string, RunNot
   return new Map([...summaries].filter(([noteId, summary]) => currentRevisionKeys.get(noteId) === summary.noteRevisionKey))
 }
 
+export function summarizeLatestValidNoteResults(runs: PlayRun[], notes: Array<Pick<BeatmapNote, 'id' | 'impactTimeMs' | 'lane' | 'durationMs'>>) {
+  const currentRevisionKeys = new Map(notes.map((note) => [note.id, createNoteRevisionKey(note)]))
+  const latestResults = new Map<string, RunNoteSummary>()
+  for (const run of runs.toSorted((a, b) => a.startedAt.localeCompare(b.startedAt))) {
+    for (const [noteId, summary] of summarizeRunNotes(run)) {
+      if (currentRevisionKeys.get(noteId) === summary.noteRevisionKey) latestResults.set(noteId, summary)
+    }
+  }
+  return latestResults
+}
+
 export function describeRunNoteSummary(summary: RunNoteSummary) {
   const label = summary.grade.charAt(0).toUpperCase() + summary.grade.slice(1)
   if (summary.deltaMs === null) return `${label}, no input`

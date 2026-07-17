@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { RunHistoryRepository } from '../storage/run-history-repository'
 import type { Attack, Beatmap } from './model'
-import { createNoteRevisionKey, createPlayRun, createRunNoteSnapshot, filterCurrentNoteRevisions, summarizeRunNotes, type PlayRun, type RunNoteJudgement } from './run-history'
+import { createNoteRevisionKey, createPlayRun, createRunNoteSnapshot, summarizeLatestValidNoteResults, type PlayRun, type RunNoteJudgement } from './run-history'
 import type { ParryGrade } from './timing'
 
 export type RecordedRunJudgement = {
@@ -19,12 +19,13 @@ type UsePlayRunHistoryOptions = {
   beatmap: Beatmap | null
   bpm: number
   beatOffsetMs: number
+  enabled: boolean
   repository: RunHistoryRepository
 }
 
 const sortRuns = (runs: PlayRun[]) => runs.toSorted((a, b) => a.startedAt.localeCompare(b.startedAt))
 
-export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, repository }: UsePlayRunHistoryOptions) {
+export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, enabled, repository }: UsePlayRunHistoryOptions) {
   const [runs, setRuns] = useState<PlayRun[]>([])
   const [storageError, setStorageError] = useState<string | null>(null)
   const activeRun = useRef<ActiveRun | null>(null)
@@ -61,7 +62,7 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, reposito
   }, [enqueueOperation, repository])
 
   const beginRun = useCallback((startedAtSongTimeMs: number) => {
-    if (!beatmap || !songId) return null
+    if (!enabled || !beatmap || !songId) return null
     const active = activeRun.current?.run
     if (active?.songId === songId && active.beatmapId === beatmap.id) return active.id
     const run = createPlayRun({
@@ -76,7 +77,7 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, reposito
     stateRevision.current += 1
     setRuns((currentRuns) => [...currentRuns, run])
     return run.id
-  }, [beatmap, songId])
+  }, [beatmap, enabled, songId])
 
   const finishRun = useCallback(() => {
     const run = activeRun.current?.run
@@ -93,7 +94,7 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, reposito
   }, [persist, repository])
 
   const recordJudgements = useCallback((results: RecordedRunJudgement[], judgedAtSongTimeMs: number) => {
-    if (!beatmap || !songId) return
+    if (!enabled || !beatmap || !songId) return
     const judgements = results.flatMap<RunNoteJudgement>(({ attack, grade, deltaMs }) => {
       if (!attack.noteId) return []
       const noteSnapshot = createRunNoteSnapshot({ impactTimeMs: attack.noteTimeMs ?? 0, lane: attack.lane ?? 'mid', durationMs: attack.durationMs })
@@ -133,12 +134,12 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, reposito
       ? currentRuns.map((run) => run.id === updatedRun.id ? updatedRun : run)
       : [...currentRuns, updatedRun])
     persist(() => repository.put(updatedRun))
-  }, [beatmap, persist, repository, songId])
+  }, [beatmap, enabled, persist, repository, songId])
 
   useEffect(() => {
     const active = activeRun.current?.run
-    if (active && (active.songId !== songId || active.beatmapId !== beatmap?.id)) finishRun()
-  }, [beatmap?.id, finishRun, songId])
+    if (active && (!enabled || active.songId !== songId || active.beatmapId !== beatmap?.id)) finishRun()
+  }, [beatmap?.id, enabled, finishRun, songId])
 
   useEffect(() => {
     if (activeRun.current) finishRun()
@@ -152,29 +153,37 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, reposito
     stateRevision.current += 1
     setRuns((currentRuns) => sortRuns([...currentRuns.filter((run) => !importedIds.has(run.id)), ...importedRuns]))
   }, [enqueueOperation, finishRun, repository])
+  const deleteRun = useCallback(async (runId: string) => {
+    if (activeRun.current?.run.id === runId) activeRun.current = null
+    await enqueueOperation(() => repository.delete(runId))
+    stateRevision.current += 1
+    setRuns((currentRuns) => currentRuns.filter((run) => run.id !== runId))
+  }, [enqueueOperation, repository])
 
-  const lastRun = useMemo(() => [...runs].reverse().find((run) => run.songId === songId && run.beatmapId === beatmap?.id) ?? null, [beatmap?.id, runs, songId])
-  const lastRunNoteResults = useMemo(() => filterCurrentNoteRevisions(summarizeRunNotes(lastRun), beatmap?.notes ?? []), [beatmap?.notes, lastRun])
-  const lastRunCounts = useMemo(() => {
+  const matchingRuns = useMemo(() => runs.filter((run) => run.songId === songId && run.beatmapId === beatmap?.id), [beatmap?.id, runs, songId])
+  const lastRun = matchingRuns.at(-1) ?? null
+  const reviewNoteResults = useMemo(() => summarizeLatestValidNoteResults(matchingRuns, beatmap?.notes ?? []), [beatmap?.notes, matchingRuns])
+  const reviewCounts = useMemo(() => {
     const counts = { perfect: 0, good: 0, missed: 0 }
-    lastRunNoteResults.forEach((result) => {
+    reviewNoteResults.forEach((result) => {
       if (result.grade === 'perfect') counts.perfect += 1
       else if (result.grade === 'good') counts.good += 1
       else counts.missed += 1
     })
     return counts
-  }, [lastRunNoteResults])
+  }, [reviewNoteResults])
 
   return {
     runs,
     lastRun,
-    lastRunNoteResults,
-    lastRunCounts,
+    reviewNoteResults,
+    reviewCounts,
     storageError,
     beginRun,
     finishRun,
     recordJudgements,
     snapshotRuns,
     importRuns,
+    deleteRun,
   }
 }

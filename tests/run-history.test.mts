@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { createNoteRevisionKey, createPlayRun, describeRunNoteSummary, filterCurrentNoteRevisions, summarizeRunNotes, type PlayRun, type RunNoteJudgement, type RunNoteSummary } from '../src/game/run-history.ts'
+import { createNoteRevisionKey, createPlayRun, describeRunNoteSummary, filterCurrentNoteRevisions, summarizeLatestValidNoteResults, summarizeRunNotes, type PlayRun, type RunNoteJudgement, type RunNoteSummary } from '../src/game/run-history.ts'
 
 const baseRun = createPlayRun({
   id: 'run-1',
@@ -81,6 +81,29 @@ test('keeps unchanged note feedback while excluding an edited note revision', ()
   ])
   assert.equal(current.has('note-1'), false)
   assert.equal(current.has('note-2'), true)
+})
+
+test('keeps the newest valid feedback for each note across multiple runs', () => {
+  const firstRun = withJudgements([
+    judgement({ noteId: 'note-1', occurrenceKey: 'note-1', grade: 'good', deltaMs: -35 }),
+    judgement({ id: 'judgement-2', noteId: 'note-2', occurrenceKey: 'note-2', noteRevisionKey: 'note-v1:snare:2000:tap', noteSnapshot: { impactTimeMs: 2000, lane: 'snare' }, lane: 'snare', noteTimeMs: 2000, grade: 'good', deltaMs: 30 }),
+  ])
+  const newerRun = {
+    ...withJudgements([
+      judgement({ noteId: 'note-1', occurrenceKey: 'note-1', noteRevisionKey: 'note-v1:kick:1010:tap', noteSnapshot: { impactTimeMs: 1010, lane: 'kick' }, noteTimeMs: 1010, grade: 'miss', deltaMs: null }),
+      judgement({ id: 'judgement-3', noteId: 'note-2', occurrenceKey: 'note-2', noteRevisionKey: 'note-v1:snare:2000:tap', noteSnapshot: { impactTimeMs: 2000, lane: 'snare' }, lane: 'snare', noteTimeMs: 2000, grade: 'perfect', deltaMs: 4 }),
+    ]),
+    id: 'run-2',
+    startedAt: '2026-07-16T00:01:00.000Z',
+  }
+  const results = summarizeLatestValidNoteResults([newerRun, firstRun], [
+    { id: 'note-1', impactTimeMs: 1000, lane: 'kick' },
+    { id: 'note-2', impactTimeMs: 2000, lane: 'snare' },
+  ])
+  assert.equal(results.get('note-1')?.grade, 'good')
+  assert.equal(results.get('note-1')?.deltaMs, -35)
+  assert.equal(results.get('note-2')?.grade, 'perfect')
+  assert.equal(results.get('note-2')?.deltaMs, 4)
 })
 
 test('revisions change only for gameplay-relevant note configuration', () => {

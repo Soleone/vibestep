@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import { clamp01, laneColor, lanes, timelineLaneAreaHeightPx, timelineLaneHeightPx, timelineLaneTopPx, type Lane, type LoopMarkers, type TimelineBounds, type TimelineGridLine } from '../game/model'
-import { describeRunNoteSummary, type RunNoteSummary } from '../game/run-history'
+import type { NoteFeedbackAggregate } from '../game/run-feedback-aggregation'
+import { describeRunNoteSummary } from '../game/run-history'
+import { RunFeedbackMarker } from './RunFeedbackMarker'
 import type { TimelineNote } from './timeline-window'
 
 export function EditorTimeline({
@@ -31,7 +33,7 @@ export function EditorTimeline({
   songTimeMs: number
   playheadActive: boolean
   selectedNoteIds: Set<string>
-  runResults: ReadonlyMap<string, RunNoteSummary>
+  runResults: ReadonlyMap<string, NoteFeedbackAggregate>
   loopMarkers: LoopMarkers
   onTimelineClick: (event: MouseEvent<HTMLDivElement>) => void
   onTimelineWheel: (event: globalThis.WheelEvent) => void
@@ -214,11 +216,10 @@ export function EditorTimeline({
         const isTriggered = playheadActive && (note.durationMs ? songTimeMs >= note.impactTimeMs && songTimeMs <= holdEndMs + noteTriggerWindowMs : triggerAgeMs >= 0 && triggerAgeMs <= noteTriggerWindowMs)
         const isHeavy = note.strength >= 2
         const runResult = note.pending ? undefined : runResults.get(note.id)
-        const runResultClass = runResult ? `run-result run-result--${runResult.grade}` : ''
-        const runResultMarker = runResult?.grade === 'perfect' ? '✓' : runResult?.deltaMs === null ? '×' : (runResult?.deltaMs ?? 0) < 0 ? '←' : '→'
-        const runResultOffsetPx = Math.max(-24, Math.min(24, (runResult?.deltaMs ?? 0) / 4))
-        const noteTitle = note.recording ? `Recording ${note.lane} hold` : `${isHeavy ? 'Heavy note. ' : ''}${runResult ? `Run feedback: ${describeRunNoteSummary(runResult)}. ` : ''}Click to remove. Hold 300ms and drag ${note.lane} ${Math.round(note.impactTimeMs)}ms.`
-        return <i key={`stage-${note.pending ? 'pending' : 'saved'}-${note.id}`} className={`${note.pending ? 'pending ' : ''}${note.recording ? 'recording ' : ''}${note.durationMs ? 'hold ' : ''}${isHeavy ? 'heavy ' : ''}${selectedNoteIds.has(note.id) ? 'selected ' : ''}${isTriggered ? 'triggered ' : ''}${runResultClass}`} onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startNotePointer(event, note.id)} onPointerMove={(event) => moveNotePointer(event, note.id)} onPointerUp={(event) => endNotePointer(event, note.id)} onPointerCancel={(event) => endNotePointer(event, note.id)} title={noteTitle} style={{ left: `${((note.impactTimeMs - bounds.startMs) / bounds.spanMs) * 100}%`, top: `${timelineLaneTopPx + lanes.indexOf(note.lane) * timelineLaneHeightPx + 14}px`, width: note.durationMs ? `max(14px, ${(note.durationMs / bounds.spanMs) * 100}%)` : undefined, background: laneColor[note.lane], color: laneColor[note.lane] }}>{runResult && <span className="timeline-run-result" style={{ left: `calc(${note.durationMs ? '0%' : '50%'} + ${runResultOffsetPx}px)` }} title={`Run feedback: ${describeRunNoteSummary(runResult)}`}>{runResultMarker}</span>}{note.durationMs ? <span className="timeline-note-end" title="Drag to resize hold" onPointerDown={(event) => { event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId) }} onPointerMove={(event) => { event.stopPropagation(); if (!event.currentTarget.hasPointerCapture(event.pointerId)) return; const rect = event.currentTarget.parentElement?.parentElement?.getBoundingClientRect(); if (rect) onHoldResize(note.id, timeFromPointer(event.clientX, rect.width, rect.left), event.shiftKey) }} onPointerUp={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} /> : null}</i>
+        const markerDeltaMs = runResult?.medianDeltaMs ?? runResult?.latestResult.deltaMs ?? 0
+        const runResultOffsetPx = Math.max(-24, Math.min(24, markerDeltaMs / 4))
+        const noteTitle = note.recording ? `Recording ${note.lane} hold` : `${isHeavy ? 'Heavy note. ' : ''}${runResult ? `Run feedback: ${describeRunNoteSummary(runResult.latestResult)}. ` : ''}Click to remove. Hold 300ms and drag ${note.lane} ${Math.round(note.impactTimeMs)}ms.`
+        return <i key={`stage-${note.pending ? 'pending' : 'saved'}-${note.id}`} className={`${note.pending ? 'pending ' : ''}${note.recording ? 'recording ' : ''}${note.durationMs ? 'hold ' : ''}${isHeavy ? 'heavy ' : ''}${selectedNoteIds.has(note.id) ? 'selected ' : ''}${isTriggered ? 'triggered ' : ''}`} onClick={(event) => event.stopPropagation()} onPointerDown={(event) => startNotePointer(event, note.id)} onPointerMove={(event) => moveNotePointer(event, note.id)} onPointerUp={(event) => endNotePointer(event, note.id)} onPointerCancel={(event) => endNotePointer(event, note.id)} title={noteTitle} style={{ left: `${((note.impactTimeMs - bounds.startMs) / bounds.spanMs) * 100}%`, top: `${timelineLaneTopPx + lanes.indexOf(note.lane) * timelineLaneHeightPx + 14}px`, width: note.durationMs ? `max(14px, ${(note.durationMs / bounds.spanMs) * 100}%)` : undefined, background: laneColor[note.lane], color: laneColor[note.lane] }}>{runResult && <RunFeedbackMarker aggregate={runResult} left={`calc(${note.durationMs ? '0%' : '50%'} + ${runResultOffsetPx}px)`} />}{note.durationMs ? <span className="timeline-note-end" title="Drag to resize hold" onPointerDown={(event) => { event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId) }} onPointerMove={(event) => { event.stopPropagation(); if (!event.currentTarget.hasPointerCapture(event.pointerId)) return; const rect = event.currentTarget.parentElement?.parentElement?.getBoundingClientRect(); if (rect) onHoldResize(note.id, timeFromPointer(event.clientX, rect.width, rect.left), event.shiftKey) }} onPointerUp={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={(event) => { event.stopPropagation(); if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId) }} /> : null}</i>
       })}
     </div>
   )

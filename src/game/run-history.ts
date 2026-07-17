@@ -68,36 +68,64 @@ export function createPlayRun({
   return { id, songId, beatmapId, beatmapVersion, startedAt, startedAtSongTimeMs, judgements: [] }
 }
 
-export function summarizeRunNotes(run: PlayRun | null | undefined) {
-  const summariesByOccurrence = new Map<string, RunNoteSummary>()
-  const failedDeltasByOccurrence = new Map<string, number>()
+export type RunOccurrenceSummary = {
+  summary: RunNoteSummary
+  summaryEventIndex: number
+}
 
-  for (const judgement of run?.judgements ?? []) {
+export function summarizeRunOccurrenceEntries(run: PlayRun | null | undefined) {
+  const entriesByOccurrence = new Map<string, RunOccurrenceSummary>()
+  const failedDeltasByOccurrence = new Map<string, number>()
+  const terminalOccurrences = new Set<string>()
+
+  for (const [eventIndex, judgement] of (run?.judgements ?? []).entries()) {
+    if (terminalOccurrences.has(judgement.occurrenceKey)) continue
+
     if ((judgement.grade === 'early' || judgement.grade === 'late') && judgement.deltaMs !== null) {
       const previousDelta = failedDeltasByOccurrence.get(judgement.occurrenceKey)
-      if (previousDelta === undefined || Math.abs(judgement.deltaMs) < Math.abs(previousDelta)) {
-        failedDeltasByOccurrence.set(judgement.occurrenceKey, judgement.deltaMs)
+      if (previousDelta !== undefined && Math.abs(judgement.deltaMs) >= Math.abs(previousDelta)) {
+        const existing = entriesByOccurrence.get(judgement.occurrenceKey)
+        if (existing) existing.summaryEventIndex = eventIndex
+        continue
       }
+      failedDeltasByOccurrence.set(judgement.occurrenceKey, judgement.deltaMs)
     }
 
     const diagnosticDeltaMs = judgement.grade === 'miss'
       ? failedDeltasByOccurrence.get(judgement.occurrenceKey) ?? null
       : judgement.deltaMs
-    summariesByOccurrence.set(judgement.occurrenceKey, {
-      noteId: judgement.noteId,
-      noteRevisionKey: judgement.noteRevisionKey,
-      noteSnapshot: judgement.noteSnapshot,
-      occurrenceKey: judgement.occurrenceKey,
-      lane: judgement.lane,
-      noteTimeMs: judgement.noteTimeMs,
-      grade: judgement.grade,
-      deltaMs: diagnosticDeltaMs,
+    entriesByOccurrence.set(judgement.occurrenceKey, {
+      summary: {
+        noteId: judgement.noteId,
+        noteRevisionKey: judgement.noteRevisionKey,
+        noteSnapshot: judgement.noteSnapshot,
+        occurrenceKey: judgement.occurrenceKey,
+        lane: judgement.lane,
+        noteTimeMs: judgement.noteTimeMs,
+        grade: judgement.grade,
+        deltaMs: diagnosticDeltaMs,
+      },
+      summaryEventIndex: eventIndex,
     })
+    if (judgement.grade === 'perfect' || judgement.grade === 'good' || judgement.grade === 'miss') {
+      terminalOccurrences.add(judgement.occurrenceKey)
+    }
   }
 
-  const summariesByNote = new Map<string, RunNoteSummary>()
-  for (const summary of summariesByOccurrence.values()) summariesByNote.set(summary.noteId, summary)
-  return summariesByNote
+  return entriesByOccurrence
+}
+
+export function summarizeRunOccurrences(run: PlayRun | null | undefined) {
+  return new Map([...summarizeRunOccurrenceEntries(run)].map(([occurrenceKey, entry]) => [occurrenceKey, entry.summary]))
+}
+
+export function summarizeRunNotes(run: PlayRun | null | undefined) {
+  const latestByNote = new Map<string, RunOccurrenceSummary>()
+  for (const entry of summarizeRunOccurrenceEntries(run).values()) {
+    const previous = latestByNote.get(entry.summary.noteId)
+    if (!previous || entry.summaryEventIndex > previous.summaryEventIndex) latestByNote.set(entry.summary.noteId, entry)
+  }
+  return new Map([...latestByNote].map(([noteId, entry]) => [noteId, entry.summary]))
 }
 
 export function filterCurrentNoteRevisions(summaries: ReadonlyMap<string, RunNoteSummary>, notes: Array<Pick<BeatmapNote, 'id' | 'impactTimeMs' | 'lane' | 'durationMs'>>) {

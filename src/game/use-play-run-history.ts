@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { RunHistoryRepository } from '../storage/run-history-repository'
 import type { Attack, Beatmap } from './model'
-import { createNoteRevisionKey, createPlayRun, createRunNoteSnapshot, summarizeLatestValidNoteResults, type PlayRun, type RunNoteJudgement } from './run-history'
+import { aggregateNoteFeedback } from './run-feedback-aggregation'
+import { createNoteRevisionKey, createPlayRun, createRunNoteSnapshot, type PlayRun, type RunNoteJudgement } from './run-history'
 import type { ParryGrade } from './timing'
 
 export type RecordedRunJudgement = {
@@ -160,24 +161,25 @@ export function usePlayRunHistory({ songId, beatmap, bpm, beatOffsetMs, enabled,
     setRuns((currentRuns) => currentRuns.filter((run) => run.id !== runId))
   }, [enqueueOperation, repository])
 
-  const matchingRuns = useMemo(() => runs.filter((run) => run.songId === songId && run.beatmapId === beatmap?.id), [beatmap?.id, runs, songId])
+  const matchingRuns = useMemo(() => sortRuns(runs.filter((run) => run.songId === songId && run.beatmapId === beatmap?.id)), [beatmap?.id, runs, songId])
   const lastRun = matchingRuns.at(-1) ?? null
-  const reviewNoteResults = useMemo(() => summarizeLatestValidNoteResults(matchingRuns, beatmap?.notes ?? []), [beatmap?.notes, matchingRuns])
-  const reviewCounts = useMemo(() => {
-    const counts = { perfect: 0, good: 0, missed: 0 }
-    reviewNoteResults.forEach((result) => {
-      if (result.grade === 'perfect') counts.perfect += 1
-      else if (result.grade === 'good') counts.good += 1
-      else counts.missed += 1
+  const noteFeedbackAggregates = useMemo(() => aggregateNoteFeedback(matchingRuns, beatmap?.notes ?? []), [beatmap?.notes, matchingRuns])
+  const feedbackSummary = useMemo(() => {
+    const summary = { notesWithFeedback: noteFeedbackAggregates.size, repeatedIssues: 0, consistentlyEarly: 0, consistentlyLate: 0, mixedTiming: 0 }
+    noteFeedbackAggregates.forEach((aggregate) => {
+      if (aggregate.direction === 'early') summary.consistentlyEarly += 1
+      if (aggregate.direction === 'late') summary.consistentlyLate += 1
+      if (aggregate.direction === 'mixed') summary.mixedTiming += 1
+      if (aggregate.attemptCount >= 3 && (aggregate.direction === 'early' || aggregate.direction === 'late' || aggregate.direction === 'mixed' || aggregate.direction === 'no-input' || aggregate.missRate >= 0.3)) summary.repeatedIssues += 1
     })
-    return counts
-  }, [reviewNoteResults])
+    return summary
+  }, [noteFeedbackAggregates])
 
   return {
     runs,
     lastRun,
-    reviewNoteResults,
-    reviewCounts,
+    noteFeedbackAggregates,
+    feedbackSummary,
     storageError,
     beginRun,
     finishRun,

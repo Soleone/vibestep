@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { createNoteRevisionKey, createPlayRun, describeRunNoteSummary, filterCurrentNoteRevisions, summarizeLatestValidNoteResults, summarizeRunNotes, type PlayRun, type RunNoteJudgement, type RunNoteSummary } from '../src/game/run-history.ts'
+import { createNoteRevisionKey, createPlayRun, describeRunNoteSummary, filterCurrentNoteRevisions, summarizeLatestValidNoteResults, summarizeRunNotes, summarizeRunOccurrences, type PlayRun, type RunNoteJudgement, type RunNoteSummary } from '../src/game/run-history.ts'
 
 const baseRun = createPlayRun({
   id: 'run-1',
@@ -52,6 +52,23 @@ test('summarizes the latest loop occurrence for each beatmap note', () => {
     grade: 'perfect',
     deltaMs: 8,
   })
+})
+
+test('keeps one terminal summary per loop occurrence', () => {
+  const summaries = summarizeRunOccurrences(withJudgements([
+    judgement({ occurrenceKey: 'note-1:0', grade: 'early', deltaMs: -120 }),
+    judgement({ id: 'judgement-2', occurrenceKey: 'note-1:0', grade: 'good', deltaMs: -50 }),
+    judgement({ id: 'judgement-3', occurrenceKey: 'note-1:0', grade: 'miss', deltaMs: null }),
+    judgement({ id: 'judgement-4', occurrenceKey: 'note-1:1', grade: 'perfect', deltaMs: 2 }),
+  ]))
+  assert.equal(summaries.size, 2)
+  assert.equal(summaries.get('note-1:0')?.grade, 'good')
+  assert.equal(summaries.get('note-1:1')?.grade, 'perfect')
+  assert.equal(summarizeRunNotes(withJudgements([
+    judgement({ occurrenceKey: 'note-1:0', grade: 'good', deltaMs: -50 }),
+    judgement({ id: 'judgement-2', occurrenceKey: 'note-1:1', grade: 'perfect', deltaMs: 2 }),
+    judgement({ id: 'judgement-3', occurrenceKey: 'note-1:0', grade: 'late', deltaMs: 100 }),
+  ])).get('note-1')?.occurrenceKey, 'note-1:1')
 })
 
 test('keeps the closest failed input as timing evidence for an eventual miss', () => {

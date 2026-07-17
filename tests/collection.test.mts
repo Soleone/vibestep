@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { collectionPercent, countNotesByLane, createLaneCounts } from '../src/game/model.ts'
+import { collectionPercent, collectionProgressColor, countNotesByLane, createLaneCounts, judgementColors } from '../src/game/model.ts'
 
 test('counts beatmap notes by lane', () => {
   assert.deepEqual(countNotesByLane([
@@ -16,6 +16,13 @@ test('converts collected notes into bounded percentages', () => {
   assert.equal(collectionPercent(5, 4), 100)
   assert.equal(collectionPercent(-1, 4), 0)
   assert.equal(collectionPercent(1, 0), 0)
+})
+
+test('uses standardized judgement colors for high collection percentages', () => {
+  assert.equal(collectionProgressColor(89, '#ffffff'), '#ffffff')
+  assert.equal(collectionProgressColor(90, '#ffffff'), judgementColors.good)
+  assert.equal(collectionProgressColor(99, '#ffffff'), judgementColors.good)
+  assert.equal(collectionProgressColor(100, '#ffffff'), judgementColors.perfect)
 })
 
 test('creates independent lane count records', () => {

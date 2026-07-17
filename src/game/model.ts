@@ -31,6 +31,11 @@ export const judgementCssVars = {
   early: 'var(--ff-judgement-early)',
   late: 'var(--ff-judgement-late)',
 } as const
+export const collectionProgressColor = (progress: number, defaultColor: string) => progress >= 100
+  ? judgementColors.perfect
+  : progress >= 90
+    ? judgementColors.good
+    : defaultColor
 export const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
 
 export const laneY: Record<Lane, number> = { kick: -0.58, snare: -0.32, low: 0.18, mid: 0.48, high: 0.78 }

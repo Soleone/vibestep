@@ -32,39 +32,30 @@ export function RunFeedbackSummaryCard({
       <CardHeader>
         <CardTitle>Run feedback</CardTitle>
         <CardDescription>
-          {hasFeedback
-            ? showLastRunOnly
-              ? 'Shows current-revision feedback from the most recent Play run.'
-              : 'Aggregates all Play attempts that match each note’s current timing, lane, and duration.'
-            : 'Play this beatmap to collect note timing feedback.'}
+          {hasFeedback ? 'Review current-revision feedback from your Play runs.' : 'Play this beatmap to collect note timing feedback.'}
         </CardDescription>
       </CardHeader>
       {hasFeedback ? (
         <CardContent className="run-feedback-summary">
-          {showLastRunOnly ? (
-            <>
-              <div className="metric-row">
-                <Badge tone="muted">Notes {summary.notesWithFeedback}</Badge>
+          <div className="metric-row">
+            <Badge tone="muted">Notes {summary.notesWithFeedback}</Badge>
+            {showLastRunOnly ? (
+              <>
                 <Badge tone="success">Perfect {summary.perfectNotes}</Badge>
                 <Badge tone="warning">Good {summary.goodNotes}</Badge>
-                <Badge tone="danger">Needs work {summary.needsWorkNotes}</Badge>
-              </div>
-              <p>Markers include every current-revision occurrence from this run.</p>
-            </>
-          ) : (
-            <>
-              <div className="metric-row">
-                <Badge tone="muted">Notes {summary.notesWithFeedback}</Badge>
-                <Badge tone={summary.repeatedIssues > 0 ? 'danger' : 'success'}>Repeated issues {summary.repeatedIssues}</Badge>
-              </div>
-              <div className="metric-row">
+              </>
+            ) : <Badge tone={summary.repeatedIssues > 0 ? 'danger' : 'success'}>Repeated issues {summary.repeatedIssues}</Badge>}
+          </div>
+          <div className="metric-row">
+            {showLastRunOnly ? <Badge tone="danger">Needs work {summary.needsWorkNotes}</Badge> : (
+              <>
                 <Badge tone="warning">Early {summary.consistentlyEarly}</Badge>
                 <Badge tone="warning">Late {summary.consistentlyLate}</Badge>
                 <Badge tone={summary.mixedTiming > 0 ? 'danger' : 'muted'}>Mixed {summary.mixedTiming}</Badge>
-              </div>
-              <p>Changing a note’s timing, lane, or duration resets only that note’s feedback. Unchanged notes keep their history.</p>
-            </>
-          )}
+              </>
+            )}
+          </div>
+          <p>Changing a note’s timing, lane, or duration resets only that note’s feedback. Unchanged notes keep their history.</p>
         </CardContent>
       ) : null}
       {lastRun ? (

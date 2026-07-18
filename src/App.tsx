@@ -17,11 +17,12 @@ import { quantizeSelectedNotes, snapTimeToGrid } from './editor/quantize-selecti
 import { planSmartDuplicate } from './editor/smart-duplicate'
 import { windowTimelineNotes } from './editor/timeline-window'
 import { HitNotify } from './game/HitNotify'
+import { MobilePlayControls } from './game/MobilePlayControls'
 import { findDueNotes } from './game/note-scheduler'
 import { judgeParryTiming, syncopationAmount, type ParryTimingResult } from './game/timing'
 import { usePlayRunHistory } from './game/use-play-run-history'
 import { runtimeMetrics, type RuntimeMetricsSnapshot } from './performance/runtime-metrics'
-import { getBrowserAudio, putBrowserAudio } from './storage/browser-audio-repository'
+import { getBrowserAudio, putBrowserAudio, requestPersistentBrowserStorage } from './storage/browser-audio-repository'
 import { createIndexedDbRunHistoryRepository } from './storage/run-history-repository'
 import { createIndexedDBSongPackageRepository } from './storage/song-package-repository'
 import {
@@ -99,6 +100,10 @@ function isTextEditingTarget(target: EventTarget | null) {
 function isEditingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false
   return Boolean(target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"], [role="combobox"], [role="spinbutton"], [role="slider"]'))
+}
+
+function isMobileLaneControlTarget(target: EventTarget | null) {
+  return target instanceof HTMLElement && Boolean(target.closest('.mobile-lane-pad'))
 }
 
 function App() {
@@ -561,9 +566,24 @@ function App() {
     }
   }, [activeAttacks, recordRunJudgements, tuning])
 
+  const pressPlayLane = useCallback((lane: Lane) => {
+    setPadTriggers((triggers) => ({ ...triggers, [lane]: performance.now() }))
+    setHeldPlayLanes((held) => new Set(held).add(lane))
+    parry(lane)
+  }, [parry])
+
+  const releasePlayLane = useCallback((lane: Lane) => {
+    setHeldPlayLanes((held) => {
+      if (!held.has(lane)) return held
+      const next = new Set(held)
+      next.delete(lane)
+      return next
+    })
+  }, [])
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (settingsOpen) return
+      if (settingsOpen || isMobileLaneControlTarget(event.target)) return
       const lane = keyLane[event.code]
       if (isTextEditingTarget(event.target) || (!isRecording && isEditingTarget(event.target))) return
       if (activeTab === 'editor' && event.code === 'Space' && !isRecording && !tapMode) return
@@ -586,7 +606,7 @@ function App() {
       if (event.code === 'KeyR') nextAttack()
     }
     const onKeyUp = (event: KeyboardEvent) => {
-      if (settingsOpen) return
+      if (settingsOpen || isMobileLaneControlTarget(event.target)) return
       const lane = keyLane[event.code]
       if (isTextEditingTarget(event.target) || (!isRecording && isEditingTarget(event.target))) return
       if (lane) setHeldPlayLanes((held) => { const next = new Set(held); next.delete(lane); return next })
@@ -782,6 +802,7 @@ function App() {
     const useCompanion = companionStatus === 'paired'
     setImportStatus(useCompanion ? 'Copying audio into the local companion...' : 'Saving audio in this browser...')
     try {
+      let browserStorageIsPersistent = true
       if (useCompanion) {
         const { audio } = await companion.uploadFile(file)
         await createPackageForAudio(audio)
@@ -796,8 +817,11 @@ function App() {
         }).finally(() => URL.revokeObjectURL(objectUrl))
         const audio: CompanionAudio = { audioId: crypto.randomUUID(), title: file.name, durationMs, contentType: file.type || 'application/octet-stream', size: file.size }
         await createPackageForAudio(audio, undefined, file)
+        browserStorageIsPersistent = await requestPersistentBrowserStorage()
       }
-      setImportStatus('Local audio attached. Add timing and custom notes in the editor.')
+      setImportStatus(browserStorageIsPersistent
+        ? 'Local audio attached. Add timing and custom notes in the editor.'
+        : 'Local audio attached. Keep the original file because this browser may clear stored audio.')
     } catch (error) { setImportStatus(error instanceof Error ? error.message : 'Local file import failed') }
   }, [companion, companionStatus, createPackageForAudio])
 
@@ -1544,7 +1568,7 @@ function App() {
   }
 
   return (
-    <main className={activeTab === 'editor' ? 'editing-layout' : undefined}>
+    <main className={activeTab === 'editor' ? 'editing-layout' : 'play-layout'}>
       {settingsOpen && <section className="settings-page" aria-label="Settings">
         <div className="settings-page__shell">
           <header className="settings-page__header">
@@ -1565,7 +1589,7 @@ function App() {
                 <Button type="button" variant="secondary" onClick={activeImportJobId ? cancelCompanionImport : importYoutube} tooltip={activeImportJobId ? 'Cancel local import' : 'Import YouTube audio locally'}>{activeImportJobId ? 'Cancel' : 'Import'}</Button>
               </div>
               <div className="import-card__divider"><span>or</span></div>
-              <input ref={localAudioInputRef} type="file" accept="audio/mp4,audio/mpeg,audio/webm,audio/ogg,audio/wav" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void importLocalAudio(file); event.currentTarget.value = '' }} />
+              <input ref={localAudioInputRef} type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void importLocalAudio(file); event.currentTarget.value = '' }} />
               <Button className="import-card__file-button" type="button" variant="secondary" onClick={() => localAudioInputRef.current?.click()}>Choose an audio file</Button>
               {importStatus && <p className={`import-status${importStatus.toLowerCase().includes('failed') ? ' import-status--error' : ''}`}>{importStatus}</p>}
             </div>
@@ -1590,7 +1614,7 @@ function App() {
         {activeTab === 'editor'
           ? <div className="edit-workspace"><div className="edit-workspace__header"><div className="edit-title-row"><div><span className="eyebrow">Editor</span><div className="edit-title-line"><h2>{mapTitle || 'Untitled beatmap'}</h2><span className="edit-status">{recordedNotes.length} buffered · {beatmap?.notes.length ?? 0} notes</span></div></div>{transport}</div><Toolbar><div className="toolbar-section"><span className="toolbar-section__label">History</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" onClick={undoEditor} disabled={!canUndo} tooltip="Undo the last editor change" shortcut="Ctrl+Z"><Undo2 />Undo</Button><Button type="button" variant="ghost" size="pill" onClick={redoEditor} disabled={!canRedo} tooltip="Redo the last undone editor change" shortcut="Ctrl+Y"><Redo2 />Redo</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Record</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" className={recordMode === 'add' ? 'active' : ''} onClick={() => setRecordMode('add')} tooltip="Record adds new notes">Add</Button><Button type="button" variant="ghost" size="pill" className={recordMode === 'replace' ? 'active' : ''} onClick={() => setRecordMode('replace')} tooltip="Record replaces armed lanes in the recorded range">Replace</Button></div></div><div className="toolbar-section toolbar-section--wide"><span className="toolbar-section__label">Lanes</span><div className="toolbar-group">{lanes.map((lane) => <Button key={lane} type="button" variant="ghost" size="pill" className={armedLanes.has(lane) ? 'active' : ''} onClick={() => setArmedLanes((current) => { const next = new Set(current); if (next.has(lane)) next.delete(lane); else next.add(lane); return next })} tooltip={`Toggle ${lane} lane recording`}>{lane}</Button>)}</div></div><div className="toolbar-section"><span className="toolbar-section__label">Grid</span><div className="toolbar-group">{([4, 8, 16, 32, 64] as const).map((division) => <Button key={division} type="button" variant="ghost" size="pill" className={gridDivision === division ? 'active' : ''} onClick={() => setGridDivision(division)} tooltip={`Set grid to 1/${division}${tripletGrid ? ' triplet' : ''}`} shortcut={String(([4, 8, 16, 32, 64] as const).indexOf(division) + 1)}>1/{division}{tripletGrid ? 'T' : ''}</Button>)}<Button type="button" variant="ghost" size="pill" className={quantize ? 'active' : ''} onClick={() => setQuantize((value) => !value)} tooltip="Snap recording and edit actions to the grid" shortcut="6">Snap {quantize ? 'on' : 'off'}</Button><Button type="button" variant="ghost" size="pill" className={tripletGrid ? 'active' : ''} onClick={() => setTripletGrid((value) => !value)} tooltip="Use triplet spacing for the selected grid division" shortcut="7">Triplet {tripletGrid ? 'on' : 'off'}</Button></div></div><span className="toolbar-break" aria-hidden="true" /><div className="toolbar-section"><span className="toolbar-section__label">Zoom</span><div className="toolbar-group">{zoomOptions.map((seconds) => <Button key={seconds} type="button" variant="ghost" size="pill" className={timelineZoomSeconds === seconds ? 'active' : ''} onClick={() => setTimelineZoomPreservingPlayhead(seconds)} tooltip={`Zoom to ${seconds >= 30 ? `${seconds / 30}m` : `${seconds * 2}s`} window`} shortcut={`Shift+${zoomOptions.indexOf(seconds) + 1}`}>{seconds >= 30 ? `${seconds / 30}m` : `${seconds * 2}s`}</Button>)}<Button type="button" variant="ghost" size="pill" className={timelineZoomSeconds === 'fit' ? 'active' : ''} onClick={() => setTimelineZoomPreservingPlayhead('fit')} tooltip="Fit song in timeline" shortcut="Shift+8">Fit</Button><Button type="button" variant="ghost" size="pill" onClick={centerTimelineOnPlayhead} tooltip="Center timeline on playhead" shortcut="Shift+9">Follow</Button></div></div><div className="toolbar-section"><span className="toolbar-section__label">Tempo{tapMode ? ` · ${detectedBpm ? `${detectedBpm} bpm` : 'tap keys'}` : ''}</span><div className="toolbar-group"><Input type="number" min="40" max="300" step="0.1" value={Number.isFinite(bpm) ? Math.round(bpm * 10) / 10 : ''} onChange={(event) => { const nextBpm = Number(event.target.value); if (Number.isFinite(nextBpm) && nextBpm > 0) { checkpointEditor('bpm'); setBpm(Math.round(nextBpm * 10) / 10) } }} /><Button type="button" variant="ghost" size="pill" className={tapMode ? 'active' : ''} onClick={toggleTapBpm} tooltip={tapMode ? 'Use detected BPM' : 'Start tap BPM'}>{tapMode ? 'Stop + use' : 'Start tap'}</Button></div>{tapMode && <span className="tap-bpm-readout">{detectedBpm ? `Live BPM ${detectedBpm}` : 'Press Space/W/arrows on the beat…'}</span>}</div><div className="toolbar-section toolbar-section--wide"><span className="toolbar-section__label">Beat 1 · {(beatOffsetMs / 1000).toFixed(3)}s</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" onClick={setBeatOneAtPlayhead} tooltip="Set current playhead as beat 1">Set beat 1 here</Button><Button type="button" variant="ghost" size="pill" onClick={() => nudgeBeatOffset(-10)} tooltip="Move beat 1 earlier by 10ms">-10ms</Button><Button type="button" variant="ghost" size="pill" onClick={() => nudgeBeatOffset(10)} tooltip="Move beat 1 later by 10ms">+10ms</Button></div></div><div className="toolbar-section toolbar-section--impact"><span className="toolbar-section__label">Impact</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" className={selectedNotesAreHeavy ? 'active' : ''} onClick={toggleHeavySelection} disabled={selectedNoteIds.size === 0} tooltip={selectedNotesAreHeavy ? 'Make selected notes standard' : 'Mark selected notes as heavy'}><Zap />Heavy</Button></div></div><div className="toolbar-section toolbar-section--contextual"><span className="toolbar-section__label">Notes · {selectedNoteIds.size} selected</span><div className="toolbar-group"><Button type="button" variant="ghost" size="pill" onClick={() => setSelectedNoteIds(new Set())} disabled={selectedNoteIds.size === 0} tooltip="Clear the current note selection">Clear</Button><Button type="button" variant="ghost" size="pill" onClick={quantizeSelection} disabled={selectedNoteIds.size === 0 || !Number.isFinite(gridMs) || gridMs <= 0} tooltip={`Quantize selected notes to the current 1/${gridDivision}${tripletGrid ? ' triplet' : ''} grid`}>Quantize</Button><Button type="button" variant="ghost" size="pill" onClick={deleteSelection} disabled={selectedNoteIds.size === 0} tooltip="Delete selected notes" shortcut="Delete">Delete</Button><Button type="button" variant="ghost" size="pill" onClick={copySelection} disabled={selectedNoteIds.size === 0} tooltip="Copy selected notes" shortcut="Ctrl+C">Copy</Button><Button type="button" variant="ghost" size="pill" onClick={pasteSelectionAtPlayhead} disabled={!beatmap || copiedNotes.length === 0} tooltip="Paste copied notes at the playhead" shortcut="Ctrl+V">Paste</Button><Button type="button" variant="ghost" size="pill" onClick={duplicateSelection} disabled={!beatmap || !Number.isFinite(bpm) || bpm <= 0} tooltip={selectedNoteIds.size > 0 ? 'Duplicate selected bars into the next empty bars on those lanes' : 'Duplicate the contiguous phrase at the playhead into the next empty bars'}>Duplicate</Button><Button type="button" variant="ghost" size="pill" onClick={syncFollowingPatterns} disabled={!beatmap || selectedNoteIds.size === 0 || !Number.isFinite(bpm) || bpm <= 0} tooltip="Apply the selected pattern to consecutive matching sections without adding or removing notes">Sync repeats</Button></div></div></Toolbar></div><EditorTimeline notes={visibleTimelineNotes} gridLines={timelineGridLines} bounds={timelineBounds} songTimeMs={songTimeMs} playheadActive={isSongPlaying} selectedNoteIds={selectedNoteIds} runResults={displayedFeedbackAggregates} lastRunOnly={showLastRunOnly} loopMarkers={loopMarkers} onTimelineClick={handleTimelineClick} onTimelineWheel={handleTimelineWheel} onSeek={seekTimeline} onLoopRulerClick={handleLoopRulerClick} onLoopMarkerDrag={setLoopMarker} onLoopMarkerRemove={removeLoopMarker} onNoteDrag={moveNote} onHoldCreate={createHoldNote} onHoldResize={resizeHoldNote} onLaneSelect={selectLaneNotes} onSelectionChange={setSelectedNoteIds} onRemoveNote={removeNote} /></div>
           : activeTab === 'play'
-            ? <div className="play-stage"><div className="play-transport">{transport}</div><HitNotify feedback={feedback} streak={stats.streak} /><Suspense fallback={<div className="game-loading">Loading playfield…</div>}><GameScene attacks={activeAttacks} tuning={tuning} bpm={bpm} collectionProgress={collectionProgress} collectionTotals={laneNoteTotals} laneFeedback={laneFeedback} padTriggers={padTriggers} heldLanes={heldPlayLanes} onPhaseChange={setPhase} /></Suspense></div>
+            ? <div className="play-stage"><Button type="button" variant="ghost" className="mobile-play-exit" onClick={() => setActiveTab('editor')} aria-label="Leave mobile play mode"><Edit3 />Edit</Button><div className="play-transport">{transport}</div><HitNotify feedback={feedback} streak={stats.streak} /><Suspense fallback={<div className="game-loading">Loading playfield…</div>}><GameScene attacks={activeAttacks} tuning={tuning} bpm={bpm} collectionProgress={collectionProgress} collectionTotals={laneNoteTotals} laneFeedback={laneFeedback} padTriggers={padTriggers} heldLanes={heldPlayLanes} onPhaseChange={setPhase} /></Suspense><MobilePlayControls heldLanes={heldPlayLanes} onLanePress={pressPlayLane} onLaneRelease={releasePlayLane} /><div className="mobile-orientation-prompt"><strong>Rotate to play</strong><span>Beat Fiend mobile play currently uses landscape.</span></div></div>
             : <Suspense fallback={<div className="game-loading">Loading playfield…</div>}><GameScene attacks={activeAttacks} tuning={tuning} bpm={bpm} collectionProgress={collectionProgress} collectionTotals={laneNoteTotals} laneFeedback={laneFeedback} padTriggers={padTriggers} heldLanes={heldPlayLanes} onPhaseChange={setPhase} /></Suspense>}
       </section>
       {activeTab !== 'editor' && <div className="status-stack" aria-live="polite">

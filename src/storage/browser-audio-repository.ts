@@ -32,6 +32,14 @@ export async function putBrowserAudio(id: string, blob: Blob): Promise<void> {
   }
 }
 
+export async function requestPersistentBrowserStorage(): Promise<boolean> {
+  try {
+    return await navigator.storage?.persist?.() ?? false
+  } catch {
+    return false
+  }
+}
+
 export async function getBrowserAudio(id: string): Promise<Blob | null> {
   const database = await openDatabase()
   try {

@@ -1,0 +1,9 @@
+## Review
+
+- **High:** `src/storage/song-package-repository.ts:111-164` marks migration complete even when legacy storage enumeration or reads fail. Transient `localStorage` errors are swallowed, then the permanent metadata marker prevents any retry, leaving recoverable packages invisible. Abort migration on storage-access failures and write the marker only after a complete scan. Add a failure-then-retry test.
+
+- **High:** `src/storage/song-package-repository.ts:136-164` performs a strictly one-time import without accounting for an older open tab writing to `localStorage` afterward. Those later edits remain physically present but are never visible or exported by the IndexedDB repository. Use a transitional reconciliation strategy based on `updatedAt`, dual-write during rollout, or equivalent version coordination. Add a test covering legacy writes after initial migration.
+
+- **Medium:** `src/storage/song-package-repository.ts:91-109` rejects immediately on `IDBOpenDBRequest.onblocked`, although the open request remains active and may later succeed, leaking an untracked connection while the repository stays permanently rejected. This will affect future schema upgrades with another tab open. Keep waiting for `onsuccess` or explicitly close any late-success database after a controlled timeout. Add a blocked-upgrade test.
+
+- **Medium:** `src/storage/song-package-repository.ts:168-170` reads `globalThis.localStorage` outside a `try` block. Browsers that throw `SecurityError` when the property is accessed cannot use the repository even if IndexedDB is available. Resolve legacy storage safely and fall back to `null`.

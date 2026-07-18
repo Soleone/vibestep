@@ -22,7 +22,7 @@ import { usePlayRunHistory } from './game/use-play-run-history'
 import { runtimeMetrics, type RuntimeMetricsSnapshot } from './performance/runtime-metrics'
 import { getBrowserAudio, putBrowserAudio } from './storage/browser-audio-repository'
 import { createIndexedDbRunHistoryRepository } from './storage/run-history-repository'
-import { createLocalStorageSongPackageRepository } from './storage/song-package-repository'
+import { createIndexedDBSongPackageRepository } from './storage/song-package-repository'
 import {
   collectionPercent,
   countNotesByLane,
@@ -163,7 +163,7 @@ function App() {
   const shareImportInputRef = useRef<HTMLInputElement>(null)
   const [savedEditorSignature, setSavedEditorSignature] = useState<string | null>(null)
   const companion = useMemo(() => new CompanionClient(), [])
-  const packageRepository = useMemo(() => createLocalStorageSongPackageRepository(), [])
+  const packageRepository = useMemo(() => createIndexedDBSongPackageRepository(), [])
   const runHistoryRepository = useMemo(() => createIndexedDbRunHistoryRepository(), [])
   const scheduledNoteIds = useRef(new Set<string>())
   const shiftWheelSelection = useRef<{ anchorTimeMs: number; baselineIds: Set<string> } | null>(null)

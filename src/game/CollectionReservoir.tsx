@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
 import type { Group, Mesh, MeshStandardMaterial } from 'three'
 import { useRef } from 'react'
+import { playfieldFontUrl } from './playfield-font'
 import { PLAYFIELD_IMPACT_X } from './playfield-grid'
 import { clamp01, collectionProgressColor, laneColor, laneY, lanes, type FeedbackEvent, type Lane } from './model'
 
@@ -101,7 +102,7 @@ export function CollectionReservoir({ lane, progress: targetProgress, total, fee
   })
 
   return <group>
-    {total > 0 ? <Text position={[-1.67, laneY[lane] - 0.004, 0.15]} fontSize={0.06} fontWeight={800} color={percentageColor} outlineWidth={0.003} outlineColor="#050812" anchorX="right" anchorY="middle">{targetProgress}%</Text> : null}
+    {total > 0 ? <Text position={[-1.67, laneY[lane] - 0.004, 0.15]} font={playfieldFontUrl} fontSize={0.06} fontWeight={800} color={percentageColor} outlineWidth={0.003} outlineColor="#050812" anchorX="right" anchorY="middle">{targetProgress}%</Text> : null}
     <RoundedBox position={[CENTER_X, laneY[lane], 0.07]} args={[WIDTH, 0.17, 0.08]} radius={0.035} smoothness={4}><meshStandardMaterial color="#1a2a43" emissive="#29405f" emissiveIntensity={0.18} roughness={0.24} metalness={0.1} /></RoundedBox>
     <mesh ref={fillRef} position={[LEFT_X, laneY[lane], 0.115]} scale={[0, 1, 1]} visible={false}><boxGeometry args={[INNER_WIDTH, 0.115, 0.018]} /><meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.25} transparent opacity={0.94} roughness={0.16} metalness={0.02} toneMapped={false} /></mesh>
     <RoundedBox position={[CENTER_X, laneY[lane], 0.135]} args={[WIDTH, 0.17, 0.018]} radius={0.035} smoothness={4}><meshBasicMaterial color="#d7ebff" transparent opacity={0.1} depthWrite={false} /></RoundedBox>

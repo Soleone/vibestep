@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, Color } from 'three'
 import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 import { useRef } from 'react'
+import { playfieldFontUrl } from './playfield-font'
 import { PLAYFIELD_IMPACT_X } from './playfield-grid'
 import { judgementColors, laneColor, laneY, lanes, type Attack, type FeedbackEvent, type Lane } from './model'
 
@@ -157,6 +158,6 @@ export function LaneStation({ lane, attacks, feedback, padTrigger, held }: { lan
         <mesh rotation={[0, 0, Math.PI / 4]}><boxGeometry args={[0.18, 0.018, 0.018]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.8} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
       </group>
     </group>
-    <Text position={[1.88, laneY[lane] - 0.004, 0.14]} fontSize={0.064} color="#d9e5ff" anchorX="left" anchorY="middle">{lane.toUpperCase()}</Text>
+    <Text position={[1.88, laneY[lane] - 0.004, 0.14]} font={playfieldFontUrl} fontSize={0.064} color="#d9e5ff" anchorX="left" anchorY="middle">{lane.toUpperCase()}</Text>
   </group>
 }

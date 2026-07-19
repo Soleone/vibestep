@@ -73,7 +73,7 @@ main.editing-layout { --primary: var(--ff-edit); }
 
 .panel-brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
 .panel-brand__icon { width: 42px; height: 42px; flex: 0 0 auto; object-fit: contain; }
-.panel-brand h1 { display: flex; align-items: center; }
+.panel-brand h1 { display: flex; align-items: center; font-family: 'Inter Variable', sans-serif; }
 .panel-brand__wordmark-part--vibe { color: var(--ff-play); font-weight: 400; }
 .panel-brand__wordmark-part--step { color: var(--ff-edit); font-weight: 800; }
 .panel-brand__wordmark-image { display: block; width: auto; max-width: 240px; height: 34px; object-fit: contain; }
@@ -383,8 +383,8 @@ input[type='range'],
   color: #dce8ff;
 }
 .transport-play-button { color: #04140a; font-size: 18px; }
-.transport-play-button--play { background: var(--ff-success); }
-.transport-play-button--pause { background: var(--ff-warning); color: #1b0b04; }
+.transport-play-button--play { background: var(--ff-edit); }
+.transport-play-button--pause { background: var(--ff-play); color: #1b0b04; }
 .transport-icon-button { color: #cfe0ff; background: rgba(255,255,255,0.07); }
 .transport-icon-button:disabled,
 .transport-play-button:disabled { opacity: 0.45; cursor: not-allowed; }

@@ -17,7 +17,7 @@ const companionBrand = {
   name: brandConfig.name,
   companionName,
   colors: brandConfig.colors,
-  icon: brandConfig.companion.iconPng ? path.basename(brandConfig.companion.iconPng) : null,
+  icon: brandConfig.companion.headerIcon ? path.basename(brandConfig.companion.headerIcon) : null,
   wordmark: brandConfig.companion.wordmark ? path.basename(brandConfig.companion.wordmark) : null,
 }
 let status = { state: 'starting', message: 'Preparing the local audio tools...', brand: companionBrand }

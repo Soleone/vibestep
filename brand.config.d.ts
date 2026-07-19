@@ -6,6 +6,7 @@ export type BrandConfig = {
   }
   web: {
     icon: string | null
+    headerIcon: string | null
     wordmark: string | null
     wordmarkText: ReadonlyArray<{
       text: string
@@ -15,6 +16,7 @@ export type BrandConfig = {
   companion: {
     iconPng: string | null
     iconIco: string | null
+    headerIcon: string | null
     wordmark: string | null
   }
 }

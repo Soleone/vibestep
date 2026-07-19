@@ -49,9 +49,9 @@ test('validates configured colors and optional assets', () => {
   assert.match(brandConfig.colors.step, /^#[0-9a-f]{6}$/i)
   assert.match(brandSlug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/)
 
-  const webAssets = [brandConfig.web.icon, brandConfig.web.wordmark].filter((value): value is string => Boolean(value))
+  const webAssets = [brandConfig.web.icon, brandConfig.web.headerIcon, brandConfig.web.wordmark].filter((value): value is string => Boolean(value))
   for (const asset of webAssets) assert.equal(existsSync(resolve(root, 'public', asset.replace(/^\//, ''))), true, `Missing web brand asset: ${asset}`)
 
-  const companionAssets = [brandConfig.companion.iconPng, brandConfig.companion.iconIco, brandConfig.companion.wordmark].filter((value): value is string => Boolean(value))
+  const companionAssets = [brandConfig.companion.iconPng, brandConfig.companion.iconIco, brandConfig.companion.headerIcon, brandConfig.companion.wordmark].filter((value): value is string => Boolean(value))
   for (const asset of companionAssets) assert.equal(existsSync(resolve(root, asset)), true, `Missing companion brand asset: ${asset}`)
 })

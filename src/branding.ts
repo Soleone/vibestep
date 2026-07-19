@@ -8,6 +8,7 @@ export type AppBrand = {
   name: string
   slug: string
   icon?: string
+  headerIcon?: string
   wordmark: AppWordmark
   colors: {
     vibe: string
@@ -19,6 +20,7 @@ export const appBrand: AppBrand = {
   name: brandConfig.name,
   slug: brandSlug,
   ...(brandConfig.web.icon ? { icon: brandConfig.web.icon } : {}),
+  ...(brandConfig.web.headerIcon ? { headerIcon: brandConfig.web.headerIcon } : {}),
   wordmark: brandConfig.web.wordmark
     ? { type: 'image', src: brandConfig.web.wordmark, alt: brandConfig.name }
     : { type: 'text', parts: brandConfig.web.wordmarkText },

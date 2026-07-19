@@ -5,7 +5,7 @@ export function AppBrand() {
 
   return (
     <div className="panel-brand">
-      {appBrand.icon ? <img className="panel-brand__icon" src={appBrand.icon} alt="" /> : null}
+      {appBrand.headerIcon ? <img className="panel-brand__icon" src={appBrand.headerIcon} alt="" /> : null}
       <h1>
         {wordmark.type === 'text'
           ? wordmark.parts.map((part, index) => <span key={`${part.text}-${index}`} className={`panel-brand__wordmark-part panel-brand__wordmark-part--${part.color}`}>{part.text}</span>)

@@ -2,8 +2,8 @@
  * @typedef {object} BrandConfig
  * @property {string} name
  * @property {{ vibe: string, step: string }} colors
- * @property {{ icon: string | null, wordmark: string | null, wordmarkText: Array<{ text: string, color: 'vibe' | 'step' }> }} web
- * @property {{ iconPng: string | null, iconIco: string | null, wordmark: string | null }} companion
+ * @property {{ icon: string | null, headerIcon: string | null, wordmark: string | null, wordmarkText: Array<{ text: string, color: 'vibe' | 'step' }> }} web
+ * @property {{ iconPng: string | null, iconIco: string | null, headerIcon: string | null, wordmark: string | null }} companion
  */
 
 /** @type {BrandConfig} */
@@ -14,7 +14,8 @@ export const brandConfig = Object.freeze({
     step: '#c7f464',
   }),
   web: Object.freeze({
-    icon: null,
+    icon: '/vibestep-logo.png',
+    headerIcon: null,
     wordmark: null,
     wordmarkText: Object.freeze([
       Object.freeze({ text: 'Vibe', color: 'vibe' }),
@@ -22,8 +23,9 @@ export const brandConfig = Object.freeze({
     ]),
   }),
   companion: Object.freeze({
-    iconPng: null,
-    iconIco: null,
+    iconPng: 'desktop/vibestep-logo.png',
+    iconIco: 'desktop/vibestep-logo.ico',
+    headerIcon: null,
     wordmark: null,
   }),
 })

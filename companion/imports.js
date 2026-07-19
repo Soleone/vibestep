@@ -1,10 +1,12 @@
 import { spawn } from 'node:child_process'
 import { mkdir, readdir, rename, rm, stat } from 'node:fs/promises'
 import path from 'node:path'
-import { nanoid } from 'nanoid'
+import { customAlphabet, nanoid } from 'nanoid'
+import { readableAudioFileName } from './audio-filename.js'
 import { configuredTools } from './tools.js'
 
 const MAX_AUDIO_BYTES = 512 * 1024 * 1024
+const createAudioId = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16)
 
 function spawnCommand(command, args, options = {}) {
   const child = spawn(command, args, { ...options, shell: false, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
@@ -70,8 +72,9 @@ export class ImportManager {
   async importFile(sourceFile, title) {
     const probe = await probeAudio(this.tools.ffprobe, sourceFile)
     if (!probe.durationMs) throw new Error('Uploaded file is not valid audio')
-    const id = nanoid(16)
-    const fileName = `${id}.m4a`
+    const id = createAudioId()
+    const audioTitle = String(probe.title || title || 'Local audio file').slice(0, 300)
+    const fileName = readableAudioFileName(audioTitle, id)
     const destination = path.join(this.cache.audioDir, fileName)
     const conversion = spawnCommand(this.tools.ffmpeg, ['-v', 'error', '-i', sourceFile, '-vn', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', destination])
     await conversion.result
@@ -80,7 +83,7 @@ export class ImportManager {
       await rm(destination, { force: true })
       throw new Error('Uploaded audio exceeds the allowed size')
     }
-    const item = { id, fileName, title: String(probe.title || title || 'Local audio file').slice(0, 300), durationMs: probe.durationMs, contentType: 'audio/mp4', size: fileStat.size, createdAt: new Date().toISOString() }
+    const item = { id, fileName, title: audioTitle, durationMs: probe.durationMs, contentType: 'audio/mp4', size: fileStat.size, createdAt: new Date().toISOString() }
     await this.cache.add(item)
     return this.cache.publicItem(item)
   }
@@ -116,8 +119,8 @@ export class ImportManager {
       const outputText = download.readOutput().stdout
       const title = outputText.match(/^vibestep-title=(.+)$/m)?.[1]?.trim().slice(0, 300) || probe.title || 'Imported song'
       const extractorId = outputText.match(/^vibestep-id=(.+)$/m)?.[1]?.trim() || ''
-      const id = nanoid(16)
-      const fileName = `${id}.m4a`
+      const id = createAudioId()
+      const fileName = readableAudioFileName(title, id)
       await rename(sourceFile, path.join(this.cache.audioDir, fileName))
       const item = { id, fileName, title, durationMs: probe.durationMs, contentType: 'audio/mp4', size: fileStat.size, sourceUrl: job.sourceUrl, extractorId, createdAt: new Date().toISOString() }
       await this.cache.add(item)

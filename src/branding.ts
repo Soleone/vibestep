@@ -1,7 +1,7 @@
 import { brandConfig, brandSlug } from '../brand.config.js'
 
 export type AppWordmark =
-  | { type: 'text'; value: string }
+  | { type: 'text'; parts: ReadonlyArray<{ text: string; color: 'vibe' | 'step' }> }
   | { type: 'image'; src: string; alt?: string }
 
 export type AppBrand = {
@@ -21,7 +21,7 @@ export const appBrand: AppBrand = {
   ...(brandConfig.web.icon ? { icon: brandConfig.web.icon } : {}),
   wordmark: brandConfig.web.wordmark
     ? { type: 'image', src: brandConfig.web.wordmark, alt: brandConfig.name }
-    : { type: 'text', value: brandConfig.name },
+    : { type: 'text', parts: brandConfig.web.wordmarkText },
   colors: brandConfig.colors,
 }
 

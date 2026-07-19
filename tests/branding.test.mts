@@ -29,6 +29,7 @@ test('shares one brand configuration across web and companion surfaces', () => {
   assert.equal(appBrand.name, brandConfig.name)
   assert.equal(appBrand.slug, brandSlug)
   assert.deepEqual(appBrand.colors, brandConfig.colors)
+  assert.equal(brandConfig.web.wordmarkText.map((part) => part.text).join(''), brandConfig.name)
   assert.equal(companionName, `${brandConfig.name} Companion`)
   assert.equal(builderConfig.productName, companionName)
   assert.ok(builderConfig.files.includes('brand.config.js'))

@@ -4,7 +4,7 @@ Runtime branding for the web app and companion is centralized in [`brand.config.
 
 To rebrand:
 
-1. Change `name`, `colors.vibe`, and `colors.step` in `brand.config.js`.
+1. Change `name`, `colors.vibe`, `colors.step`, and the CSS-colored `web.wordmarkText` parts in `brand.config.js`.
 2. Add replacement assets and set their paths in the same file:
    - Web assets belong in `public/` and use root-relative paths such as `/brand-icon.png`.
    - Companion assets belong in `desktop/` and use repository-relative paths such as `desktop/brand-icon.png`.

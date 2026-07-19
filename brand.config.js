@@ -2,7 +2,7 @@
  * @typedef {object} BrandConfig
  * @property {string} name
  * @property {{ vibe: string, step: string }} colors
- * @property {{ icon: string | null, wordmark: string | null }} web
+ * @property {{ icon: string | null, wordmark: string | null, wordmarkText: Array<{ text: string, color: 'vibe' | 'step' }> }} web
  * @property {{ iconPng: string | null, iconIco: string | null, wordmark: string | null }} companion
  */
 
@@ -16,6 +16,10 @@ export const brandConfig = Object.freeze({
   web: Object.freeze({
     icon: null,
     wordmark: null,
+    wordmarkText: Object.freeze([
+      Object.freeze({ text: 'Vibe', color: 'vibe' }),
+      Object.freeze({ text: 'step', color: 'step' }),
+    ]),
   }),
   companion: Object.freeze({
     iconPng: null,

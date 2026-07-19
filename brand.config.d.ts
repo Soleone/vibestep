@@ -7,6 +7,10 @@ export type BrandConfig = {
   web: {
     icon: string | null
     wordmark: string | null
+    wordmarkText: ReadonlyArray<{
+      text: string
+      color: 'vibe' | 'step'
+    }>
   }
   companion: {
     iconPng: string | null

@@ -30,7 +30,7 @@ function openDatabase(factory: IDBFactory): Promise<IDBDatabase> {
       resolve(request.result)
     }
     request.onerror = () => reject(request.error ?? new Error('Could not open performance history storage'))
-    request.onblocked = () => reject(new Error('Performance history storage upgrade is blocked by another Beat Fiend tab'))
+    request.onblocked = () => reject(new Error('Performance history storage upgrade is blocked by another app tab'))
   })
 }
 

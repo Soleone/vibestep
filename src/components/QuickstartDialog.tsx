@@ -1,4 +1,5 @@
 import { CircleHelp, Gamepad2, Music2, SlidersHorizontal } from 'lucide-react'
+import { appBrand } from '../branding'
 import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui'
 
 export type QuickstartDialogProps = {
@@ -20,7 +21,7 @@ export function QuickstartDialog({ open, onOpenChange, onOpenSettings }: Quickst
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="quickstart-dialog">
         <DialogHeader>
-          <DialogTitle>Welcome to Beat Fiend</DialogTitle>
+          <DialogTitle>Welcome to {appBrand.name}</DialogTitle>
           <DialogDescription>Play a beatmap, or turn any song into one by lining up its beat grid first.</DialogDescription>
         </DialogHeader>
 

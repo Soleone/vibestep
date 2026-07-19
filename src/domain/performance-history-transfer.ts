@@ -105,7 +105,7 @@ export function createPerformanceHistoryTransfer(runs: PlayRun[], exportedAt = n
 }
 
 export function parsePerformanceHistoryTransfer(value: unknown): PerformanceHistoryTransfer {
-  if (!isRecord(value) || value.schema !== PERFORMANCE_HISTORY_SCHEMA) throw new Error('Not a Beat Fiend performance history backup')
+  if (!isRecord(value) || value.schema !== PERFORMANCE_HISTORY_SCHEMA) throw new Error('Not a valid performance history backup')
   if (value.schemaVersion !== PERFORMANCE_HISTORY_VERSION) throw new Error(`Unsupported performance history version: ${String(value.schemaVersion)}`)
   if (!Array.isArray(value.runs)) throw new Error('Performance history runs must be an array')
   const runs = value.runs.map((run, index) => parsePlayRun(run, `runs[${index}]`))

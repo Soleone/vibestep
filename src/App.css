@@ -70,7 +70,9 @@ main {
 }
 
 .panel-brand { display: flex; align-items: center; justify-content: center; gap: 10px; }
-.panel-brand img { width: 42px; height: 42px; flex: 0 0 auto; object-fit: contain; }
+.panel-brand__icon { width: 42px; height: 42px; flex: 0 0 auto; object-fit: contain; }
+.panel-brand h1 { display: flex; align-items: center; }
+.panel-brand__wordmark-image { display: block; width: auto; max-width: 240px; height: 34px; object-fit: contain; }
 
 .eyebrow {
   display: inline-flex;

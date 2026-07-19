@@ -1,6 +1,6 @@
-# Beat Fiend Companion
+# Vibestep Companion
 
-The companion is a headless local audio service for the hosted Beat Fiend web app. It binds only to `127.0.0.1`, extracts or imports audio locally, stores normalized playback files, and serves signed range requests. Beatmaps and song packages remain browser-owned.
+The companion is a headless local audio service for the hosted Vibestep web app. It binds only to `127.0.0.1`, extracts or imports audio locally, stores normalized playback files, and serves signed range requests. Beatmaps and song packages remain browser-owned.
 
 ## Development startup
 
@@ -14,15 +14,15 @@ npm install
 npm run dev:all
 ```
 
-This starts Vite and the companion together at `http://localhost:5173`. Running `npm run dev:companion` separately also targets the local Vite app. The companion uses a one-time pairing credential in the URL fragment, which Beat Fiend consumes and removes. Packaged builds continue to open the hosted app.
+This starts Vite and the companion together at `http://localhost:5173`. Running `npm run dev:companion` separately also targets the local Vite app. The companion uses a one-time pairing credential in the URL fragment, which Vibestep consumes and removes. Packaged builds continue to open the hosted app.
 
 ## Configuration
 
-- `BEAT_FIEND_WEB_URL`: optional override for the app URL opened for pairing and automatically allowed as an exact origin. The default is centralized in `companion/config.js`.
-- `BEAT_FIEND_ALLOWED_ORIGINS`: optional comma-separated additional exact browser origins
-- `BEAT_FIEND_COMPANION_PORT`: loopback port, default `47831`
-- `BEAT_FIEND_COMPANION_DATA_DIR`: private cache and secret directory
-- `BEAT_FIEND_YT_DLP`, `BEAT_FIEND_FFMPEG`, `BEAT_FIEND_FFPROBE`: trusted command paths
+- `VIBESTEP_WEB_URL`: optional override for the app URL opened for pairing and automatically allowed as an exact origin. The default is centralized in `companion/config.js`.
+- `VIBESTEP_ALLOWED_ORIGINS`: optional comma-separated additional exact browser origins
+- `VIBESTEP_COMPANION_PORT`: loopback port, default `47831`
+- `VIBESTEP_COMPANION_DATA_DIR`: private cache and secret directory
+- `VIBESTEP_YT_DLP`, `VIBESTEP_FFMPEG`, `VIBESTEP_FFPROBE`: trusted command paths
 
 The packaged companion uses the centralized hosted default without requiring environment variables or command-line setup. Do not use wildcard origins or bind the server to a public interface.
 
@@ -48,7 +48,7 @@ Reviewed targets:
 
 The manifest uses immutable, version-specific download URLs rather than `latest` URLs. SHA-256 values are pinned from the corresponding upstream release metadata. GitHub redirects are allowed because the downloaded bytes must match the pinned checksum before installation.
 
-Unsupported platforms must provide all required trusted command paths through `BEAT_FIEND_YT_DLP`, `BEAT_FIEND_FFMPEG`, and `BEAT_FIEND_FFPROBE`. These overrides are also useful for development and offline installation.
+Unsupported platforms must provide all required trusted command paths through `VIBESTEP_YT_DLP`, `VIBESTEP_FFMPEG`, and `VIBESTEP_FFPROBE`. These overrides are also useful for development and offline installation.
 
 The standalone yt-dlp executable and the selected FFmpeg builds include GPL-licensed components. A distributed companion installer must ship the applicable third-party notices and satisfy source-offer requirements before release.
 

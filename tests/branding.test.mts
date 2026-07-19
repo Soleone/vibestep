@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { brandConfig, brandSlug, companionName } from '../brand.config.js'
+import { brandConfig, brandSlug, companionArtifactName, companionName } from '../brand.config.js'
 import builderConfig from '../electron-builder.config.js'
 import { appBrand } from '../src/branding.ts'
 
@@ -32,6 +32,8 @@ test('shares one brand configuration across web and companion surfaces', () => {
   assert.equal(brandConfig.web.wordmarkText.map((part) => part.text).join(''), brandConfig.name)
   assert.equal(companionName, `${brandConfig.name} Companion`)
   assert.equal(builderConfig.productName, companionName)
+  assert.equal(companionArtifactName, `${brandConfig.name}-Companion-Setup.exe`)
+  assert.equal(builderConfig.artifactName, companionArtifactName)
   assert.ok(builderConfig.files.includes('brand.config.js'))
 })
 

@@ -22,7 +22,7 @@ function request(port, pathName, { method = 'GET', origin = 'http://localhost:51
 }
 
 async function fixture() {
-  const dataDir = await mkdtemp(path.join(tmpdir(), 'beat-fiend-companion-'))
+  const dataDir = await mkdtemp(path.join(tmpdir(), 'vibestep-companion-'))
   const { app, cache } = await createCompanionApp({ dataDir, port: 0, secret: 'test-secret', allowedOrigins: ['http://localhost:5173'] })
   await writeFile(path.join(cache.audioDir, 'audio.m4a'), Buffer.from('0123456789'))
   await cache.add({ id: 'audio-id', fileName: 'audio.m4a', title: 'Fixture', durationMs: 1000, contentType: 'audio/mp4', size: 10, sourceUrl: 'https://youtu.be/fixture', createdAt: new Date().toISOString() })

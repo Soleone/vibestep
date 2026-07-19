@@ -1,11 +1,11 @@
 {
-  "name": "beat-fiend",
+  "name": "vibestep",
   "private": true,
   "version": "0.1.9",
   "type": "module",
   "scripts": {
     "dev": "vite --strictPort",
-    "dev:companion": "cross-env BEAT_FIEND_WEB_URL=http://localhost:5173 node companion/index.js",
+    "dev:companion": "cross-env VIBESTEP_WEB_URL=http://localhost:5173 node companion/index.js",
     "dev:all": "concurrently \"npm run dev:companion\" \"npm run dev\"",
     "build": "tsc -b && vite build",
     "lint": "oxlint",

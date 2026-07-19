@@ -1,12 +1,12 @@
-# Beat Fiend
+# Vibestep
 
-Beat Fiend is a local-first beatmap studio with a rhythm-game playtest mode. Import a song, align its beat grid, record or edit lane events, then playtest the result.
+Vibestep is a local-first beatmap studio with a rhythm-game playtest mode. Import a song, align its beat grid, record or edit lane events, then playtest the result.
 
-<img width="3726" height="1536" alt="Beat Fiend editor" src="https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a" />
+<img width="3726" height="1536" alt="Vibestep editor" src="https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a" />
 
 ## Quick start
 
-Open **[beatfiend.vercel.app](https://beatfiend.vercel.app)** in a modern desktop browser. No account or installation is required. Chrome or Edge on Windows is the currently tested setup.
+Open **[vibestep.vercel.app](https://vibestep.vercel.app)** in a modern desktop browser. No account or installation is required. Chrome or Edge on Windows is the currently tested setup.
 
 ### 1. Playing
 
@@ -16,9 +16,9 @@ To play an existing map:
 2. Provide the corresponding audio. Under **Config → Import audio**, choose a supported MP3, M4A, WebM, Ogg, or WAV file.
 3. Open **Play**, select the song and beatmap, then start playback.
 
-The file is copied into this browser profile's IndexedDB storage. It is not uploaded to Beat Fiend.
+The file is copied into this browser profile's IndexedDB storage. It is not uploaded to Vibestep.
 
-For YouTube audio, install the optional Windows companion from **Config → Download companion for Windows**. Run `Beat-Fiend-Companion-Setup.exe`, keep its window open, paste a supported YouTube URL, then select **Import**. The unsigned early installer may require **More info → Run anyway**. Confirm that it came from `github.com/Soleone/beatfiend`.
+For YouTube audio, install the optional Windows companion from **Config → Download companion for Windows**. Run `Vibestep-Companion-Setup.exe`, keep its window open, paste a supported YouTube URL, then select **Import**. The unsigned early installer may require **More info → Run anyway**. Confirm that it came from `github.com/Soleone/vibestep`.
 
 First companion launch downloads checksum-verified media tools and can take longer. YouTube audio remains in its private cache. Closing the companion stops it completely.
 
@@ -53,7 +53,7 @@ Controls can be changed from Config.
 
 ## Storage and backups
 
-Beat Fiend has no cloud account or central song library.
+Vibestep has no cloud account or central song library.
 
 | Data | Storage |
 | --- | --- |
@@ -66,7 +66,7 @@ The hosted app serves only the application. It does not receive or store importe
 
 Open **Config → Library transfer → Export library** regularly. Exported backups contain source links, timing profiles, and beatmaps, but intentionally exclude audio. Keep original audio files because restoring in another browser may ask for them.
 
-Clearing site data, resetting the browser profile, or uninstalling the browser can remove the local library. Beat Fiend has no cloud recovery service.
+Clearing site data, resetting the browser profile, or uninstalling the browser can remove the local library. Vibestep has no cloud recovery service.
 
 ## Sharing beatmaps
 
@@ -78,7 +78,7 @@ Recipients import the bundle and provide the original file or retrieve the corre
 
 ### Companion is offline
 
-Start **Beat Fiend Companion**, leave its window open, and use **Pair this browser** if Beat Fiend does not switch to `paired` automatically.
+Start **Vibestep Companion**, leave its window open, and use **Pair this browser** if Vibestep does not switch to `paired` automatically.
 
 ### A saved song has no audio
 
@@ -90,7 +90,7 @@ Confirm that the companion says **Ready**, the URL is a supported YouTube URL, a
 
 ### Update check fails
 
-Download the newest installer from [GitHub Releases](https://github.com/Soleone/beatfiend/releases/latest). Installing it over the existing version keeps the companion cache.
+Download the newest installer from [GitHub Releases](https://github.com/Soleone/vibestep/releases/latest). Installing it over the existing version keeps the companion cache.
 
 ## Development
 

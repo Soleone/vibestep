@@ -48,7 +48,7 @@ export async function createCompanionApp(options = {}) {
     if (origin) {
       res.set('Access-Control-Allow-Origin', origin)
       res.set('Vary', 'Origin')
-      res.set('Access-Control-Allow-Headers', 'Authorization, Content-Type, X-Beat-Fiend-Filename')
+      res.set('Access-Control-Allow-Headers', 'Authorization, Content-Type, X-Companion-Filename')
       res.set('Access-Control-Allow-Methods', 'GET, HEAD, POST, DELETE, OPTIONS')
       if (req.headers['access-control-request-private-network'] === 'true') res.set('Access-Control-Allow-Private-Network', 'true')
     }
@@ -66,7 +66,7 @@ export async function createCompanionApp(options = {}) {
   app.get('/v1/pair', (_req, res) => {
     const pairing = Buffer.from(JSON.stringify({ credential: secret, baseUrl: `http://127.0.0.1:${port}` })).toString('base64url')
     const target = new URL(webUrl)
-    target.hash = `beat-fiend-companion=${pairing}`
+    target.hash = `vibestep-companion=${pairing}`
     res.redirect(302, target.toString())
   })
   app.use('/v1/library', requireAuth)
@@ -112,7 +112,7 @@ export async function createCompanionApp(options = {}) {
     try {
       await writeFile(temporary, req.body, { mode: 0o600 })
       let title = 'Local audio file'
-      try { title = decodeURIComponent(String(req.headers['x-beat-fiend-filename'] ?? title)).slice(0, 300) } catch {}
+      try { title = decodeURIComponent(String(req.headers['x-companion-filename'] ?? title)).slice(0, 300) } catch {}
       const audio = await imports.importFile(temporary, title)
       res.status(201).json({ audio })
     } catch (error) {

@@ -1,9 +1,9 @@
-import { brandConfig, companionName } from './brand.config.js'
+import { brandConfig, companionArtifactName, companionName } from './brand.config.js'
 
 export default {
-  appId: 'app.beatfiend.companion',
+  appId: 'app.vibestep.companion',
   productName: companionName,
-  artifactName: 'Beat-Fiend-Companion-Setup.exe',
+  artifactName: companionArtifactName,
   asar: true,
   files: [
     'brand.config.js',
@@ -24,7 +24,7 @@ export default {
   publish: {
     provider: 'github',
     owner: 'Soleone',
-    repo: 'beatfiend',
+    repo: 'vibestep',
     releaseType: 'release',
   },
   directories: {

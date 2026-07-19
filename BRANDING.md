@@ -14,4 +14,4 @@ To rebrand:
 
 When a wordmark path is `null`, that surface renders the configured brand name as text. When an icon path is `null`, the old icon is omitted instead of leaking previous branding.
 
-Do not rename compatibility identifiers as part of a visual rebrand. Existing `beat-fiend` storage schemas, IndexedDB names, pairing fragments, hosted URLs, repository names, application IDs, and installer artifact names preserve user data, pairing, updates, and old import support. Migrate those separately only with an explicit compatibility plan.
+Exported JSON uses brand-neutral `format` and `version` fields so future visual rebrands do not affect portable data. Runtime identifiers such as IndexedDB names, pairing fragments, hosted URLs, repository names, application IDs, and installer artifacts use the current brand. Coordinate external service renames before changing hosted URLs or repository names.

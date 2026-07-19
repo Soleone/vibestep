@@ -1,16 +1,16 @@
 # Companion release process
 
-The Windows companion is a per-user, one-click NSIS installer. It embeds Electron and the Beat Fiend loopback service, so users do not need Node.js, npm, or a terminal. Media tools are downloaded on first launch from pinned release URLs and verified with SHA-256 before use.
+The Windows companion is a per-user, one-click NSIS installer. It embeds Electron and the Vibestep loopback service, so users do not need Node.js, npm, or a terminal. Media tools are downloaded on first launch from pinned release URLs and verified with SHA-256 before use.
 
 ## User flow
 
-1. Download `Beat-Fiend-Companion-Setup.exe` from the Beat Fiend Config screen or GitHub Releases.
+1. Download `Vibestep-Companion-Setup.exe` from the Vibestep Config screen or GitHub Releases.
 2. Run the installer. It installs without administrator access and launches the companion.
-3. The companion provisions verified media tools, starts on `127.0.0.1:47831`, and opens `https://beatfiend.vercel.app` with pairing data in the URL fragment.
+3. The companion provisions verified media tools, starts on `127.0.0.1:47831`, and opens `https://vibestep.vercel.app` with pairing data in the URL fragment.
 4. Keep the companion window open while using YouTube import. Closing the window quits the companion and its local service completely. It does not run in the notification area or start at login.
 5. Updates download automatically from GitHub Releases. The status window prompts before restarting to install them.
 
-Uninstall from Windows Settings under Apps. Browser-owned songs and beatmaps remain in the browser. Companion cache data remains in `%LOCALAPPDATA%\Beat Fiend Companion` unless the user removes it manually.
+Uninstall from Windows Settings under Apps. Browser-owned songs and beatmaps remain in the browser. Companion cache data remains in `%LOCALAPPDATA%\Vibestep Companion` unless the user removes it manually.
 
 ## Local packaging
 
@@ -21,7 +21,7 @@ npm run build
 npm run companion:dist:win
 ```
 
-Builds are unsigned. The installer is written to `release/Beat-Fiend-Companion-Setup.exe`.
+Builds are unsigned. The installer is written to `release/Vibestep-Companion-Setup.exe`.
 
 ## GitHub release
 
@@ -41,7 +41,7 @@ The release command stops if the worktree is dirty, the current branch is not `m
 
 ## Windows SmartScreen
 
-The installer is intentionally unsigned, so Windows may show a SmartScreen warning. Users can select **More info**, verify that the download came from `github.com/Soleone/beatfiend`, then select **Run anyway**. Publish the installer checksum and provenance attestation with every release. Do not claim that Windows recognizes or verifies the publisher.
+The installer is intentionally unsigned, so Windows may show a SmartScreen warning. Users can select **More info**, verify that the download came from `github.com/Soleone/vibestep`, then select **Run anyway**. Publish the installer checksum and provenance attestation with every release. Do not claim that Windows recognizes or verifies the publisher.
 
 Review dependency updates, especially Electron and `electron-updater`, before every release.
 

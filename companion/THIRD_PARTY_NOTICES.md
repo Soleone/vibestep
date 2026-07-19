@@ -1,6 +1,6 @@
 # Third-party media tools
 
-Beat Fiend Companion downloads the following tools on first launch. They are not authored by Beat Fiend and are stored in the user's private companion data directory. Exact versions, binary URLs, and SHA-256 checksums are defined in `companion/tools.js`.
+Vibestep Companion downloads the following tools on first launch. They are not authored by Vibestep and are stored in the user's private companion data directory. Exact versions, binary URLs, and SHA-256 checksums are defined in `companion/tools.js`.
 
 ## yt-dlp
 

@@ -1,6 +1,6 @@
 import type { BeatmapNote, Lane } from '../game/model'
 
-export const SONG_PACKAGE_SCHEMA = 'beat-fiend/song-package' as const
+export const SONG_PACKAGE_FORMAT = 'song-package' as const
 export const SONG_PACKAGE_VERSION = 1 as const
 
 export type SongSource = {
@@ -38,8 +38,8 @@ export type PackageBeatmap = {
 }
 
 export type SongPackage = {
-  schema: typeof SONG_PACKAGE_SCHEMA
-  schemaVersion: typeof SONG_PACKAGE_VERSION
+  format: typeof SONG_PACKAGE_FORMAT
+  version: typeof SONG_PACKAGE_VERSION
   id: string
   song: SongReference
   timingProfiles: TimingProfile[]
@@ -128,7 +128,7 @@ function parseBeatmap(value: unknown, index: number): PackageBeatmap {
 
 export function parseSongPackage(value: unknown): SongPackage {
   if (!isRecord(value)) issue('$', 'expected object')
-  if (value.schema !== SONG_PACKAGE_SCHEMA || value.schemaVersion !== SONG_PACKAGE_VERSION) issue('schema', `expected ${SONG_PACKAGE_SCHEMA} version ${SONG_PACKAGE_VERSION}`)
+  if (value.format !== SONG_PACKAGE_FORMAT || value.version !== SONG_PACKAGE_VERSION) issue('format', `expected ${SONG_PACKAGE_FORMAT} version ${SONG_PACKAGE_VERSION}`)
   if (!isNonEmptyString(value.id) || !isIsoDate(value.createdAt) || !isIsoDate(value.updatedAt)) issue('$', 'id and ISO timestamps are required')
   if (!isRecord(value.song) || !isNonEmptyString(value.song.id) || !isNonEmptyString(value.song.title) || !Array.isArray(value.song.sources)) issue('song', 'id, title, and sources are required')
   if (value.song.durationMs !== undefined && (!isFiniteNumber(value.song.durationMs) || value.song.durationMs < 0)) issue('song.durationMs', 'expected non-negative number')
@@ -150,8 +150,8 @@ export function parseSongPackage(value: unknown): SongPackage {
   }
   visit(value)
   return {
-    schema: SONG_PACKAGE_SCHEMA,
-    schemaVersion: SONG_PACKAGE_VERSION,
+    format: SONG_PACKAGE_FORMAT,
+    version: SONG_PACKAGE_VERSION,
     id: value.id,
     song: {
       id: value.song.id,
@@ -198,5 +198,5 @@ export function migrateLegacySongPackage(value: LegacySongPackage, now = new Dat
       version: isFiniteNumber(map.version) ? map.version : 1,
     }
   })
-  return parseSongPackage({ schema: SONG_PACKAGE_SCHEMA, schemaVersion: SONG_PACKAGE_VERSION, id, song: { id, title, durationMs, sources: source }, timingProfiles, beatmaps, defaultTimingProfileId: 'default', createdAt: now, updatedAt: now })
+  return parseSongPackage({ format: SONG_PACKAGE_FORMAT, version: SONG_PACKAGE_VERSION, id, song: { id, title, durationMs, sources: source }, timingProfiles, beatmaps, defaultTimingProfileId: 'default', createdAt: now, updatedAt: now })
 }

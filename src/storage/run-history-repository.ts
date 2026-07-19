@@ -1,7 +1,7 @@
 import { parsePlayRun } from '../domain/performance-history-transfer'
 import type { PlayRun } from '../game/run-history'
 
-const DATABASE_NAME = 'beat-fiend-run-history'
+const DATABASE_NAME = 'vibestep-run-history'
 const DATABASE_VERSION = 1
 const RUNS_STORE = 'runs'
 const SONG_BEATMAP_INDEX = 'by-song-beatmap'

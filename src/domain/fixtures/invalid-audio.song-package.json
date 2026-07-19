@@ -1,9 +1,25 @@
 {
-  "schema": "beat-fiend/song-package",
-  "schemaVersion": 1,
+  "format": "song-package",
+  "version": 1,
   "id": "invalid-audio",
-  "song": { "id": "invalid-audio", "title": "Invalid", "sources": [], "audioUrl": "file:///private/song.m4a" },
-  "timingProfiles": [{ "id": "default", "name": "Default", "bpm": 120, "beatOffsetMs": 0, "timeSignature": [4, 4] }],
+  "song": {
+    "id": "invalid-audio",
+    "title": "Invalid",
+    "sources": [],
+    "audioUrl": "file:///private/song.m4a"
+  },
+  "timingProfiles": [
+    {
+      "id": "default",
+      "name": "Default",
+      "bpm": 120,
+      "beatOffsetMs": 0,
+      "timeSignature": [
+        4,
+        4
+      ]
+    }
+  ],
   "beatmaps": [],
   "defaultTimingProfileId": "default",
   "createdAt": "2026-07-11T00:00:00.000Z",

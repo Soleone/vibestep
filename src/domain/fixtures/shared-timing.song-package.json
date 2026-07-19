@@ -1,17 +1,55 @@
 {
-  "schema": "beat-fiend/song-package",
-  "schemaVersion": 1,
+  "format": "song-package",
+  "version": 1,
   "id": "fixture-shared",
   "song": {
     "id": "fixture-shared",
     "title": "Shared Timing Fixture",
     "durationMs": 120000,
-    "sources": [{ "kind": "youtube", "url": "https://youtu.be/example" }]
+    "sources": [
+      {
+        "kind": "youtube",
+        "url": "https://youtu.be/example"
+      }
+    ]
   },
-  "timingProfiles": [{ "id": "default", "name": "Default", "bpm": 120, "beatOffsetMs": 125, "timeSignature": [4, 4] }],
+  "timingProfiles": [
+    {
+      "id": "default",
+      "name": "Default",
+      "bpm": 120,
+      "beatOffsetMs": 125,
+      "timeSignature": [
+        4,
+        4
+      ]
+    }
+  ],
   "beatmaps": [
-    { "id": "easy", "title": "Easy", "difficulty": 1, "timingProfileId": "default", "durationMs": 120000, "notes": [] },
-    { "id": "hard", "title": "Hard", "difficulty": 4, "timingProfileId": "default", "durationMs": 120000, "notes": [{ "id": "n1", "impactTimeMs": 1000, "lane": "kick", "strength": 1, "source": "manual" }] }
+    {
+      "id": "easy",
+      "title": "Easy",
+      "difficulty": 1,
+      "timingProfileId": "default",
+      "durationMs": 120000,
+      "notes": []
+    },
+    {
+      "id": "hard",
+      "title": "Hard",
+      "difficulty": 4,
+      "timingProfileId": "default",
+      "durationMs": 120000,
+      "notes": [
+        {
+          "id": "n1",
+          "impactTimeMs": 1000,
+          "lane": "kick",
+          "strength": 1,
+          "source": "manual"
+        }
+      ]
+    }
   ],
   "defaultTimingProfileId": "default",
   "createdAt": "2026-07-11T00:00:00.000Z",

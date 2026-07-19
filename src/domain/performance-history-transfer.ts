@@ -2,12 +2,12 @@ import { createNoteRevisionKey, type PlayRun, type RunNoteJudgement, type RunNot
 import type { Lane } from '../game/model'
 import type { ParryGrade } from '../game/timing'
 
-export const PERFORMANCE_HISTORY_SCHEMA = 'beat-fiend/performance-history'
+export const PERFORMANCE_HISTORY_FORMAT = 'performance-history'
 export const PERFORMANCE_HISTORY_VERSION = 1
 
 export type PerformanceHistoryTransfer = {
-  schema: typeof PERFORMANCE_HISTORY_SCHEMA
-  schemaVersion: typeof PERFORMANCE_HISTORY_VERSION
+  format: typeof PERFORMANCE_HISTORY_FORMAT
+  version: typeof PERFORMANCE_HISTORY_VERSION
   exportedAt: string
   runs: PlayRun[]
 }
@@ -97,21 +97,21 @@ export function parsePlayRun(value: unknown, path = 'run'): PlayRun {
 
 export function createPerformanceHistoryTransfer(runs: PlayRun[], exportedAt = new Date().toISOString()): PerformanceHistoryTransfer {
   return {
-    schema: PERFORMANCE_HISTORY_SCHEMA,
-    schemaVersion: PERFORMANCE_HISTORY_VERSION,
+    format: PERFORMANCE_HISTORY_FORMAT,
+    version: PERFORMANCE_HISTORY_VERSION,
     exportedAt,
     runs: runs.map((run, index) => parsePlayRun(run, `runs[${index}]`)),
   }
 }
 
 export function parsePerformanceHistoryTransfer(value: unknown): PerformanceHistoryTransfer {
-  if (!isRecord(value) || value.schema !== PERFORMANCE_HISTORY_SCHEMA) throw new Error('Not a valid performance history backup')
-  if (value.schemaVersion !== PERFORMANCE_HISTORY_VERSION) throw new Error(`Unsupported performance history version: ${String(value.schemaVersion)}`)
+  if (!isRecord(value) || value.format !== PERFORMANCE_HISTORY_FORMAT) throw new Error('Not a valid performance history backup')
+  if (value.version !== PERFORMANCE_HISTORY_VERSION) throw new Error(`Unsupported performance history version: ${String(value.version)}`)
   if (!Array.isArray(value.runs)) throw new Error('Performance history runs must be an array')
   const runs = value.runs.map((run, index) => parsePlayRun(run, `runs[${index}]`))
   const runIds = new Set(runs.map((run) => run.id))
   if (runIds.size !== runs.length) throw new Error('Performance history contains duplicate run ids')
   const exportedAt = optionalIsoDate(value.exportedAt, 'exportedAt')
   if (!exportedAt) throw new Error('Performance history exportedAt is required')
-  return { schema: PERFORMANCE_HISTORY_SCHEMA, schemaVersion: PERFORMANCE_HISTORY_VERSION, exportedAt, runs }
+  return { format: PERFORMANCE_HISTORY_FORMAT, version: PERFORMANCE_HISTORY_VERSION, exportedAt, runs }
 }

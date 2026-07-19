@@ -32,3 +32,4 @@ export const brandConfig = Object.freeze({
 
 export const brandSlug = brandConfig.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 export const companionName = `${brandConfig.name} Companion`
+export const companionArtifactName = `${brandConfig.name}-Companion-Setup.exe`

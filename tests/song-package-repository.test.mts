@@ -76,7 +76,7 @@ test('recovers valid package records missing from a stale localStorage index', a
   const storage = new MemoryStorage()
   const songPackage = await fixture()
   await createLocalStorageSongPackageRepository(storage).put(songPackage)
-  storage.removeItem('beat-fiend:packages:index:v1')
+  storage.removeItem('vibestep:packages:index:v1')
 
   const migrated = repository(new IDBFactory(), storage, 'stale-index-test')
   assert.deepEqual(await migrated.get(songPackage.id), songPackage)

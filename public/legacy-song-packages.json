@@ -1,11 +1,11 @@
 {
-  "schema": "beat-fiend/library-backup",
-  "schemaVersion": 1,
+  "format": "library-backup",
+  "version": 1,
   "exportedAt": "2026-07-12T22:51:03.019Z",
   "packages": [
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "vLM24sL-Ee",
       "song": {
         "id": "vLM24sL-Ee",
@@ -479,8 +479,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "uEDTMygIls",
       "song": {
         "id": "uEDTMygIls",
@@ -1897,8 +1897,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "tvfK8eSZ8F",
       "song": {
         "id": "tvfK8eSZ8F",
@@ -2962,8 +2962,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "Os29M_-1Md",
       "song": {
         "id": "Os29M_-1Md",
@@ -3072,8 +3072,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "MRJG17fC8S",
       "song": {
         "id": "MRJG17fC8S",
@@ -3611,8 +3611,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "JTCgb8U2eL",
       "song": {
         "id": "JTCgb8U2eL",
@@ -6587,8 +6587,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "Aj2lOEKjgX",
       "song": {
         "id": "Aj2lOEKjgX",
@@ -6639,8 +6639,8 @@
       "updatedAt": "2026-07-12T00:00:00.000Z"
     },
     {
-      "schema": "beat-fiend/song-package",
-      "schemaVersion": 1,
+      "format": "song-package",
+      "version": 1,
       "id": "9yzIuQ21O2",
       "song": {
         "id": "9yzIuQ21O2",

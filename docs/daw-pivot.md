@@ -8,7 +8,7 @@ See the detailed implementation plan at:
 
 ## Direction
 
-Beat Fiend should be treated as a tiny beatmap DAW where Editor is the primary product surface and Playtest is how the user feels the current chart.
+Vibestep should be treated as a tiny beatmap DAW where Editor is the primary product surface and Playtest is how the user feels the current chart.
 
 The imported song audio is the source of truth. The playhead, beat grid, notes, quantization, and gameplay all derive from that timeline.
 

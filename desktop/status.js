@@ -42,10 +42,10 @@ function render(status) {
   installUpdate.classList.toggle('hidden', !status.updateReady)
 }
 
-window.beatFiendCompanion.getStatus().then(render)
-window.beatFiendCompanion.onStatus(render)
-openButton.addEventListener('click', () => window.beatFiendCompanion.openApp())
-document.querySelector('#pair').addEventListener('click', () => window.beatFiendCompanion.pair())
-document.querySelector('#check-update').addEventListener('click', () => window.beatFiendCompanion.checkUpdates())
-installUpdate.addEventListener('click', () => window.beatFiendCompanion.installUpdate())
-document.querySelector('#quit').addEventListener('click', () => window.beatFiendCompanion.quit())
+window.vibestepCompanion.getStatus().then(render)
+window.vibestepCompanion.onStatus(render)
+openButton.addEventListener('click', () => window.vibestepCompanion.openApp())
+document.querySelector('#pair').addEventListener('click', () => window.vibestepCompanion.pair())
+document.querySelector('#check-update').addEventListener('click', () => window.vibestepCompanion.checkUpdates())
+installUpdate.addEventListener('click', () => window.vibestepCompanion.installUpdate())
+document.querySelector('#quit').addEventListener('click', () => window.vibestepCompanion.quit())

@@ -1,4 +1,4 @@
-# Beat Fiend Agent Primer
+# Vibestep Agent Primer
 
 This file is for coding agents starting fresh in this repo.
 
@@ -20,7 +20,7 @@ A feature is not adequately modularized merely because its interfaces or pure he
 
 ## Project vision
 
-Beat Fiend is a tiny beatmap DAW with a rhythm-game playtest mode. The long-term idea is: import any song, align a 4/4 beat grid, generate or record a draft beatmap from musical events, refine the beatmap by jamming along, then playtest it with rhythm-game timing and scoring feedback.
+Vibestep is a tiny beatmap DAW with a rhythm-game playtest mode. The long-term idea is: import any song, align a 4/4 beat grid, generate or record a draft beatmap from musical events, refine the beatmap by jamming along, then playtest it with rhythm-game timing and scoring feedback.
 
 Current gameplay is lane-based:
 

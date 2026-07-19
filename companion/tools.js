@@ -28,9 +28,9 @@ export const PINNED_TOOL_MANIFEST = Object.freeze({
 
 export function configuredTools(env = process.env) {
   return {
-    ytDlp: env.BEAT_FIEND_YT_DLP ?? 'yt-dlp',
-    ffmpeg: env.BEAT_FIEND_FFMPEG ?? 'ffmpeg',
-    ffprobe: env.BEAT_FIEND_FFPROBE ?? 'ffprobe',
+    ytDlp: env.VIBESTEP_YT_DLP ?? 'yt-dlp',
+    ffmpeg: env.VIBESTEP_FFMPEG ?? 'ffmpeg',
+    ffprobe: env.VIBESTEP_FFPROBE ?? 'ffprobe',
   }
 }
 
@@ -70,7 +70,7 @@ export async function provisionPinnedTool({ name, platformKey, dataDir, fetchImp
 }
 
 export async function provisionCompanionTools({ dataDir, env = process.env, platform = process.platform, arch = process.arch, fetchImpl = fetch, manifest = PINNED_TOOL_MANIFEST }) {
-  const overrides = { ytDlp: env.BEAT_FIEND_YT_DLP, ffmpeg: env.BEAT_FIEND_FFMPEG, ffprobe: env.BEAT_FIEND_FFPROBE }
+  const overrides = { ytDlp: env.VIBESTEP_YT_DLP, ffmpeg: env.VIBESTEP_FFMPEG, ffprobe: env.VIBESTEP_FFPROBE }
   if (Object.values(overrides).every(Boolean)) return overrides
   const platformKey = toolPlatformKey(platform, arch)
   const entries = await Promise.all(Object.entries(overrides).map(async ([name, override]) => [name, override ?? await provisionPinnedTool({ name, platformKey, dataDir, fetchImpl, manifest })]))

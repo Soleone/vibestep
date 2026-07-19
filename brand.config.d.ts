@@ -24,3 +24,4 @@ export type BrandConfig = {
 export const brandConfig: BrandConfig
 export const brandSlug: string
 export const companionName: string
+export const companionArtifactName: string

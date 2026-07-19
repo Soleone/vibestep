@@ -1,7 +1,7 @@
 const DEFAULT_COMPANION_URL = 'http://127.0.0.1:47831'
-const CREDENTIAL_KEY = 'beat-fiend:companion:credential:v1'
-const BASE_URL_KEY = 'beat-fiend:companion:base-url:v1'
-const PAIRING_FRAGMENT_KEY = 'beat-fiend-companion'
+const CREDENTIAL_KEY = 'vibestep:companion:credential:v1'
+const BASE_URL_KEY = 'vibestep:companion:base-url:v1'
+const PAIRING_FRAGMENT_KEY = 'vibestep-companion'
 
 export type CompanionStatus = { ok: true; name: string; version: string; paired: boolean }
 export type CompanionPermissionState = PermissionState | 'not-required' | 'unsupported'
@@ -82,7 +82,7 @@ export class CompanionClient {
   startImport(url: string) { return this.request<CompanionImportJob>('/v1/imports', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) }) }
   getImport(id: string) { return this.request<CompanionImportJob>(`/v1/imports/${encodeURIComponent(id)}`) }
   cancelImport(id: string) { return this.request<CompanionImportJob>(`/v1/imports/${encodeURIComponent(id)}`, { method: 'DELETE' }) }
-  uploadFile(file: File) { return this.request<{ audio: CompanionAudio }>('/v1/files', { method: 'POST', headers: { 'Content-Type': file.type || 'application/octet-stream', 'X-Beat-Fiend-Filename': encodeURIComponent(file.name) }, body: file }) }
+  uploadFile(file: File) { return this.request<{ audio: CompanionAudio }>('/v1/files', { method: 'POST', headers: { 'Content-Type': file.type || 'application/octet-stream', 'X-Companion-Filename': encodeURIComponent(file.name) }, body: file }) }
   playbackUrl(audioId: string) { return this.request<{ url: string; expiresAt: string }>(`/v1/audio/${encodeURIComponent(audioId)}?sign=1`) }
 
   async downloadAudio(audioId: string, signal?: AbortSignal) {

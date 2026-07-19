@@ -3,15 +3,15 @@ import { rm } from 'node:fs/promises'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
-import { BEAT_FIEND_WEB_URL } from './config.js'
+import { VIBESTEP_WEB_URL } from './config.js'
 import { createCompanionApp, DEFAULT_PORT } from './server.js'
 import { provisionCompanionTools } from './tools.js'
 import { companionName } from '../brand.config.js'
 
 export function defaultDataDir(platform = process.platform, env = process.env) {
-  if (env.BEAT_FIEND_COMPANION_DATA_DIR) return path.resolve(env.BEAT_FIEND_COMPANION_DATA_DIR)
-  if (platform === 'win32') return path.join(env.LOCALAPPDATA ?? homedir(), 'Beat Fiend Companion')
-  return path.join(env.XDG_DATA_HOME ?? path.join(homedir(), '.local', 'share'), 'beat-fiend-companion')
+  if (env.VIBESTEP_COMPANION_DATA_DIR) return path.resolve(env.VIBESTEP_COMPANION_DATA_DIR)
+  if (platform === 'win32') return path.join(env.LOCALAPPDATA ?? homedir(), companionName)
+  return path.join(env.XDG_DATA_HOME ?? path.join(homedir(), '.local', 'share'), 'vibestep-companion')
 }
 
 function openUrl(url) {
@@ -35,12 +35,12 @@ export async function startCompanion(env = process.env, argv = process.argv.slic
     console.log(`${companionName} pairing secret rotated. Start the companion to pair again.`)
     return null
   }
-  const port = Number(env.BEAT_FIEND_COMPANION_PORT ?? DEFAULT_PORT)
+  const port = Number(env.VIBESTEP_COMPANION_PORT ?? DEFAULT_PORT)
   if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid companion port')
-  const webUrl = env.BEAT_FIEND_WEB_URL ?? BEAT_FIEND_WEB_URL
+  const webUrl = env.VIBESTEP_WEB_URL ?? VIBESTEP_WEB_URL
   const allowedOrigins = [...new Set([
     new URL(webUrl).origin,
-    ...(env.BEAT_FIEND_ALLOWED_ORIGINS ?? 'http://localhost:5173,http://127.0.0.1:5173').split(',').map((value) => value.trim()).filter(Boolean),
+    ...(env.VIBESTEP_ALLOWED_ORIGINS ?? 'http://localhost:5173,http://127.0.0.1:5173').split(',').map((value) => value.trim()).filter(Boolean),
   ])]
   console.log('Checking pinned media tools...')
   const tools = await provisionCompanionTools({ dataDir, env })
@@ -52,7 +52,7 @@ export async function startCompanion(env = process.env, argv = process.argv.slic
   })
   const pairing = Buffer.from(JSON.stringify({ credential: secret, baseUrl: `http://127.0.0.1:${port}` })).toString('base64url')
   const target = new URL(webUrl)
-  target.hash = `beat-fiend-companion=${pairing}`
+  target.hash = `vibestep-companion=${pairing}`
   console.log(`${companionName} ${port} is ready on loopback.`)
   console.log('Audio stays in the local companion data directory.')
   console.log(`Pair manually if needed: http://127.0.0.1:${port}/v1/pair`)

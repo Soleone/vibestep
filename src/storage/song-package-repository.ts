@@ -1,10 +1,10 @@
 import { parseSongPackage, type SongPackage } from '../domain/song-package.ts'
 
-const INDEX_KEY = 'beat-fiend:packages:index:v1'
-const PACKAGE_PREFIX = 'beat-fiend:packages:item:v1:'
-const AUDIO_PREFIX = 'beat-fiend:packages:audio:v1:'
+const INDEX_KEY = 'vibestep:packages:index:v1'
+const PACKAGE_PREFIX = 'vibestep:packages:item:v1:'
+const AUDIO_PREFIX = 'vibestep:packages:audio:v1:'
 
-const DATABASE_NAME = 'beat-fiend'
+const DATABASE_NAME = 'vibestep'
 const DATABASE_VERSION = 1
 const PACKAGE_STORE = 'song-packages'
 const AUDIO_STORE = 'audio-associations'

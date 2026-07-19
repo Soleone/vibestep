@@ -50,7 +50,7 @@ jobs:
       - name: Attest installer
         uses: actions/attest-build-provenance@v3
         with:
-          subject-path: release/Beat-Fiend-Companion-Setup.exe
+          subject-path: release/Vibestep-Companion-Setup.exe
 
       - name: Publish GitHub release
         shell: pwsh
@@ -60,8 +60,8 @@ jobs:
           $tag = $env:GITHUB_REF_NAME
           $repo = $env:GITHUB_REPOSITORY
           $assets = @(
-            "release/Beat-Fiend-Companion-Setup.exe",
-            "release/Beat-Fiend-Companion-Setup.exe.blockmap",
+            "release/Vibestep-Companion-Setup.exe",
+            "release/Vibestep-Companion-Setup.exe.blockmap",
             "release/latest.yml"
           )
 

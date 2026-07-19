@@ -95,7 +95,7 @@ export class ImportManager {
       const ffmpegLocation = path.isAbsolute(this.tools.ffmpeg) || this.tools.ffmpeg.includes(path.sep)
         ? ['--ffmpeg-location', this.tools.ffmpeg]
         : []
-      const download = spawnCommand(this.tools.ytDlp, ['--no-playlist', '--newline', '--js-runtimes', 'node', '--remote-components', 'ejs:github', '--print', 'after_move:beat-fiend-title=%(title)s', '--print', 'after_move:beat-fiend-id=%(id)s', '-f', 'bestaudio[ext=m4a]/bestaudio', '--extract-audio', '--audio-format', 'm4a', ...ffmpegLocation, '-o', output, job.sourceUrl])
+      const download = spawnCommand(this.tools.ytDlp, ['--no-playlist', '--newline', '--js-runtimes', 'node', '--remote-components', 'ejs:github', '--print', 'after_move:vibestep-title=%(title)s', '--print', 'after_move:vibestep-id=%(id)s', '-f', 'bestaudio[ext=m4a]/bestaudio', '--extract-audio', '--audio-format', 'm4a', ...ffmpegLocation, '-o', output, job.sourceUrl])
       job.child = download.child
       const updateProgress = (chunk) => {
         const matches = String(chunk).matchAll(/\[download\]\s+([\d.]+)%/g)
@@ -114,8 +114,8 @@ export class ImportManager {
       if (fileStat.size <= 0 || fileStat.size > MAX_AUDIO_BYTES) throw new Error('Imported audio exceeds the allowed size')
       const probe = await probeAudio(this.tools.ffprobe, sourceFile)
       const outputText = download.readOutput().stdout
-      const title = outputText.match(/^beat-fiend-title=(.+)$/m)?.[1]?.trim().slice(0, 300) || probe.title || 'Imported song'
-      const extractorId = outputText.match(/^beat-fiend-id=(.+)$/m)?.[1]?.trim() || ''
+      const title = outputText.match(/^vibestep-title=(.+)$/m)?.[1]?.trim().slice(0, 300) || probe.title || 'Imported song'
+      const extractorId = outputText.match(/^vibestep-id=(.+)$/m)?.[1]?.trim() || ''
       const id = nanoid(16)
       const fileName = `${id}.m4a`
       await rename(sourceFile, path.join(this.cache.audioDir, fileName))

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { createPerformanceHistoryTransfer, parsePerformanceHistoryTransfer, PERFORMANCE_HISTORY_SCHEMA, PERFORMANCE_HISTORY_VERSION } from '../src/domain/performance-history-transfer.ts'
+import { createPerformanceHistoryTransfer, parsePerformanceHistoryTransfer, PERFORMANCE_HISTORY_FORMAT, PERFORMANCE_HISTORY_VERSION } from '../src/domain/performance-history-transfer.ts'
 import { createNoteRevisionKey, type PlayRun } from '../src/game/run-history.ts'
 
 const noteSnapshot = { impactTimeMs: 1250, lane: 'kick' as const }
@@ -28,8 +28,8 @@ const run: PlayRun = {
 
 test('round trips a versioned performance history backup', () => {
   const backup = createPerformanceHistoryTransfer([run], '2026-07-17T00:00:00.000Z')
-  assert.equal(backup.schema, PERFORMANCE_HISTORY_SCHEMA)
-  assert.equal(backup.schemaVersion, PERFORMANCE_HISTORY_VERSION)
+  assert.equal(backup.format, PERFORMANCE_HISTORY_FORMAT)
+  assert.equal(backup.version, PERFORMANCE_HISTORY_VERSION)
   assert.deepEqual(parsePerformanceHistoryTransfer(JSON.parse(JSON.stringify(backup))), backup)
 })
 
@@ -40,7 +40,7 @@ test('preserves interrupted runs without a completion timestamp', () => {
 
 test('rejects unsupported versions and duplicate run ids', () => {
   const backup = createPerformanceHistoryTransfer([run])
-  assert.throws(() => parsePerformanceHistoryTransfer({ ...backup, schemaVersion: 2 }), /Unsupported performance history version/)
+  assert.throws(() => parsePerformanceHistoryTransfer({ ...backup, version: 2 }), /Unsupported performance history version/)
   assert.throws(() => parsePerformanceHistoryTransfer({ ...backup, runs: [run, run] }), /duplicate run ids/)
 })
 

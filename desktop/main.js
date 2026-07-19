@@ -4,7 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DEFAULT_PORT } from '../companion/server.js'
 import { startCompanion } from '../companion/index.js'
-import { BEAT_FIEND_WEB_URL } from '../companion/config.js'
+import { VIBESTEP_WEB_URL } from '../companion/config.js'
 import { formatUpdateError } from './update-errors.js'
 import { brandConfig, companionName } from '../brand.config.js'
 
@@ -28,7 +28,7 @@ function publishStatus(next) {
 }
 
 function openWebApp(pair = false) {
-  void shell.openExternal(pair ? pairingUrl : BEAT_FIEND_WEB_URL)
+  void shell.openExternal(pair ? pairingUrl : VIBESTEP_WEB_URL)
 }
 
 function createWindow() {

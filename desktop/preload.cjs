@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-contextBridge.exposeInMainWorld('beatFiendCompanion', {
+contextBridge.exposeInMainWorld('vibestepCompanion', {
   getStatus: () => ipcRenderer.invoke('get-status'),
   onStatus: (callback) => ipcRenderer.on('companion-status', (_event, status) => callback(status)),
   openApp: () => ipcRenderer.invoke('open-app'),

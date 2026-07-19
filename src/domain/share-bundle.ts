@@ -1,11 +1,11 @@
 import { parseSongPackage, type SongPackage } from './song-package.ts'
 
-export const SHARE_BUNDLE_SCHEMA = 'beat-fiend/share-bundle' as const
+export const SHARE_BUNDLE_FORMAT = 'share-bundle' as const
 export const SHARE_BUNDLE_VERSION = 1 as const
 
 export type ShareBundle = {
-  schema: typeof SHARE_BUNDLE_SCHEMA
-  schemaVersion: typeof SHARE_BUNDLE_VERSION
+  format: typeof SHARE_BUNDLE_FORMAT
+  version: typeof SHARE_BUNDLE_VERSION
   id: string
   title: string
   kind: 'song' | 'mixtape'
@@ -33,8 +33,8 @@ export function createShareBundle(options: CreateShareBundleOptions): ShareBundl
   if (!options.songs.length) invalid('songs', 'at least one song is required')
   const createdAt = options.createdAt ?? new Date().toISOString()
   return parseShareBundle({
-    schema: SHARE_BUNDLE_SCHEMA,
-    schemaVersion: SHARE_BUNDLE_VERSION,
+    format: SHARE_BUNDLE_FORMAT,
+    version: SHARE_BUNDLE_VERSION,
     id: options.id ?? crypto.randomUUID(),
     title: options.title,
     kind: options.songs.length === 1 ? 'song' : 'mixtape',
@@ -46,7 +46,7 @@ export function createShareBundle(options: CreateShareBundleOptions): ShareBundl
 
 export function parseShareBundle(value: unknown): ShareBundle {
   if (!isRecord(value)) invalid('$', 'expected object')
-  if (value.schema !== SHARE_BUNDLE_SCHEMA || value.schemaVersion !== SHARE_BUNDLE_VERSION) invalid('schema', `expected ${SHARE_BUNDLE_SCHEMA} version ${SHARE_BUNDLE_VERSION}`)
+  if (value.format !== SHARE_BUNDLE_FORMAT || value.version !== SHARE_BUNDLE_VERSION) invalid('format', `expected ${SHARE_BUNDLE_FORMAT} version ${SHARE_BUNDLE_VERSION}`)
   if (!isNonEmptyString(value.id) || !isNonEmptyString(value.title)) invalid('$', 'id and title are required')
   if (value.kind !== 'song' && value.kind !== 'mixtape') invalid('kind', 'expected song or mixtape')
   if (!isNonEmptyString(value.createdAt) || Number.isNaN(Date.parse(value.createdAt))) invalid('createdAt', 'expected ISO timestamp')
@@ -58,8 +58,8 @@ export function parseShareBundle(value: unknown): ShareBundle {
   const ids = new Set(songs.map((song) => song.id))
   if (ids.size !== songs.length) invalid('songs', 'song ids must be unique')
   return {
-    schema: SHARE_BUNDLE_SCHEMA,
-    schemaVersion: SHARE_BUNDLE_VERSION,
+    format: SHARE_BUNDLE_FORMAT,
+    version: SHARE_BUNDLE_VERSION,
     id: value.id,
     title: value.title,
     kind: value.kind,

@@ -13,7 +13,7 @@ const manifest = { tools: { ytDlp: { 'linux-x64': descriptor }, ffmpeg: { 'linux
 const response = { ok: true, arrayBuffer: async () => bytes }
 
 test('provisions a checksum-verified executable and reuses it', async () => {
-  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'beat-fiend-tools-'))
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'vibestep-tools-'))
   let downloads = 0
   const fetchImpl = async () => { downloads += 1; return response }
   try {
@@ -26,7 +26,7 @@ test('provisions a checksum-verified executable and reuses it', async () => {
 })
 
 test('replaces a cached executable that fails checksum verification', async () => {
-  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'beat-fiend-tools-'))
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'vibestep-tools-'))
   try {
     const destination = path.join(dataDir, 'tools', descriptor.version, descriptor.fileName)
     await provisionPinnedTool({ name: 'ytDlp', platformKey: 'linux-x64', dataDir, fetchImpl: async () => response, manifest })
@@ -37,7 +37,7 @@ test('replaces a cached executable that fails checksum verification', async () =
 })
 
 test('rejects checksum mismatches without installing the download', async () => {
-  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'beat-fiend-tools-'))
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'vibestep-tools-'))
   const badManifest = { tools: { ytDlp: { 'linux-x64': { ...descriptor, sha256: '0'.repeat(64) } } } }
   try {
     await assert.rejects(provisionPinnedTool({ name: 'ytDlp', platformKey: 'linux-x64', dataDir, fetchImpl: async () => response, manifest: badManifest }), /Checksum mismatch/)
@@ -45,9 +45,9 @@ test('rejects checksum mismatches without installing the download', async () => 
 })
 
 test('uses explicit overrides while provisioning missing companion tools', async () => {
-  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'beat-fiend-tools-'))
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'vibestep-tools-'))
   try {
-    const tools = await provisionCompanionTools({ dataDir, platform: 'linux', arch: 'x64', env: { BEAT_FIEND_YT_DLP: '/trusted/yt-dlp' }, fetchImpl: async () => response, manifest })
+    const tools = await provisionCompanionTools({ dataDir, platform: 'linux', arch: 'x64', env: { VIBESTEP_YT_DLP: '/trusted/yt-dlp' }, fetchImpl: async () => response, manifest })
     assert.equal(tools.ytDlp, '/trusted/yt-dlp')
     assert.equal(tools.ffmpeg, path.join(dataDir, 'tools', 'test-1', 'ffmpeg'))
     assert.equal(tools.ffprobe, path.join(dataDir, 'tools', 'test-1', 'ffprobe'))
@@ -58,6 +58,6 @@ test('limits automatic provisioning to reviewed platform targets', async () => {
   assert.equal(toolPlatformKey('linux', 'x64'), 'linux-x64')
   assert.equal(toolPlatformKey('win32', 'x64'), 'win32-x64')
   assert.throws(() => toolPlatformKey('darwin', 'arm64'), /No reviewed media tools/)
-  const overrides = { BEAT_FIEND_YT_DLP: '/tools/yt-dlp', BEAT_FIEND_FFMPEG: '/tools/ffmpeg', BEAT_FIEND_FFPROBE: '/tools/ffprobe' }
+  const overrides = { VIBESTEP_YT_DLP: '/tools/yt-dlp', VIBESTEP_FFMPEG: '/tools/ffmpeg', VIBESTEP_FFPROBE: '/tools/ffprobe' }
   assert.deepEqual(await provisionCompanionTools({ dataDir: '/unused', platform: 'darwin', arch: 'arm64', env: overrides }), { ytDlp: '/tools/yt-dlp', ffmpeg: '/tools/ffmpeg', ffprobe: '/tools/ffprobe' })
 })

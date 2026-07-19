@@ -1,15 +1,56 @@
 {
-  "schema": "beat-fiend/song-package",
-  "schemaVersion": 1,
+  "format": "song-package",
+  "version": 1,
   "id": "fixture-alternate",
-  "song": { "id": "fixture-alternate", "title": "Alternate Timing Fixture", "sources": [{ "kind": "file-description", "label": "Authorized local file" }] },
+  "song": {
+    "id": "fixture-alternate",
+    "title": "Alternate Timing Fixture",
+    "sources": [
+      {
+        "kind": "file-description",
+        "label": "Authorized local file"
+      }
+    ]
+  },
   "timingProfiles": [
-    { "id": "default", "name": "103 BPM", "bpm": 103, "beatOffsetMs": 0, "timeSignature": [4, 4] },
-    { "id": "alternate", "name": "104 BPM", "bpm": 104, "beatOffsetMs": 80, "timeSignature": [4, 4] }
+    {
+      "id": "default",
+      "name": "103 BPM",
+      "bpm": 103,
+      "beatOffsetMs": 0,
+      "timeSignature": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "alternate",
+      "name": "104 BPM",
+      "bpm": 104,
+      "beatOffsetMs": 80,
+      "timeSignature": [
+        4,
+        4
+      ]
+    }
   ],
   "beatmaps": [
-    { "id": "map-103", "title": "103 interpretation", "difficulty": 2, "timingProfileId": "default", "durationMs": 0, "notes": [] },
-    { "id": "map-104", "title": "104 interpretation", "difficulty": 3, "timingProfileId": "alternate", "durationMs": 0, "notes": [] }
+    {
+      "id": "map-103",
+      "title": "103 interpretation",
+      "difficulty": 2,
+      "timingProfileId": "default",
+      "durationMs": 0,
+      "notes": []
+    },
+    {
+      "id": "map-104",
+      "title": "104 interpretation",
+      "difficulty": 3,
+      "timingProfileId": "alternate",
+      "durationMs": 0,
+      "notes": []
+    }
   ],
   "defaultTimingProfileId": "default",
   "createdAt": "2026-07-11T00:00:00.000Z",

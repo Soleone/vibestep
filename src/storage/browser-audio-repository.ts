@@ -1,4 +1,4 @@
-const DATABASE_NAME = 'beat-fiend-audio'
+const DATABASE_NAME = 'vibestep-audio'
 const DATABASE_VERSION = 1
 const STORE_NAME = 'audio'
 

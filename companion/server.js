@@ -8,6 +8,7 @@ import { AudioCache } from './cache.js'
 import { ImportManager } from './imports.js'
 import { parseByteRange } from './range.js'
 import { isAllowedHost, normalizeSourceUrl, secureEqual, signPlayback, verifyPlayback } from './security.js'
+import { companionName } from '../brand.config.js'
 
 export const COMPANION_VERSION = '0.1.0'
 export const DEFAULT_PORT = 47831
@@ -61,7 +62,7 @@ export async function createCompanionApp(options = {}) {
     next()
   }
 
-  app.get('/v1/status', (_req, res) => res.json({ ok: true, name: 'Beat Fiend Companion', version: COMPANION_VERSION, paired: true }))
+  app.get('/v1/status', (_req, res) => res.json({ ok: true, name: companionName, version: COMPANION_VERSION, paired: true }))
   app.get('/v1/pair', (_req, res) => {
     const pairing = Buffer.from(JSON.stringify({ credential: secret, baseUrl: `http://127.0.0.1:${port}` })).toString('base64url')
     const target = new URL(webUrl)

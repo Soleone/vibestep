@@ -1,5 +1,6 @@
 import { ChartNoAxesCombined, Download, Upload } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
+import { appBrand } from '../branding'
 import { createPerformanceHistoryTransfer, parsePerformanceHistoryTransfer } from '../domain/performance-history-transfer'
 import type { PlayRun } from '../game/run-history'
 import { Badge, Button } from './ui'
@@ -31,7 +32,7 @@ export function PerformanceHistoryTransfer({ runs, storageError, snapshotRuns, i
     try {
       const storedRuns = await snapshotRuns()
       const backup = createPerformanceHistoryTransfer(storedRuns)
-      downloadJson(backup, `beat-fiend-performance-history-${new Date().toISOString().slice(0, 10)}.json`)
+      downloadJson(backup, `${appBrand.slug}-performance-history-${new Date().toISOString().slice(0, 10)}.json`)
       setStatus(`Exported ${storedRuns.length} run${storedRuns.length === 1 ? '' : 's'}`)
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Could not export performance history')

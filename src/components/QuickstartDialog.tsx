@@ -26,7 +26,7 @@ export function QuickstartDialog({ open, onOpenChange, onOpenSettings }: Quickst
         </DialogHeader>
 
         <div className="quickstart-sections">
-          <section className="quickstart-section">
+          <section className="quickstart-section quickstart-section--play">
             <div className="quickstart-section__heading"><Gamepad2 /><h3>Play</h3></div>
             <p>Press the matching lane key when a projectile reaches its pad. The default controls are:</p>
             <div className="quickstart-bindings" aria-label="Default keyboard controls">
@@ -45,7 +45,7 @@ export function QuickstartDialog({ open, onOpenChange, onOpenSettings }: Quickst
             <p className="quickstart-callout"><SlidersHorizontal /> BPM and Beat 1 are the foundation. Set both before recording or placing notes.</p>
           </section>
 
-          <section className="quickstart-section">
+          <section className="quickstart-section quickstart-section--edit">
             <div className="quickstart-section__heading"><CircleHelp /><h3>Edit</h3></div>
             <p>Create a blank beatmap, arm the lanes you want, then record by playing along or place and adjust notes in the timeline. Save when the grid and notes feel right.</p>
           </section>

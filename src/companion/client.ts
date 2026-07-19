@@ -3,7 +3,7 @@ const CREDENTIAL_KEY = 'beat-fiend:companion:credential:v1'
 const BASE_URL_KEY = 'beat-fiend:companion:base-url:v1'
 const PAIRING_FRAGMENT_KEY = 'beat-fiend-companion'
 
-export type CompanionStatus = { ok: true; name: 'Beat Fiend Companion'; version: string; paired: boolean }
+export type CompanionStatus = { ok: true; name: string; version: string; paired: boolean }
 export type CompanionPermissionState = PermissionState | 'not-required' | 'unsupported'
 export type CompanionAudio = { audioId: string; title: string; durationMs: number; contentType: string; size: number; sourceUrl?: string }
 export type CompanionImportJob = { id: string; state: 'queued' | 'running' | 'complete' | 'failed' | 'cancelled'; progress: number; error?: string; audio?: CompanionAudio; cached?: boolean }

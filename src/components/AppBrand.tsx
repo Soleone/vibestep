@@ -5,7 +5,7 @@ export function AppBrand() {
 
   return (
     <div className="panel-brand">
-      <img className="panel-brand__icon" src={appBrand.icon} alt="" />
+      {appBrand.icon ? <img className="panel-brand__icon" src={appBrand.icon} alt="" /> : null}
       <h1>
         {wordmark.type === 'text'
           ? wordmark.value

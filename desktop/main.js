@@ -6,20 +6,28 @@ import { DEFAULT_PORT } from '../companion/server.js'
 import { startCompanion } from '../companion/index.js'
 import { BEAT_FIEND_WEB_URL } from '../companion/config.js'
 import { formatUpdateError } from './update-errors.js'
+import { brandConfig, companionName } from '../brand.config.js'
 
 const { autoUpdater } = electronUpdater
 const directory = path.dirname(fileURLToPath(import.meta.url))
 const pairingUrl = `http://127.0.0.1:${DEFAULT_PORT}/v1/pair`
 let companionServer = null
 let mainWindow = null
-let status = { state: 'starting', message: 'Preparing the local audio tools...' }
+const companionBrand = {
+  name: brandConfig.name,
+  companionName,
+  colors: brandConfig.colors,
+  icon: brandConfig.companion.iconPng ? path.basename(brandConfig.companion.iconPng) : null,
+  wordmark: brandConfig.companion.wordmark ? path.basename(brandConfig.companion.wordmark) : null,
+}
+let status = { state: 'starting', message: 'Preparing the local audio tools...', brand: companionBrand }
 
 function publishStatus(next) {
   status = { ...status, ...next }
   mainWindow?.webContents.send('companion-status', status)
 }
 
-function openBeatFiend(pair = false) {
+function openWebApp(pair = false) {
   void shell.openExternal(pair ? pairingUrl : BEAT_FIEND_WEB_URL)
 }
 
@@ -30,8 +38,8 @@ function createWindow() {
     minWidth: 480,
     minHeight: 540,
     show: false,
-    title: 'Beat Fiend Companion',
-    icon: path.join(directory, 'icon.png'),
+    title: companionName,
+    ...(brandConfig.companion.iconPng ? { icon: path.resolve(directory, '..', brandConfig.companion.iconPng) } : {}),
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(directory, 'preload.cjs'),
@@ -58,8 +66,8 @@ function configureUpdater() {
 }
 
 ipcMain.handle('get-status', () => status)
-ipcMain.handle('open-app', () => openBeatFiend(false))
-ipcMain.handle('pair', () => openBeatFiend(true))
+ipcMain.handle('open-app', () => openWebApp(false))
+ipcMain.handle('pair', () => openWebApp(true))
 ipcMain.handle('check-updates', () => app.isPackaged ? autoUpdater.checkForUpdates() : publishStatus({ update: 'Updates are available in packaged builds.' }))
 ipcMain.handle('install-update', () => { if (status.updateReady) autoUpdater.quitAndInstall(false, true) })
 ipcMain.handle('quit', () => { app.isQuitting = true; app.quit() })
@@ -72,13 +80,13 @@ else {
     configureUpdater()
     try {
       companionServer = await startCompanion(process.env, ['--no-open'])
-      publishStatus({ state: 'ready', message: 'Ready. Beat Fiend can now import YouTube audio.' })
-      openBeatFiend(true)
+      publishStatus({ state: 'ready', message: `Ready. ${brandConfig.name} can now import YouTube audio.` })
+      openWebApp(true)
       if (app.isPackaged) setTimeout(() => void autoUpdater.checkForUpdates(), 5000)
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
       publishStatus({ state: 'error', message })
-      void dialog.showMessageBox(mainWindow, { type: 'error', title: 'Beat Fiend Companion could not start', message, detail: 'Close any other companion instance, then try again.' })
+      void dialog.showMessageBox(mainWindow, { type: 'error', title: `${companionName} could not start`, message, detail: 'Close any other companion instance, then try again.' })
     }
   })
 }

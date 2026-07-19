@@ -11,7 +11,7 @@ html, body { height: 100%; }
 body {
   margin: 0;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 0%, #182543, #090b14 58%);
+  background: radial-gradient(circle at 24% 0%, color-mix(in srgb, var(--brand-vibe) 20%, transparent), transparent 42%), radial-gradient(circle at 78% 0%, color-mix(in srgb, var(--brand-step) 14%, transparent), transparent 38%), #090b14;
 }
 
 main {
@@ -26,7 +26,8 @@ main {
 
 .brand { display: flex; align-items: center; gap: 16px; text-align: left; }
 .logo { width: 64px; height: 64px; flex: 0 0 auto; border-radius: 16px; box-shadow: 0 12px 32px #0008; }
-.eyebrow { margin: 0 0 4px; color: #7df9ff; font-size: 11px; font-weight: 800; letter-spacing: .22em; }
+.wordmark { display: block; width: auto; max-width: 300px; height: 32px; margin-bottom: 5px; object-fit: contain; object-position: left center; }
+.eyebrow { margin: 0 0 4px; color: var(--brand-vibe); font-size: 11px; font-weight: 800; letter-spacing: .22em; }
 h1 { margin: 0; font-size: 27px; line-height: 1.1; }
 
 .status-card, .update-card { border: 1px solid #ffffff18; border-radius: 14px; background: #ffffff08; text-align: left; }
@@ -40,8 +41,8 @@ h1 { margin: 0; font-size: 27px; line-height: 1.1; }
 .primary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 button { min-height: 42px; padding: 0 14px; border: 1px solid #ffffff22; border-radius: 10px; color: #edf3ff; background: #171b29; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 button:hover { background: #22283a; }
-button.primary { border-color: #4da3ff88; background: #2867b7; }
-button.primary:hover { background: #3478cf; }
+button.primary { border-color: color-mix(in srgb, var(--brand-vibe) 54%, transparent); background: color-mix(in srgb, var(--brand-vibe) 68%, #171b29); }
+button.primary:hover { background: color-mix(in srgb, var(--brand-vibe) 78%, #171b29); }
 button.quiet { min-height: 34px; color: #aab4ca; background: transparent; }
 
 .update-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px 16px; }

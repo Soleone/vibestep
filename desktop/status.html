@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self';">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beat Fiend Companion</title>
+  <title>Audio Companion</title>
   <link rel="stylesheet" href="status.css">
 </head>
 <body>
   <main>
     <header class="brand">
-      <img class="logo" src="icon.png" alt="">
+      <img id="brand-icon" class="logo hidden" alt="">
       <div>
-        <p class="eyebrow">BEAT FIEND</p>
+        <img id="brand-wordmark" class="wordmark hidden" alt="">
+        <p id="brand-name" class="eyebrow"></p>
         <h1>Audio Companion</h1>
       </div>
     </header>
@@ -21,7 +22,7 @@
       <div><strong id="state">Starting</strong><p id="message">Preparing the local audio tools...</p></div>
     </section>
     <div class="primary-actions">
-      <button id="open" class="primary">Open Beat Fiend</button>
+      <button id="open" class="primary">Open app</button>
       <button id="pair">Pair this browser</button>
     </div>
     <section class="update-card">

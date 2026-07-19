@@ -16,8 +16,8 @@
   --ff-warning: #ff9f43;
   --ff-gold: #ffd166;
   --ff-danger: var(--destructive);
-  --ff-success: #83ff70;
-  --ff-judgement-perfect: #83ff70;
+  --ff-success: var(--brand-step);
+  --ff-judgement-perfect: var(--brand-step);
   --ff-judgement-good: #ffd166;
   --ff-judgement-miss: #ff5570;
   --ff-judgement-early: #ffd166;
@@ -404,7 +404,7 @@ input[type='range'],
 .hit-notify__count { font-size: 42px; font-weight: 950; line-height: 0.92; letter-spacing: -0.08em; text-shadow: 0 0 18px currentColor; }
 .hit-notify__label { font-size: 10px; font-weight: 950; letter-spacing: 0.13em; text-transform: uppercase; opacity: 0.86; }
 .hit-notify--good { color: var(--ff-judgement-good); box-shadow: 0 0 18px rgba(255,209,102,0.16); }
-.hit-notify--perfect { color: var(--ff-judgement-perfect); box-shadow: 0 0 26px rgba(131,255,112,0.2); animation-name: hit-notify-perfect; }
+.hit-notify--perfect { color: var(--ff-judgement-perfect); box-shadow: 0 0 26px color-mix(in srgb, var(--ff-judgement-perfect) 20%, transparent); animation-name: hit-notify-perfect; }
 .hit-notify--miss { color: var(--ff-judgement-miss); box-shadow: 0 0 18px rgba(255,85,112,0.16); }
 @keyframes hit-notify-pop { 0% { opacity: 0; transform: translate(-50%, calc(-50% + 10px)) scale(0.86); } 13% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); } 82% { opacity: 1; transform: translate(-50%, calc(-50% - 2px)) scale(1); } 100% { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.98); } }
 @keyframes hit-notify-perfect { 0% { opacity: 0; transform: translate(-50%, calc(-50% + 10px)) scale(0.86) rotate(-2deg); } 15% { opacity: 1; transform: translate(-50%, -50%) scale(1.18) rotate(1deg); } 78% { opacity: 1; transform: translate(-50%, calc(-50% - 3px)) scale(1.02) rotate(0deg); } 100% { opacity: 0; transform: translate(-50%, calc(-50% - 9px)) scale(0.98); } }

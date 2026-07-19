@@ -5,14 +5,14 @@ import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three
 import { useRef } from 'react'
 import { playfieldFontUrl } from './playfield-font'
 import { PLAYFIELD_IMPACT_X } from './playfield-grid'
-import { judgementColors, laneColor, laneY, lanes, type Attack, type FeedbackEvent, type Lane } from './model'
+import { judgementColors, laneColor, lanePadColor, laneY, lanes, type Attack, type FeedbackEvent, type Lane } from './model'
 
 const perfectColor = new Color(judgementColors.perfect)
 const goodColor = new Color(judgementColors.good)
 const missColor = new Color(judgementColors.miss)
 const inputFlashColor = new Color('#ffffff')
-const basePadColors = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane])])) as Record<Lane, Color>
-const basePadEmissives = Object.fromEntries(lanes.map((lane) => [lane, new Color(laneColor[lane]).multiplyScalar(0.3)])) as Record<Lane, Color>
+const basePadColors = Object.fromEntries(lanes.map((lane) => [lane, new Color(lanePadColor[lane])])) as Record<Lane, Color>
+const basePadEmissives = Object.fromEntries(lanes.map((lane) => [lane, new Color(lanePadColor[lane]).multiplyScalar(0.3)])) as Record<Lane, Color>
 
 function dampedImpulse(ageMs: number, durationMs: number, frequency = 34) {
   if (ageMs < 0 || ageMs >= durationMs) return 0
@@ -42,6 +42,7 @@ export function LaneStation({ lane, attacks, feedback, padTrigger, held }: { lan
   const heavyConfetti = useRef<Group>(null)
   const heavyConfettiMaterials = useRef<Array<MeshBasicMaterial | null>>([])
   const color = laneColor[lane]
+  const padColor = lanePadColor[lane]
 
   useFrame(() => {
     const now = performance.now()
@@ -133,9 +134,9 @@ export function LaneStation({ lane, attacks, feedback, padTrigger, held }: { lan
   })
 
   return <group>
-    <mesh position={[-1.055, laneY[lane], 0.12]}><boxGeometry args={[0.078, 0.205, 0.075]} /><meshStandardMaterial ref={padRim} color="#253753" emissive={color} emissiveIntensity={0.42} metalness={0.52} roughness={0.32} /></mesh>
+    <mesh position={[-1.055, laneY[lane], 0.12]}><boxGeometry args={[0.078, 0.205, 0.075]} /><meshStandardMaterial ref={padRim} color="#253753" emissive={padColor} emissiveIntensity={0.42} metalness={0.52} roughness={0.32} /></mesh>
     <group ref={pad} position={[-1.02, laneY[lane], 0.17]}>
-      <mesh><boxGeometry args={[0.055, 0.145, 0.09]} /><meshStandardMaterial ref={padMaterial} color={color} emissive={color} emissiveIntensity={1.1} metalness={0.18} roughness={0.28} /></mesh>
+      <mesh><boxGeometry args={[0.055, 0.145, 0.09]} /><meshStandardMaterial ref={padMaterial} color={padColor} emissive={padColor} emissiveIntensity={1.1} metalness={0.18} roughness={0.28} /></mesh>
       <mesh position={[0.031, 0, 0.015]}><boxGeometry args={[0.008, 0.09, 0.05]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.48} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>
     </group>
     <group ref={grindSparks} position={[-0.88, laneY[lane], 0.25]} visible={false}>{[0, 1, 2, 3, 4, 5].map((index) => <mesh key={index} rotation={[0, 0, index * Math.PI / 3]} position={[0.105, 0, 0]}><boxGeometry args={[0.13, 0.012, 0.012]} /><meshBasicMaterial color={index % 2 ? '#ff9f43' : '#fff2a8'} blending={AdditiveBlending} depthWrite={false} toneMapped={false} /></mesh>)}</group>

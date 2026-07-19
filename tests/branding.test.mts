@@ -6,10 +6,12 @@ import { fileURLToPath } from 'node:url'
 import { brandConfig, brandSlug, companionArtifactName, companionName } from '../brand.config.js'
 import builderConfig from '../electron-builder.config.js'
 import { appBrand } from '../src/branding.ts'
+import { judgementColors, laneColor, lanePadColor } from '../src/game/model.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const runtimeBrandConsumers = [
   'src/branding.ts',
+  'src/game/model.ts',
   'src/index.css',
   'src/App.css',
   'src/App.tsx',
@@ -35,6 +37,15 @@ test('shares one brand configuration across web and companion surfaces', () => {
   assert.equal(companionArtifactName, `${brandConfig.name}-Companion-Setup.exe`)
   assert.equal(builderConfig.artifactName, companionArtifactName)
   assert.ok(builderConfig.files.includes('brand.config.js'))
+})
+
+test('uses brand colors for gameplay accents', () => {
+  assert.equal(judgementColors.perfect, brandConfig.colors.step)
+  assert.equal(lanePadColor.kick, brandConfig.colors.vibe)
+  assert.equal(lanePadColor.high, brandConfig.colors.step)
+  assert.equal(lanePadColor.snare, laneColor.snare)
+  assert.equal(lanePadColor.low, laneColor.low)
+  assert.equal(lanePadColor.mid, laneColor.mid)
 })
 
 test('keeps current brand literals out of runtime consumers', () => {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, type CSSProperties, type PointerEvent } from 'react'
-import { laneColor, type Lane } from './model'
+import { lanePadColor, type Lane } from './model'
 
 const drumLanes: Lane[] = ['kick', 'snare']
 const melodyLanes: Lane[] = ['low', 'mid', 'high']
@@ -55,7 +55,7 @@ export function MobilePlayControls({
       key={lane}
       type="button"
       className={`mobile-lane-pad ${heldLanes.has(lane) ? 'mobile-lane-pad--held' : ''}`}
-      style={{ '--mobile-lane-color': laneColor[lane] } as CSSProperties}
+      style={{ '--mobile-lane-color': lanePadColor[lane] } as CSSProperties}
       aria-label={`Play ${lane} lane`}
       onContextMenu={(event) => event.preventDefault()}
       onClick={(event) => { if (event.detail === 0) activateLaneWithoutPointer(lane) }}

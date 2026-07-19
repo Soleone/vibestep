@@ -1,3 +1,5 @@
+import { appBrand } from '../branding.ts'
+
 export type Lane = 'kick' | 'snare' | 'low' | 'mid' | 'high'
 export type Tuning = { parryWindowMs: number; perfectWindowMs: number; telegraphMs: number; recoveryMs: number; inputOffsetMs: number }
 export type Attack = { id: number; startMs: number; impactMs: number; travelMs: number; lane?: Lane; durationMs?: number; strength?: number; syncopation?: number; holdStarted?: boolean; initialMissed?: boolean; noteId?: string; noteTimeMs?: number; scheduleKey?: string }
@@ -18,7 +20,7 @@ export type LoopMarkers = { startMs: number | null; endMs: number | null }
 export const initialTuning: Tuning = { parryWindowMs: 80, perfectWindowMs: 40, telegraphMs: 1150, recoveryMs: 260, inputOffsetMs: 0 }
 export const missedProjectileLingerMs = 220
 export const judgementColors = {
-  perfect: '#83ff70',
+  perfect: appBrand.colors.step,
   good: '#ffd166',
   miss: '#ff5570',
   early: '#ffd166',
@@ -45,6 +47,11 @@ export const laneColor: Record<Lane, string> = {
   low: '#4da3ff',
   mid: '#b56cff',
   high: '#83ff70',
+}
+export const lanePadColor: Record<Lane, string> = {
+  ...laneColor,
+  kick: appBrand.colors.vibe,
+  high: appBrand.colors.step,
 }
 export const lanes = ['kick', 'snare', 'low', 'mid', 'high'] as const
 

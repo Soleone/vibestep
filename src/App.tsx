@@ -2,6 +2,7 @@ import { ArrowLeftToLine, ArrowRightToLine, Check, Circle, CircleHelp, CopyPlus,
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
 import { downloadSessionAudio } from './audio/download-session-audio'
+import { mediaDurationMs } from './audio/media-duration'
 import { useSessionAudioUrl } from './audio/use-session-audio-url'
 import { appBrand } from './branding'
 import { AppBrand } from './components/AppBrand'
@@ -204,6 +205,17 @@ function App() {
   editorState.current = { beatmap, recordedNotes, mapTitle, difficulty, bpm, beatOffsetMs }
   const currentEditorSignature = editorSignature(beatmap, mapTitle, difficulty, bpm, beatOffsetMs)
   const hasUnsavedChanges = beatmap !== null && currentEditorSignature !== savedEditorSignature
+  const hydrateMediaDuration = useCallback((durationSeconds: number) => {
+    const durationMs = mediaDurationMs(durationSeconds)
+    if (durationMs === null) return
+    setImportedSong((current) => current && current.durationMs !== durationMs ? { ...current, durationMs } : current)
+    const current = editorState.current
+    if (!current.beatmap || Math.abs(current.beatmap.durationMs - durationMs) <= 1) return
+    const nextBeatmap = { ...current.beatmap, durationMs }
+    const previousSignature = editorSignature(current.beatmap, current.mapTitle, current.difficulty, current.bpm, current.beatOffsetMs)
+    setBeatmap(nextBeatmap)
+    if (previousSignature === savedEditorSignature) setSavedEditorSignature(editorSignature(nextBeatmap, current.mapTitle, current.difficulty, current.bpm, current.beatOffsetMs))
+  }, [savedEditorSignature])
   const laneNoteTotals = useMemo(() => countNotesByLane(beatmap?.notes ?? []), [beatmap?.notes])
   const collectionProgress = useMemo(() => Object.fromEntries(lanes.map((lane) => [lane, collectionPercent(collectedNotes[lane], laneNoteTotals[lane])])) as Record<Lane, number>, [collectedNotes, laneNoteTotals])
   const {
@@ -385,7 +397,7 @@ function App() {
         await packageRepository.setAudioAssociation(songPackage.id, { audioId: audio.audioId, sourceUrl, updatedAt: new Date().toISOString() })
       }
       if (!songPackage) throw new Error('Song package not found')
-      const resolvedSong = await packageToImport(songPackage)
+      const resolvedSong = await packageToImport(songPackage, Boolean(builtInSong))
       let audioBlob: Blob | null = null
       if (builtInSong) {
         setImportStatus(`Downloading ${song.title} into this browser session...`)
@@ -899,7 +911,7 @@ function App() {
         const profiles = needsOwnProfile
           ? [...songPackage.timingProfiles, { id: timingProfileId, name: `${titleToSave} timing`, bpm, beatOffsetMs, timeSignature: currentProfile?.timeSignature ?? [4, 4] as [number, number] }]
           : songPackage.timingProfiles.map((profile) => profile.id === timingProfileId ? { ...profile, bpm, beatOffsetMs } : profile)
-        const nextPackage = { ...songPackage, beatmaps: maps, timingProfiles: profiles, updatedAt: now }
+        const nextPackage = { ...songPackage, song: { ...songPackage.song, durationMs: editable.durationMs }, beatmaps: maps, timingProfiles: profiles, updatedAt: now }
         await packageRepository.put(nextPackage)
         if (importedSong.builtIn) {
           const builtInAudio = builtInSongs.get(importedSong.id)?.audio
@@ -1651,7 +1663,7 @@ function App() {
         <div className="toast"><strong style={{ color: gradeColor }}>{judgementText}</strong></div>
         <div className="toast"><strong style={{ color: timingColor }}>{lastAutoMiss ? '-' : deltaText}</strong></div>
       </div>}
-      {importedSong && <audio ref={audioRef} src={importedSong.audioUrl} preload="auto" onPlay={(event) => { beginPlayRun(event.currentTarget.currentTime * 1000); setIsSongPlaying(true) }} onPause={() => setIsSongPlaying(false)} onEnded={() => { finishPlayRun(); setIsSongPlaying(false) }} onTimeUpdate={(event) => setSongTimeMs(event.currentTarget.currentTime * 1000)} onSeeked={(event) => { setSongTimeMs(event.currentTarget.currentTime * 1000); if (isLoopSeeking.current) isLoopSeeking.current = false; else resetScheduledNotes() }} />}
+      {importedSong && <audio ref={audioRef} src={importedSong.audioUrl} preload="auto" onLoadedMetadata={(event) => hydrateMediaDuration(event.currentTarget.duration)} onPlay={(event) => { beginPlayRun(event.currentTarget.currentTime * 1000); setIsSongPlaying(true) }} onPause={() => setIsSongPlaying(false)} onEnded={() => { finishPlayRun(); setIsSongPlaying(false) }} onTimeUpdate={(event) => setSongTimeMs(event.currentTarget.currentTime * 1000)} onSeeked={(event) => { setSongTimeMs(event.currentTarget.currentTime * 1000); if (isLoopSeeking.current) isLoopSeeking.current = false; else resetScheduledNotes() }} />}
       <QuickstartDialog
         open={quickstartOpen}
         onOpenChange={(open) => {

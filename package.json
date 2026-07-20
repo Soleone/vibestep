@@ -19,6 +19,8 @@
     "companion:release:win": "electron-builder --config electron-builder.config.js --win nsis --x64 --publish always",
     "r2:login": "npx --yes wrangler@4.112.0 login",
     "r2:cors": "node --experimental-transform-types scripts/configure-r2-cors.mts",
+    "song:intake": "node --experimental-transform-types scripts/intake-builtin-song.mts",
+    "song:publish-map": "node --experimental-transform-types scripts/publish-builtin-map.mts",
     "song:upload": "node --experimental-transform-types scripts/upload-builtin-song.mts"
   },
   "dependencies": {

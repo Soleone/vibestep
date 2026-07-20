@@ -1,6 +1,8 @@
 import { ArrowLeftToLine, ArrowRightToLine, Check, Circle, CircleHelp, CopyPlus, Database, Download, Edit3, FilePlus2, Gamepad2, Headphones, Redo2, Save, Settings, Star, Trash2, Undo2, Upload, X, Zap } from 'lucide-react'
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
+import { downloadSessionAudio } from './audio/download-session-audio'
+import { useSessionAudioUrl } from './audio/use-session-audio-url'
 import { appBrand } from './branding'
 import { AppBrand } from './components/AppBrand'
 import { Badge, Button, Card, CardDescription, CardHeader, CardTitle, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Field, FieldLabel, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Slider, Stack, Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui'
@@ -9,6 +11,8 @@ import { PerformanceHistoryTransfer } from './components/PerformanceHistoryTrans
 import { QuickstartDialog } from './components/QuickstartDialog'
 import { Toolbar } from './components/Toolbar'
 import { CompanionClient, type CompanionAudio } from './companion/client'
+import type { BuiltInSongEntry } from './builtin-songs/catalog'
+import { loadBuiltInSongCatalog } from './builtin-songs/load-catalog'
 import { COMPANION_WINDOWS_DOWNLOAD_URL } from './config'
 import { createLibraryBackup, parseLibraryBackup } from './domain/library-backup'
 import { createShareBundle, parseShareBundle, SHARE_BUNDLE_FORMAT } from './domain/share-bundle'
@@ -121,6 +125,7 @@ function App() {
   const [importedSong, setImportedSong] = useState<ImportResult | null>(null)
   const [beatmap, setBeatmap] = useState<Beatmap | null>(null)
   const [savedImports, setSavedImports] = useState<ImportResult[]>([])
+  const [builtInSongs, setBuiltInSongs] = useState<Map<string, BuiltInSongEntry>>(() => new Map())
   const [isSongPlaying, setIsSongPlaying] = useState(false)
   const [armedLanes, setArmedLanes] = useState<Set<BeatmapNote['lane']>>(() => new Set(lanes))
   const [recordMode, setRecordMode] = useState<'add' | 'replace'>('add')
@@ -170,8 +175,6 @@ function App() {
   const [padTriggers, setPadTriggers] = useState<Record<Lane, number>>({ kick: 0, snare: 0, low: 0, mid: 0, high: 0 })
   const [heldPlayLanes, setHeldPlayLanes] = useState<Set<Lane>>(() => new Set())
   const audioRef = useRef<HTMLAudioElement>(null)
-  const browserAudioUrl = useRef<string | null>(null)
-  const audioLoadSequence = useRef(0)
   const localAudioInputRef = useRef<HTMLInputElement>(null)
   const audioAttachmentInputRef = useRef<HTMLInputElement>(null)
   const libraryImportInputRef = useRef<HTMLInputElement>(null)
@@ -180,6 +183,7 @@ function App() {
   const companion = useMemo(() => new CompanionClient(), [])
   const packageRepository = useMemo(() => createIndexedDBSongPackageRepository(), [])
   const runHistoryRepository = useMemo(() => createIndexedDbRunHistoryRepository(), [])
+  const { beginSessionAudioLoad, commitSessionAudioBlob, isCurrentSessionAudioLoad } = useSessionAudioUrl()
   const scheduledNoteIds = useRef(new Set<string>())
   const shiftWheelSelection = useRef<{ anchorTimeMs: number; baselineIds: Set<string> } | null>(null)
   const loopCycle = useRef(0)
@@ -312,11 +316,11 @@ function App() {
     setLaneFeedback({})
   }, [resetScheduledNotes])
 
-  const packageToImport = useCallback(async (songPackage: SongPackage): Promise<ImportResult> => {
+  const packageToImport = useCallback(async (songPackage: SongPackage, builtIn = false): Promise<ImportResult> => {
     const maps = songPackage.beatmaps.map((map) => ({ id: map.id, title: map.title, difficulty: map.difficulty, updatedAt: map.updatedAt, noteCount: map.notes.length, url: `package:${songPackage.id}:${map.id}` }))
     const firstMap = maps[0]
     const timing = songPackage.timingProfiles.find((profile) => profile.id === songPackage.defaultTimingProfileId) ?? songPackage.timingProfiles[0]
-    return { id: songPackage.id, title: songPackage.song.title, durationMs: songPackage.song.durationMs ?? songPackage.beatmaps[0]?.durationMs ?? 0, audioUrl: '', beatmapUrl: firstMap?.url ?? `package:${songPackage.id}:new`, noteCount: firstMap?.noteCount ?? 0, sourceUrl: songPackage.song.sources.find((source) => source.url)?.url, bpm: timing?.bpm, beatOffsetMs: timing?.beatOffsetMs, beatmaps: maps }
+    return { id: songPackage.id, title: songPackage.song.title, durationMs: songPackage.song.durationMs ?? songPackage.beatmaps[0]?.durationMs ?? 0, audioUrl: '', beatmapUrl: firstMap?.url ?? `package:${songPackage.id}:new`, noteCount: firstMap?.noteCount ?? 0, sourceUrl: songPackage.song.sources.find((source) => source.url)?.url, ...(builtIn ? { builtIn: true } : {}), bpm: timing?.bpm, beatOffsetMs: timing?.beatOffsetMs, beatmaps: maps }
   }, [])
 
   const loadImports = useCallback(async () => {
@@ -324,29 +328,42 @@ function App() {
     const local = (await Promise.all(packageImports)).filter((item): item is SongPackage => item !== null)
     const localIds = new Set(local.map((item) => item.id))
     let recoveryPackages: SongPackage[] = []
-    try {
-      const response = await fetch(LEGACY_RECOVERY_URL, { cache: 'no-store' })
-      if (response.ok) {
-        const backup = parseLibraryBackup(await response.json())
+    let builtInEntries: BuiltInSongEntry[] = []
+    const [recoveryResult, builtInResult] = await Promise.allSettled([
+      fetch(LEGACY_RECOVERY_URL, { cache: 'no-store' }),
+      loadBuiltInSongCatalog(),
+    ])
+    if (recoveryResult.status === 'fulfilled' && recoveryResult.value.ok) {
+      try {
+        const backup = parseLibraryBackup(await recoveryResult.value.json())
         recoveryPackages = backup.packages.filter((item) => !localIds.has(item.id))
+      } catch {
+        // Recovery catalog is optional and must not block the local library.
       }
-    } catch {
-      // Recovery catalog is optional in deployments without legacy songs.
     }
-    const localImports = await Promise.all(local.map(packageToImport))
-    const recoveryImports = (await Promise.all(recoveryPackages.map(packageToImport))).map((item) => ({ ...item, beatmapUrl: `legacy:${item.id}`, beatmaps: item.beatmaps?.map((map) => ({ ...map, url: `legacy:${item.id}:${map.id}` })) }))
-    setSavedImports([...localImports, ...recoveryImports])
+    if (builtInResult.status === 'fulfilled') builtInEntries = builtInResult.value.songs
+    const builtInById = new Map(builtInEntries.map((entry) => [entry.songPackage.id, entry]))
+    setBuiltInSongs(builtInById)
+    const localImports = await Promise.all(local.map(async (songPackage) => {
+      const association = await packageRepository.getAudioAssociation(songPackage.id)
+      return packageToImport(songPackage, association?.storage === 'builtin' && builtInById.has(songPackage.id))
+    }))
+    const builtInImports = (await Promise.all(builtInEntries.filter((entry) => !localIds.has(entry.songPackage.id)).map((entry) => packageToImport(entry.songPackage, true))))
+      .map((item) => ({ ...item, beatmapUrl: `builtin:${item.id}:${item.beatmaps?.[0]?.id ?? 'new'}`, beatmaps: item.beatmaps?.map((map) => ({ ...map, url: `builtin:${item.id}:${map.id}` })) }))
+    const recoveryImports = (await Promise.all(recoveryPackages.map((songPackage) => packageToImport(songPackage)))).map((item) => ({ ...item, beatmapUrl: `legacy:${item.id}`, beatmaps: item.beatmaps?.map((map) => ({ ...map, url: `legacy:${item.id}:${map.id}` })) }))
+    setSavedImports([...localImports, ...builtInImports, ...recoveryImports])
   }, [packageRepository, packageToImport])
 
   const loadImport = useCallback(async (song: ImportResult) => {
-    const loadSequence = ++audioLoadSequence.current
+    const audioLoad = beginSessionAudioLoad()
     resetGameplayPlayback()
     calibrationHydrated.current = false
     localStorage.setItem(storageKey('selected-song'), song.id)
     setSongBeatmaps(song.beatmaps ?? [])
     setImportStatus(`Loading ${song.title}...`)
     try {
-      let songPackage = await packageRepository.get(song.id)
+      const builtInSong = song.builtIn ? builtInSongs.get(song.id) : undefined
+      let songPackage = await packageRepository.get(song.id) ?? builtInSong?.songPackage ?? null
       if (!songPackage && song.beatmapUrl.startsWith('legacy:')) {
         setImportStatus(`Restoring ${song.title} into browser storage...`)
         const response = await fetch(LEGACY_RECOVERY_URL, { cache: 'no-store' })
@@ -369,60 +386,63 @@ function App() {
       }
       if (!songPackage) throw new Error('Song package not found')
       const resolvedSong = await packageToImport(songPackage)
-      let audioAssociation = await packageRepository.getAudioAssociation(songPackage.id)
-      if (!audioAssociation) {
-        const sourceUrl = songPackage.song.sources.find((source) => source.url)?.url
-        if (!sourceUrl) throw new Error('Choose the original audio file to attach to this shared song')
-        if (!companion.paired) throw new Error('Start and pair the companion to retrieve this shared song')
-        setImportStatus(`Retrieving ${song.title} from its shared source...`)
-        const matched = await companion.lookupSource(sourceUrl)
-        let audio = matched.audio
-        if (!audio) {
-          const job = await companion.startImport(sourceUrl)
-          const complete = job.state === 'complete' ? job : await companion.waitForImport(job.id, (progress) => setImportStatus(`Retrieving ${song.title}: ${progress.progress}%`))
-          audio = complete.audio ?? null
-        }
-        if (!audio) throw new Error('Could not retrieve audio from the shared source')
-        audioAssociation = { audioId: audio.audioId, sourceUrl, updatedAt: new Date().toISOString() }
-        await packageRepository.setAudioAssociation(songPackage.id, audioAssociation)
-      }
-      setImportStatus(`Copying ${song.title} into this browser session...`)
       let audioBlob: Blob | null = null
-      if (audioAssociation.storage === 'browser') {
-        audioBlob = await getBrowserAudio(audioAssociation.audioId)
-      } else if (companion.paired) {
-        try {
-          audioBlob = await companion.downloadAudio(audioAssociation.audioId)
-        } catch {
-          const sourceUrl = audioAssociation.sourceUrl ?? songPackage.song.sources.find((source) => source.url)?.url
-          if (!sourceUrl) throw new Error('Audio is no longer available locally and this song has no downloadable source')
-          setImportStatus(`Restoring ${song.title} from its source...`)
+      if (builtInSong) {
+        setImportStatus(`Downloading ${song.title} into this browser session...`)
+        audioBlob = await downloadSessionAudio(builtInSong.audio, audioLoad.signal)
+      } else {
+        let audioAssociation = await packageRepository.getAudioAssociation(songPackage.id)
+        if (!audioAssociation) {
+          const sourceUrl = songPackage.song.sources.find((source) => source.url)?.url
+          if (!sourceUrl) throw new Error('Choose the original audio file to attach to this shared song')
+          if (!companion.paired) throw new Error('Start and pair the companion to retrieve this shared song')
+          setImportStatus(`Retrieving ${song.title} from its shared source...`)
           const matched = await companion.lookupSource(sourceUrl)
           let audio = matched.audio
           if (!audio) {
             const job = await companion.startImport(sourceUrl)
-            const complete = job.state === 'complete' ? job : await companion.waitForImport(job.id, (progress) => setImportStatus(`Restoring ${song.title}: ${progress.progress}%`))
+            const complete = job.state === 'complete' ? job : await companion.waitForImport(job.id, (progress) => setImportStatus(`Retrieving ${song.title}: ${progress.progress}%`))
             audio = complete.audio ?? null
           }
-          if (!audio) throw new Error('Could not restore the song audio')
-          audioAssociation = { audioId: audio.audioId, storage: 'companion', sourceUrl, updatedAt: new Date().toISOString() }
+          if (!audio) throw new Error('Could not retrieve audio from the shared source')
+          audioAssociation = { audioId: audio.audioId, sourceUrl, updatedAt: new Date().toISOString() }
           await packageRepository.setAudioAssociation(songPackage.id, audioAssociation)
-          audioBlob = await companion.downloadAudio(audio.audioId)
         }
+        setImportStatus(`Copying ${song.title} into this browser session...`)
+        if (audioAssociation.storage === 'browser') {
+          audioBlob = await getBrowserAudio(audioAssociation.audioId)
+        } else if (companion.paired) {
+          try {
+            audioBlob = await companion.downloadAudio(audioAssociation.audioId)
+          } catch {
+            const sourceUrl = audioAssociation.sourceUrl ?? songPackage.song.sources.find((source) => source.url)?.url
+            if (!sourceUrl) throw new Error('Audio is no longer available locally and this song has no downloadable source')
+            setImportStatus(`Restoring ${song.title} from its source...`)
+            const matched = await companion.lookupSource(sourceUrl)
+            let audio = matched.audio
+            if (!audio) {
+              const job = await companion.startImport(sourceUrl)
+              const complete = job.state === 'complete' ? job : await companion.waitForImport(job.id, (progress) => setImportStatus(`Restoring ${song.title}: ${progress.progress}%`))
+              audio = complete.audio ?? null
+            }
+            if (!audio) throw new Error('Could not restore the song audio')
+            audioAssociation = { audioId: audio.audioId, storage: 'companion', sourceUrl, updatedAt: new Date().toISOString() }
+            await packageRepository.setAudioAssociation(songPackage.id, audioAssociation)
+            audioBlob = await companion.downloadAudio(audio.audioId)
+          }
+        }
+        if (!audioBlob) throw new Error(audioAssociation.storage === 'browser' ? 'Choose the original audio file to restore this song' : 'Start and pair the companion to load this song')
       }
-      if (!audioBlob) throw new Error(audioAssociation.storage === 'browser' ? 'Choose the original audio file to restore this song' : 'Start and pair the companion to load this song')
-      if (loadSequence !== audioLoadSequence.current) return
-      const nextAudioUrl = URL.createObjectURL(audioBlob)
-      const previousAudioUrl = browserAudioUrl.current
-      browserAudioUrl.current = nextAudioUrl
+      if (!isCurrentSessionAudioLoad(audioLoad)) return
+      const nextAudioUrl = commitSessionAudioBlob(audioLoad, audioBlob)
+      if (!nextAudioUrl) return
       resolvedSong.audioUrl = nextAudioUrl
-      if (previousAudioUrl) URL.revokeObjectURL(previousAudioUrl)
       const requestedMapId = song.beatmapUrl.split(':').at(-1)
       const packageMap = songPackage.beatmaps.find((map) => map.id === requestedMapId) ?? songPackage.beatmaps[0]
       if (!packageMap) throw new Error('Create a beatmap before loading this song')
       const timing = songPackage.timingProfiles.find((profile) => profile.id === packageMap.timingProfileId) ?? songPackage.timingProfiles[0]
       const loadedBeatmap: Beatmap = { ...packageMap, songId: songPackage.id, bpm: timing?.bpm, beatOffsetMs: timing?.beatOffsetMs }
-      if (loadSequence !== audioLoadSequence.current) return
+      if (!isCurrentSessionAudioLoad(audioLoad)) return
       setImportedSong(resolvedSong)
       resetEditorHistory()
       const normalizedBeatmap = normalizeBeatmap(loadedBeatmap)
@@ -440,11 +460,12 @@ function App() {
       calibrationHydrated.current = true
       resetGameplayPlayback()
       setLoopMarkers({ startMs: null, endMs: null })
-      setImportStatus(`Loaded ${loadedBeatmap.notes.length} notes from browser storage`)
+      setImportStatus(builtInSong ? `Loaded ${loadedBeatmap.notes.length} notes with verified session audio` : `Loaded ${loadedBeatmap.notes.length} notes from browser storage`)
     } catch (error) {
+      if (!isCurrentSessionAudioLoad(audioLoad)) return
       setImportStatus(error instanceof Error ? error.message : 'Failed to load song')
     }
-  }, [companion, packageRepository, packageToImport, resetEditorHistory, resetGameplayPlayback])
+  }, [beginSessionAudioLoad, builtInSongs, commitSessionAudioBlob, companion, isCurrentSessionAudioLoad, packageRepository, packageToImport, resetEditorHistory, resetGameplayPlayback])
 
   const { attach: attachLocalAudio, isAttaching: isAttachingAudio, setTargetId: setAudioAttachmentTargetId, targetId: audioAttachmentTargetId } = useBrowserAudioAttachment({
     loadImport,
@@ -502,11 +523,6 @@ function App() {
 
   useEffect(() => { void loadImports() }, [loadImports])
   useEffect(() => { if (importedSong) setAudioAttachmentTargetId(importedSong.id) }, [importedSong, setAudioAttachmentTargetId])
-
-  useEffect(() => () => {
-    audioLoadSequence.current += 1
-    if (browserAudioUrl.current) URL.revokeObjectURL(browserAudioUrl.current)
-  }, [])
 
   useEffect(() => { localStorage.setItem(storageKey('workspace-mode'), activeTab) }, [activeTab])
   useEffect(() => { localStorage.setItem(storageKey('settings-tab'), settingsTab) }, [settingsTab])
@@ -870,7 +886,7 @@ function App() {
       const id = saveAsNew ? `${titleToSave.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${Date.now().toString(36)}` : beatmap.id
       const editable = { ...beatmap, id, title: titleToSave, difficulty: difficultyToSave, bpm, beatOffsetMs, songId: importedSong.id, source: 'manual' }
       setImportStatus(`Saving ${titleToSave}...`)
-      const songPackage = await packageRepository.get(importedSong.id)
+      const songPackage = await packageRepository.get(importedSong.id) ?? (importedSong.builtIn ? builtInSongs.get(importedSong.id)?.songPackage : undefined)
         if (!songPackage) throw new Error('Song package not found')
         const now = new Date().toISOString()
         const currentProfileId = songPackage.beatmaps.find((map) => map.id === beatmap.id)?.timingProfileId ?? songPackage.defaultTimingProfileId
@@ -885,7 +901,11 @@ function App() {
           : songPackage.timingProfiles.map((profile) => profile.id === timingProfileId ? { ...profile, bpm, beatOffsetMs } : profile)
         const nextPackage = { ...songPackage, beatmaps: maps, timingProfiles: profiles, updatedAt: now }
         await packageRepository.put(nextPackage)
-        const nextImport = await packageToImport(nextPackage)
+        if (importedSong.builtIn) {
+          const builtInAudio = builtInSongs.get(importedSong.id)?.audio
+          if (builtInAudio) await packageRepository.setAudioAssociation(importedSong.id, { audioId: builtInAudio.sha256, storage: 'builtin', updatedAt: now })
+        }
+        const nextImport = await packageToImport(nextPackage, importedSong.builtIn)
         setImportedSong({ ...nextImport, beatmapUrl: `package:${nextPackage.id}:${id}` })
         const savedBeatmap = normalizeBeatmap({ ...editable, version: nextMap.version })
         setBeatmap(savedBeatmap)
@@ -898,7 +918,7 @@ function App() {
       setImportStatus(error instanceof Error ? `Save failed: ${error.message}` : 'Save failed')
       return false
     }
-  }, [beatOffsetMs, beatmap, bpm, difficulty, importedSong, mapTitle, packageRepository, packageToImport])
+  }, [beatOffsetMs, beatmap, bpm, builtInSongs, difficulty, importedSong, mapTitle, packageRepository, packageToImport])
 
   const loadBeatmap = useCallback(async (mapId: string) => {
     resetGameplayPlayback()
@@ -906,9 +926,10 @@ function App() {
     if (!map) return
     try {
       setImportStatus(`Loading ${map.title}...`)
-      const songPackage = await packageRepository.get(importedSong?.id ?? '')
+      const importedSongId = importedSong?.id ?? ''
+      const songPackage = await packageRepository.get(importedSongId) ?? (importedSong?.builtIn ? builtInSongs.get(importedSongId)?.songPackage : undefined)
       const packageMap = songPackage?.beatmaps.find((item) => item.id === mapId)
-      if (!songPackage || !packageMap) throw new Error('Beatmap not found in browser storage')
+      if (!songPackage || !packageMap) throw new Error('Beatmap not found')
       const timing = songPackage.timingProfiles.find((profile) => profile.id === packageMap.timingProfileId) ?? songPackage.timingProfiles[0]
       const loaded: Beatmap = { ...packageMap, songId: songPackage.id, bpm: timing?.bpm, beatOffsetMs: timing?.beatOffsetMs }
       setImportedSong((song) => song ? { ...song, beatmapUrl: map.url } : song)
@@ -930,7 +951,7 @@ function App() {
     } catch (error) {
       setImportStatus(error instanceof Error ? error.message : 'Failed to load beatmap')
     }
-  }, [importedSong, packageRepository, resetEditorHistory, resetGameplayPlayback, songBeatmaps])
+  }, [builtInSongs, importedSong, packageRepository, resetEditorHistory, resetGameplayPlayback, songBeatmaps])
 
   const refreshSaveState = useCallback(async () => {
     await loadImports()
@@ -942,14 +963,18 @@ function App() {
     if (!beatmap || !importedSong) return
     const deletedTitle = mapTitle
     try {
-      const songPackage = await packageRepository.get(importedSong.id)
+      const songPackage = await packageRepository.get(importedSong.id) ?? (importedSong.builtIn ? builtInSongs.get(importedSong.id)?.songPackage : undefined)
         if (!songPackage) throw new Error('Song package not found')
         const now = new Date().toISOString()
         let maps = songPackage.beatmaps.filter((map) => map.id !== beatmap.id)
         if (maps.length === 0) maps = [{ id: `new-${Date.now().toString(36)}`, title: `${importedSong.title} custom`, difficulty: 1, timingProfileId: songPackage.defaultTimingProfileId, durationMs: importedSong.durationMs, notes: [], version: 0, createdAt: now, updatedAt: now }]
         const nextPackage = { ...songPackage, beatmaps: maps, updatedAt: now }
         await packageRepository.put(nextPackage)
-        const nextImport = await packageToImport(nextPackage)
+        if (importedSong.builtIn) {
+          const builtInAudio = builtInSongs.get(importedSong.id)?.audio
+          if (builtInAudio) await packageRepository.setAudioAssociation(importedSong.id, { audioId: builtInAudio.sha256, storage: 'builtin', updatedAt: now })
+        }
+        const nextImport = await packageToImport(nextPackage, importedSong.builtIn)
         setImportedSong(nextImport)
         setSongBeatmaps(nextImport.beatmaps ?? [])
         setSavedImports((imports) => imports.map((song) => song.id === importedSong.id ? nextImport : song))
@@ -964,7 +989,7 @@ function App() {
     } catch (error) {
       setImportStatus(error instanceof Error ? error.message : 'Delete failed')
     }
-  }, [beatOffsetMs, beatmap, bpm, importedSong, mapTitle, packageRepository, packageToImport])
+  }, [beatOffsetMs, beatmap, bpm, builtInSongs, importedSong, mapTitle, packageRepository, packageToImport])
 
   const createBlankBeatmap = useCallback(() => {
     if (!importedSong || !confirmDiscardChanges()) return
@@ -1553,8 +1578,9 @@ function App() {
   const canRedo = historyVersion >= 0 && redoStack.current.length > 0
   const restartTooltip = 'Restart from beginning'
   const difficultyColor = ['#83ff70', '#4da3ff', '#ffd166', '#ff9f43', '#ff5570'][difficulty - 1] ?? '#83ff70'
+  const activeBuiltInSong = importedSong ? builtInSongs.get(importedSong.id) : undefined
   const transport = <div className="transport-bar" aria-label="Transport controls"><Button type="button" variant="ghost" className="transport-icon-button" onClick={(event) => restartSong((event.ctrlKey || event.metaKey) && loopMarkers.startMs !== null)} disabled={!importedSong} title={restartTooltip} tooltip={`${restartTooltip}. Ctrl click restarts from the loop start.`} shortcut="Shift+Space">↺</Button><Button type="button" variant="ghost" className="transport-icon-button" onClick={() => seekRelativeSong(-5000)} disabled={!importedSong} title="Back 5 seconds" tooltip="Back 5 seconds">-5s</Button><Button type="button" className={`transport-play-button ${isSongPlaying ? 'transport-play-button--pause' : 'transport-play-button--play'}`} onClick={isSongPlaying ? pauseSong : playSong} disabled={!importedSong} title={isSongPlaying ? 'Pause' : 'Play'} tooltip={isSongPlaying ? 'Pause' : 'Play'} shortcut="Space">{isSongPlaying ? '⏸' : '▶'}</Button><Button type="button" variant="ghost" className="transport-icon-button" onClick={() => seekRelativeSong(5000)} disabled={!importedSong} title="Forward 5 seconds" tooltip="Forward 5 seconds">+5s</Button>{activeTab === 'editor' && <><span className="transport-divider" /><Button type="button" variant="ghost" size="icon" className={`transport-loop-button transport-loop-button--start ${loopMarkers.startMs !== null ? 'transport-loop-button--active' : ''}`} onClick={() => handleLoopRulerClick(songTimeMs, 'start')} disabled={!importedSong} tooltip={loopMarkers.startMs !== null && Math.abs(loopMarkers.startMs - snapTimelineTime(songTimeMs)) <= Math.max(80, gridMs * 0.45) ? 'Remove loop start' : 'Set loop start at playhead'} shortcut="[" aria-label="Set loop start at playhead"><ArrowLeftToLine /></Button><Button type="button" variant="ghost" size="icon" className={`transport-loop-button transport-loop-button--end ${loopMarkers.endMs !== null ? 'transport-loop-button--active' : ''}`} onClick={() => handleLoopRulerClick(songTimeMs, 'end')} disabled={!importedSong} tooltip={loopMarkers.endMs !== null && Math.abs(loopMarkers.endMs - snapTimelineTime(songTimeMs)) <= Math.max(80, gridMs * 0.45) ? 'Remove loop end' : 'Set loop end at playhead'} shortcut="]" aria-label="Set loop end at playhead"><ArrowRightToLine /></Button><span className="transport-divider" /><Button type="button" variant="ghost" className={`transport-record-button ${isRecording ? 'transport-record-button--active' : ''}`} onClick={isRecording ? stopRecording : startRecording} tooltip={isRecording ? 'Stop recording' : 'Start recording'} aria-label={isRecording ? 'Stop recording' : 'Start recording'}><Circle fill="currentColor" /></Button></>}</div>
-  const beatmapControls = <Card className="beatmap-controls">{savedImports.length > 0 ? <Field><FieldLabel>Song</FieldLabel><Select value={importedSong?.id ?? null} onValueChange={(songId) => { const song = savedImports.find((item) => item.id === songId); if (song && confirmDiscardChanges()) { setAudioAttachmentTargetId(song.id); void loadImport(song) } }}><SelectTrigger className="ui-select"><SelectValue>{(songId: string | null) => savedImports.find((song) => song.id === songId)?.title ?? 'Select cached song...'}</SelectValue></SelectTrigger><SelectContent>{savedImports.map((song) => <SelectItem key={song.id} value={song.id}>{song.title}</SelectItem>)}</SelectContent></Select></Field> : <p className="editor-hint">No cached songs yet. Use Settings to import from YouTube.</p>}<input ref={audioAttachmentInputRef} type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void attachLocalAudio(file); event.currentTarget.value = '' }} /><Button type="button" variant="secondary" className="audio-attachment-button" disabled={!audioAttachmentTargetId || isAttachingAudio} onClick={() => { if (confirmDiscardChanges()) audioAttachmentInputRef.current?.click() }} tooltip="Use a local audio file with this song while preserving its beatmaps and timing"><Upload />Attach audio</Button><Field><FieldLabel>Beatmap</FieldLabel><Select value={beatmap?.id ?? null} onValueChange={(beatmapId) => { if (beatmapId && confirmDiscardChanges()) void loadBeatmap(beatmapId) }} disabled={!importedSong || (!beatmap && songBeatmaps.length === 0)}><SelectTrigger className="ui-select"><SelectValue>{(beatmapId: string | null) => { if (beatmap?.id === beatmapId) return `${mapTitle} (${beatmap.notes.length}) ${'★'.repeat(difficulty)}`; const selectedMap = songBeatmaps.find((map) => map.id === beatmapId); if (selectedMap) return `${selectedMap.title} (${selectedMap.noteCount}) ${'★'.repeat(selectedMap.difficulty ?? 1)}`; return songBeatmaps.length || beatmap ? 'Select beatmap...' : 'No beatmaps' }}</SelectValue></SelectTrigger><SelectContent>{beatmap && !songBeatmaps.some((map) => map.id === beatmap.id) && <SelectItem value={beatmap.id}>{mapTitle} (unsaved) {'★'.repeat(difficulty)}</SelectItem>}{songBeatmaps.map((map) => <SelectItem key={map.id} value={map.id}>{map.title} ({map.noteCount}) {'★'.repeat(map.difficulty ?? 1)}</SelectItem>)}</SelectContent></Select></Field></Card>
+  const beatmapControls = <Card className="beatmap-controls">{savedImports.length > 0 ? <Field><FieldLabel>Song</FieldLabel><Select value={importedSong?.id ?? null} onValueChange={(songId) => { const song = savedImports.find((item) => item.id === songId); if (song && confirmDiscardChanges()) { setAudioAttachmentTargetId(song.id); void loadImport(song) } }}><SelectTrigger className="ui-select"><SelectValue>{(songId: string | null) => savedImports.find((song) => song.id === songId)?.title ?? 'Select song...'}</SelectValue></SelectTrigger><SelectContent>{savedImports.map((song) => <SelectItem key={song.id} value={song.id}>{song.title}{builtInSongs.has(song.id) ? ' · Built-in' : ''}</SelectItem>)}</SelectContent></Select></Field> : <p className="editor-hint">No cached songs yet. Use Settings to import from YouTube.</p>}<input ref={audioAttachmentInputRef} type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void attachLocalAudio(file); event.currentTarget.value = '' }} /><Button type="button" variant="secondary" className="audio-attachment-button" disabled={!audioAttachmentTargetId || isAttachingAudio || builtInSongs.has(audioAttachmentTargetId)} onClick={() => { if (confirmDiscardChanges()) audioAttachmentInputRef.current?.click() }} tooltip="Use a local audio file with this song while preserving its beatmaps and timing"><Upload />Attach audio</Button>{activeBuiltInSong && <p className="editor-hint">{activeBuiltInSong.license.attribution} · <a href={activeBuiltInSong.license.url} target="_blank" rel="noreferrer">{activeBuiltInSong.license.name}</a></p>}<Field><FieldLabel>Beatmap</FieldLabel><Select value={beatmap?.id ?? null} onValueChange={(beatmapId) => { if (beatmapId && confirmDiscardChanges()) void loadBeatmap(beatmapId) }} disabled={!importedSong || (!beatmap && songBeatmaps.length === 0)}><SelectTrigger className="ui-select"><SelectValue>{(beatmapId: string | null) => { if (beatmap?.id === beatmapId) return `${mapTitle} (${beatmap.notes.length}) ${'★'.repeat(difficulty)}`; const selectedMap = songBeatmaps.find((map) => map.id === beatmapId); if (selectedMap) return `${selectedMap.title} (${selectedMap.noteCount}) ${'★'.repeat(selectedMap.difficulty ?? 1)}`; return songBeatmaps.length || beatmap ? 'Select beatmap...' : 'No beatmaps' }}</SelectValue></SelectTrigger><SelectContent>{beatmap && !songBeatmaps.some((map) => map.id === beatmap.id) && <SelectItem value={beatmap.id}>{mapTitle} (unsaved) {'★'.repeat(difficulty)}</SelectItem>}{songBeatmaps.map((map) => <SelectItem key={map.id} value={map.id}>{map.title} ({map.noteCount}) {'★'.repeat(map.difficulty ?? 1)}</SelectItem>)}</SelectContent></Select></Field></Card>
   const beatmapActions = activeTab === 'editor' ? <Card className="beatmap-actions"><div className="beatmap-action-grid"><Button type="button" variant="secondary" onClick={() => void saveBeatmap(false)} disabled={!beatmap || !importedSong} tooltip="Save changes"><Save />Save</Button><Button type="button" variant="secondary" onClick={createBlankBeatmap} disabled={!importedSong} tooltip="Create an empty beatmap"><FilePlus2 />Create</Button><div className="inline-popover"><Button type="button" variant="secondary" onClick={() => { setRenameDraft(mapTitle); setRenameOpen((open) => !open) }} disabled={!beatmap} tooltip="Rename this beatmap"><Edit3 />Rename</Button>{renameOpen && <div className="inline-popover__panel"><button type="button" className="popover-close" onClick={() => setRenameOpen(false)} aria-label="Close rename dialog"><X /></button><div className="popover-title">Rename beatmap</div><Input value={renameDraft} onChange={(event) => setRenameDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); applyRenameBeatmap(event.currentTarget.value) } }} autoFocus /><div className="popover-actions popover-actions--single"><Button type="button" variant="secondary" size="sm" onClick={() => applyRenameBeatmap()}><Check />Apply</Button></div></div>}</div><Button type="button" variant="secondary" onClick={() => void saveBeatmap(true)} disabled={!beatmap || !importedSong} tooltip="Save a duplicate beatmap"><CopyPlus />Duplicate</Button><div className="inline-popover"><Button type="button" variant="secondary" onClick={() => setDifficultyOpen((open) => !open)} disabled={!beatmap} tooltip={`Difficulty ${difficulty}`} style={{ color: difficultyColor }}><Star fill="currentColor" />Difficulty</Button>{difficultyOpen && <div className="inline-popover__panel"><div className="popover-title">Difficulty</div><Slider min={1} max={5} step={1} value={[difficulty]} onValueChange={(value) => setBeatmapDifficulty(Array.isArray(value) ? value[0] : value)} /><div className="popover-actions"><span style={{ color: difficultyColor }}><Star size={14} fill="currentColor" /> Level {difficulty}</span><Button type="button" variant="secondary" size="sm" onClick={() => setDifficultyOpen(false)}><Check />Done</Button></div></div>}</div><div className="inline-popover"><Button type="button" variant="warning" onClick={() => setDeleteOpen((open) => !open)} disabled={!beatmap || !importedSong || !songBeatmaps.some((map) => map.id === beatmap.id)} tooltip="Delete this saved beatmap"><Trash2 />Delete</Button>{deleteOpen && <div className="inline-popover__panel inline-popover__panel--danger"><button type="button" className="popover-close" onClick={() => setDeleteOpen(false)} aria-label="Close delete confirmation"><X /></button><div className="popover-title">Delete beatmap?</div><p>This removes {mapTitle} from this song.</p><div className="popover-actions popover-actions--single"><Button type="button" variant="warning" size="sm" onClick={() => void deleteBeatmap()}><Trash2 />Delete</Button></div></div>}</div><Button type="button" variant="secondary" onClick={() => void exportSharedBeatmap()} disabled={!beatmap || !importedSong} tooltip="Export this beatmap with its song link and timing"><Download />Export</Button><input ref={shareImportInputRef} type="file" accept={`application/json,.json,.${appBrand.slug}.json`} hidden onChange={(event) => { const file = event.currentTarget.files?.[0]; if (file) void importSharedBundle(file); event.currentTarget.value = '' }} /><Button type="button" variant="secondary" onClick={() => shareImportInputRef.current?.click()} tooltip={`Import a shared ${appBrand.name} beatmap`}><Upload />Import</Button></div><div className="beatmap-secondary-actions"><Button type="button" variant="ghost" onClick={clearBeatmapEvents} disabled={!beatmap} tooltip="Remove all notes from this beatmap"><Edit3 />Wipe notes</Button><Button type="button" variant="ghost" onClick={() => setQuickstartOpen(true)} tooltip="Learn the play controls and editor basics"><CircleHelp />Help</Button></div>{tapMode && <p className="editor-hint">Tap tempo is listening for lane keys. Use the main pane's Tap button to save.</p>}</Card> : null
   const judgementText = lastAutoMiss ? 'miss' : lastResult ? lastResult.grade : 'ready'
   const gradeColor = lastAutoMiss ? judgementCssVars.miss : lastResult?.grade === 'perfect' ? judgementCssVars.perfect : lastResult?.grade === 'good' ? judgementCssVars.good : undefined

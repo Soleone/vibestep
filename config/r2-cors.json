@@ -1,0 +1,19 @@
+{
+  "rules": [
+    {
+      "allowed": {
+        "origins": [
+          "http://localhost:5173",
+          "http://127.0.0.1:5173",
+          "https://vibestep.vercel.app",
+          "https://vibestep.app",
+          "https://www.vibestep.app"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ]
+      }
+    }
+  ]
+}

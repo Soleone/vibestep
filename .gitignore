@@ -12,6 +12,7 @@ dist
 dist-ssr
 release
 *.local
+.env.r2.local
 
 # Local imported audio/video cache, keep beatmap JSON metadata tracked.
 public/imports/*/audio.mp3

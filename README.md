@@ -53,11 +53,12 @@ Controls can be changed from Config.
 
 ## Storage and backups
 
-Vibestep has no cloud account or central song library.
+Vibestep has no cloud account. A small catalog of redistributable built-in songs may be downloaded from Vibestep's public audio storage. Built-in audio is held in session memory for playback and is not written to IndexedDB.
 
 | Data | Storage |
 | --- | --- |
 | Songs, timing profiles, and beatmaps | This browser's local storage |
+| Built-in licensed audio | Session memory after a complete verified download |
 | Files selected without the companion | This browser's IndexedDB storage |
 | YouTube and companion-imported audio | The companion's private cache on your computer |
 | Portable backups and shared maps | JSON files you explicitly export |
@@ -117,5 +118,7 @@ npm run lint
 npm run build
 npm run dev:companion
 ```
+
+Publishing licensed built-in songs to Cloudflare R2 is documented in [docs/builtin-songs.md](./docs/builtin-songs.md).
 
 The app is a static Vite deployment. Companion development and Windows releases are documented in [companion/README.md](./companion/README.md) and [companion/RELEASE.md](./companion/RELEASE.md).

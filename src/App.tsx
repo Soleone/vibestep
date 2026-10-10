@@ -1404,7 +1404,15 @@ function App() {
   }, [beatmap, checkpointEditor, snapTimelineTime])
   const resizeHoldNote = useCallback((noteId: string, rawEndMs: number, bypassSnap = false) => {
     checkpointEditor(`resize:${noteId}`)
-    const resize = (note: BeatmapNote) => note.id === noteId ? { ...note, durationMs: Math.max(50, snapTimelineTime(rawEndMs, bypassSnap) - note.impactTimeMs), source: 'manual-hold' } : note
+    // Shorter than 50ms (with snap, less than half a grid step) is a tap.
+    const resize = (note: BeatmapNote): BeatmapNote => {
+      if (note.id !== noteId) return note
+      const durationMs = snapTimelineTime(rawEndMs, bypassSnap) - note.impactTimeMs
+      if (durationMs >= 50) return { ...note, durationMs, source: 'manual-hold' }
+      if (!note.durationMs) return note
+      const { durationMs: _hold, ...tap } = note
+      return tap
+    }
     setBeatmap((current) => current ? { ...current, notes: current.notes.map(resize) } : current)
     setRecordedNotes((notes) => notes.map(resize))
     scheduledNoteIds.current.delete(noteId)

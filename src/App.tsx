@@ -71,6 +71,7 @@ const GameScene = lazy(() => import('./game/GameScene').then((module) => ({ defa
 
 const storageKey = (name: string) => `vibestep:${name}`
 const readAppStorage = (name: string) => localStorage.getItem(storageKey(name))
+const firstVisitSong = 'first-built-in'
 
 type EditorSnapshot = {
   beatmap: Beatmap | null
@@ -195,7 +196,7 @@ function App() {
   const previousGamepadButtons = useRef(new Set<number>())
   const calibrationHydrated = useRef(false)
   const persistedCalibration = useRef<string | null>(null)
-  const restoredSongId = useRef<string | null>(readAppStorage('selected-song'))
+  const restoredSongId = useRef<string | null>(readAppStorage('selected-song') ?? firstVisitSong)
   const undoStack = useRef<EditorSnapshot[]>([])
   const redoStack = useRef<EditorSnapshot[]>([])
   const lastHistoryKey = useRef<string | null>(null)
@@ -547,7 +548,8 @@ function App() {
   useEffect(() => {
     const songId = restoredSongId.current
     if (!songId || importedSong || savedImports.length === 0) return
-    const song = savedImports.find((item) => item.id === songId)
+    // A first visit has no selected song, so it opens the first built-in one and Play has something to play.
+    const song = songId === firstVisitSong ? savedImports.find((item) => item.builtIn) : savedImports.find((item) => item.id === songId)
     if (!song) return
     restoredSongId.current = null
     setAudioAttachmentTargetId(song.id)

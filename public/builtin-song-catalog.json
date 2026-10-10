@@ -1,5 +1,1131 @@
 {
   "format": "vibestep-built-in-songs",
   "version": 1,
-  "songs": []
+  "songs": [
+    {
+      "songPackage": {
+        "format": "song-package",
+        "version": 1,
+        "id": "of-far-different-nature-bouncer",
+        "song": {
+          "id": "of-far-different-nature-bouncer",
+          "title": "Bouncer",
+          "artist": "Of Far Different Nature",
+          "durationMs": 93760,
+          "sources": [
+            {
+              "kind": "url",
+              "url": "https://opengameart.org/content/bouncer-0",
+              "label": "License and source page"
+            }
+          ]
+        },
+        "timingProfiles": [
+          {
+            "id": "default",
+            "name": "Default",
+            "bpm": 128,
+            "beatOffsetMs": 44,
+            "timeSignature": [
+              4,
+              4
+            ]
+          }
+        ],
+        "beatmaps": [
+          {
+            "id": "bouncer-normal",
+            "title": "Normal",
+            "difficulty": 2,
+            "timingProfileId": "default",
+            "durationMs": 93760,
+            "notes": [
+              {
+                "id": "draft-1",
+                "impactTimeMs": 4262.717,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-2",
+                "impactTimeMs": 5200.21,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-3",
+                "impactTimeMs": 6137.702,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-4",
+                "impactTimeMs": 7075.195,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-5",
+                "impactTimeMs": 7543.941,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-6",
+                "impactTimeMs": 8012.688,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-7",
+                "impactTimeMs": 9887.673,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-8",
+                "impactTimeMs": 10356.419,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-9",
+                "impactTimeMs": 11762.658,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-10",
+                "impactTimeMs": 14106.39,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-11",
+                "impactTimeMs": 15043.883,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-12",
+                "impactTimeMs": 15278.256,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-13",
+                "impactTimeMs": 15981.375,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-14",
+                "impactTimeMs": 16215.749,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-15",
+                "impactTimeMs": 16918.868,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-16",
+                "impactTimeMs": 17153.241,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-17",
+                "impactTimeMs": 17387.615,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-18",
+                "impactTimeMs": 17856.361,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-19",
+                "impactTimeMs": 18793.854,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-20",
+                "impactTimeMs": 19262.6,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-21",
+                "impactTimeMs": 19731.346,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-22",
+                "impactTimeMs": 19965.719,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-23",
+                "impactTimeMs": 20903.212,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-24",
+                "impactTimeMs": 21137.585,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-25",
+                "impactTimeMs": 21606.332,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-26",
+                "impactTimeMs": 21840.705,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-27",
+                "impactTimeMs": 22543.824,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-28",
+                "impactTimeMs": 23012.571,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-29",
+                "impactTimeMs": 23481.317,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-30",
+                "impactTimeMs": 23715.69,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-31",
+                "impactTimeMs": 24887.556,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-32",
+                "impactTimeMs": 25356.302,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-33",
+                "impactTimeMs": 25590.675,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-34",
+                "impactTimeMs": 26293.795,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-35",
+                "impactTimeMs": 26762.541,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-36",
+                "impactTimeMs": 27231.288,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-37",
+                "impactTimeMs": 27700.034,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-38",
+                "impactTimeMs": 28403.153,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-39",
+                "impactTimeMs": 28637.527,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-40",
+                "impactTimeMs": 28871.9,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-41",
+                "impactTimeMs": 29106.273,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-42",
+                "impactTimeMs": 31450.005,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-43",
+                "impactTimeMs": 31684.378,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-44",
+                "impactTimeMs": 31918.751,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-45",
+                "impactTimeMs": 32387.497,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-46",
+                "impactTimeMs": 33559.363,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-47",
+                "impactTimeMs": 34262.483,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-48",
+                "impactTimeMs": 35199.975,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-49",
+                "impactTimeMs": 35434.349,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-50",
+                "impactTimeMs": 36137.468,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-51",
+                "impactTimeMs": 37074.961,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-52",
+                "impactTimeMs": 37309.334,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-53",
+                "impactTimeMs": 38012.453,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-54",
+                "impactTimeMs": 38246.827,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-55",
+                "impactTimeMs": 38949.946,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-56",
+                "impactTimeMs": 39184.319,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-57",
+                "impactTimeMs": 39653.066,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-58",
+                "impactTimeMs": 39887.439,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-59",
+                "impactTimeMs": 40824.931,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-60",
+                "impactTimeMs": 41059.305,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-61",
+                "impactTimeMs": 41293.678,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-62",
+                "impactTimeMs": 41762.424,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-63",
+                "impactTimeMs": 41996.797,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-64",
+                "impactTimeMs": 42231.17,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-65",
+                "impactTimeMs": 43403.036,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-66",
+                "impactTimeMs": 45043.648,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-67",
+                "impactTimeMs": 45278.022,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-68",
+                "impactTimeMs": 45512.395,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-69",
+                "impactTimeMs": 45981.141,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-70",
+                "impactTimeMs": 47387.38,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-71",
+                "impactTimeMs": 47856.126,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-72",
+                "impactTimeMs": 49027.992,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-73",
+                "impactTimeMs": 49262.365,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-74",
+                "impactTimeMs": 49731.112,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-75",
+                "impactTimeMs": 49965.485,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-76",
+                "impactTimeMs": 50668.604,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-77",
+                "impactTimeMs": 51137.351,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-78",
+                "impactTimeMs": 51606.097,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-79",
+                "impactTimeMs": 51840.47,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-80",
+                "impactTimeMs": 52543.59,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-81",
+                "impactTimeMs": 53012.336,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-82",
+                "impactTimeMs": 53481.083,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-83",
+                "impactTimeMs": 54184.202,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-84",
+                "impactTimeMs": 54418.575,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-85",
+                "impactTimeMs": 54887.322,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-86",
+                "impactTimeMs": 55356.068,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-87",
+                "impactTimeMs": 55590.441,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-88",
+                "impactTimeMs": 56762.307,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-89",
+                "impactTimeMs": 57231.053,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-90",
+                "impactTimeMs": 58168.546,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-91",
+                "impactTimeMs": 58637.292,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-92",
+                "impactTimeMs": 59106.039,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-93",
+                "impactTimeMs": 59574.785,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-94",
+                "impactTimeMs": 60277.904,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-95",
+                "impactTimeMs": 60512.278,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-96",
+                "impactTimeMs": 60981.024,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-97",
+                "impactTimeMs": 61449.77,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-98",
+                "impactTimeMs": 62387.263,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-99",
+                "impactTimeMs": 62856.009,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-100",
+                "impactTimeMs": 63324.756,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-101",
+                "impactTimeMs": 63793.502,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-102",
+                "impactTimeMs": 64027.875,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-103",
+                "impactTimeMs": 64730.995,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-104",
+                "impactTimeMs": 65434.114,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-105",
+                "impactTimeMs": 65902.86,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-106",
+                "impactTimeMs": 66137.234,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-107",
+                "impactTimeMs": 66371.607,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-108",
+                "impactTimeMs": 67074.726,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-109",
+                "impactTimeMs": 67777.846,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-110",
+                "impactTimeMs": 68480.965,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-111",
+                "impactTimeMs": 68949.712,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-112",
+                "impactTimeMs": 69652.831,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-113",
+                "impactTimeMs": 69887.204,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-114",
+                "impactTimeMs": 70824.697,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-115",
+                "impactTimeMs": 71762.19,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-116",
+                "impactTimeMs": 72230.936,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-117",
+                "impactTimeMs": 72699.682,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-118",
+                "impactTimeMs": 72934.056,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-119",
+                "impactTimeMs": 73402.802,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-120",
+                "impactTimeMs": 73871.548,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-121",
+                "impactTimeMs": 74105.921,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-122",
+                "impactTimeMs": 74574.668,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-123",
+                "impactTimeMs": 75043.414,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-124",
+                "impactTimeMs": 77855.892,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-125",
+                "impactTimeMs": 78793.385,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-126",
+                "impactTimeMs": 79262.131,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-127",
+                "impactTimeMs": 79730.877,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-128",
+                "impactTimeMs": 80199.624,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-129",
+                "impactTimeMs": 80668.37,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-130",
+                "impactTimeMs": 81137.116,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-131",
+                "impactTimeMs": 81605.863,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-132",
+                "impactTimeMs": 82074.609,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-133",
+                "impactTimeMs": 83012.102,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-134",
+                "impactTimeMs": 83480.848,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-135",
+                "impactTimeMs": 83715.221,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-136",
+                "impactTimeMs": 84183.968,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-137",
+                "impactTimeMs": 84887.087,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-138",
+                "impactTimeMs": 85355.834,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-139",
+                "impactTimeMs": 85590.207,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-140",
+                "impactTimeMs": 85824.58,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-141",
+                "impactTimeMs": 86293.326,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-142",
+                "impactTimeMs": 86527.699,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-143",
+                "impactTimeMs": 86762.073,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-144",
+                "impactTimeMs": 87230.819,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-145",
+                "impactTimeMs": 88168.312,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-146",
+                "impactTimeMs": 88637.058,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-147",
+                "impactTimeMs": 89105.804,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-148",
+                "impactTimeMs": 89340.177,
+                "lane": "mid",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-149",
+                "impactTimeMs": 90043.297,
+                "lane": "kick",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-150",
+                "impactTimeMs": 90512.043,
+                "lane": "snare",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-151",
+                "impactTimeMs": 90980.79,
+                "lane": "high",
+                "strength": 1,
+                "source": "generated-draft"
+              },
+              {
+                "id": "draft-152",
+                "impactTimeMs": 91683.909,
+                "lane": "low",
+                "strength": 1,
+                "source": "generated-draft"
+              }
+            ],
+            "version": 1,
+            "createdAt": "2026-10-10T06:10:41.945Z",
+            "updatedAt": "2026-10-10T06:10:41.945Z"
+          }
+        ],
+        "defaultTimingProfileId": "default",
+        "createdAt": "2026-10-10T06:14:56.953Z",
+        "updatedAt": "2026-10-10T06:10:41.945Z"
+      },
+      "audio": {
+        "url": "https://pub-f6d93d165023473dbbd47c35cca533b9.r2.dev/songs/of-far-different-nature-bouncer/453f703d5b3fdb6045078c446ff82bad97b19eb6b660ed2da76b64dd971bfcba.mp3",
+        "sha256": "453f703d5b3fdb6045078c446ff82bad97b19eb6b660ed2da76b64dd971bfcba",
+        "byteLength": 3755320,
+        "contentType": "audio/mpeg"
+      },
+      "license": {
+        "name": "CC0 1.0",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "attribution": "Bouncer by Of Far Different Nature",
+        "sourceUrl": "https://opengameart.org/content/bouncer-0"
+      }
+    }
+  ]
 }

@@ -25,7 +25,7 @@
             "id": "default",
             "name": "Default",
             "bpm": 128,
-            "beatOffsetMs": 14985.405,
+            "beatOffsetMs": 15035.405,
             "timeSignature": [
               4,
               4
@@ -42,7 +42,7 @@
             "notes": [
               {
                 "id": "manual-1791614310615-14985",
-                "impactTimeMs": 14985.405,
+                "impactTimeMs": 15035.405,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid",
@@ -50,7 +50,7 @@
               },
               {
                 "id": "manual-1791614315828-15454",
-                "impactTimeMs": 15454.155,
+                "impactTimeMs": 15504.155,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid",
@@ -58,7 +58,7 @@
               },
               {
                 "id": "manual-1791614316472-15923",
-                "impactTimeMs": 15922.905,
+                "impactTimeMs": 15972.905,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid",
@@ -66,7 +66,7 @@
               },
               {
                 "id": "manual-1791614317469-16392",
-                "impactTimeMs": 16391.655,
+                "impactTimeMs": 16441.655,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid",
@@ -74,7 +74,7 @@
               },
               {
                 "id": "duplicate-1791614346555-0-manual-1791614310615-14985",
-                "impactTimeMs": 16860.405,
+                "impactTimeMs": 16910.405,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -82,7 +82,7 @@
               },
               {
                 "id": "duplicate-1791614346555-1-manual-1791614315828-15454",
-                "impactTimeMs": 17329.155,
+                "impactTimeMs": 17379.155,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -90,7 +90,7 @@
               },
               {
                 "id": "duplicate-1791614346555-2-manual-1791614316472-15923",
-                "impactTimeMs": 17797.905,
+                "impactTimeMs": 17847.905,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -98,7 +98,7 @@
               },
               {
                 "id": "duplicate-1791614346555-3-manual-1791614317469-16392",
-                "impactTimeMs": 18266.655,
+                "impactTimeMs": 18316.655,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -106,7 +106,7 @@
               },
               {
                 "id": "duplicate-1791614351739-0-manual-1791614310615-14985",
-                "impactTimeMs": 18735.405,
+                "impactTimeMs": 18785.405,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -114,7 +114,7 @@
               },
               {
                 "id": "duplicate-1791614351739-1-manual-1791614315828-15454",
-                "impactTimeMs": 19204.155,
+                "impactTimeMs": 19254.155,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -122,7 +122,7 @@
               },
               {
                 "id": "duplicate-1791614351739-2-manual-1791614316472-15923",
-                "impactTimeMs": 19672.905,
+                "impactTimeMs": 19722.905,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -130,7 +130,7 @@
               },
               {
                 "id": "duplicate-1791614351739-3-manual-1791614317469-16392",
-                "impactTimeMs": 20141.655,
+                "impactTimeMs": 20191.655,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate",
@@ -138,7 +138,7 @@
               },
               {
                 "id": "duplicate-1791614351739-4-duplicate-1791614346555-0-manual-1791614310615-14985",
-                "impactTimeMs": 20610.405,
+                "impactTimeMs": 20660.405,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate-duplicate",
@@ -146,7 +146,7 @@
               },
               {
                 "id": "duplicate-1791614351739-5-duplicate-1791614346555-1-manual-1791614315828-15454",
-                "impactTimeMs": 21079.155,
+                "impactTimeMs": 21129.155,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate-duplicate",
@@ -154,7 +154,7 @@
               },
               {
                 "id": "duplicate-1791614351739-6-duplicate-1791614346555-2-manual-1791614316472-15923",
-                "impactTimeMs": 21547.905,
+                "impactTimeMs": 21597.905,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate-duplicate",
@@ -162,7 +162,7 @@
               },
               {
                 "id": "duplicate-1791614351739-7-duplicate-1791614346555-3-manual-1791614317469-16392",
-                "impactTimeMs": 22016.655,
+                "impactTimeMs": 22066.655,
                 "lane": "kick",
                 "strength": 1,
                 "source": "manual-grid-duplicate-duplicate",

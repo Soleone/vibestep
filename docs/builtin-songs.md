@@ -20,7 +20,7 @@ Built-in songs are downloaded completely into session memory before playback. Vi
    npm run r2:cors
    ```
 
-The committed policy permits GET and HEAD requests from local Vite, `vibestep.vercel.app`, `vibestep.app`, and `www.vibestep.app`. Update `config/r2-cors.json` if another web origin needs access.
+The committed policy permits GET and HEAD requests from local Vite, `vibestep.vercel.app`, `vibestep.soleone.xyz`, `vibestep.app`, and `www.vibestep.app`. Update `config/r2-cors.json` if another web origin needs access.
 
 Cloudflare documents `r2.dev` as a development endpoint. Before production traffic grows, connect a custom domain such as `audio.vibestep.app` to the bucket and update `R2_PUBLIC_BASE_URL`.
 

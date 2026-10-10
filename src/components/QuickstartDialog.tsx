@@ -1,4 +1,4 @@
-import { CircleHelp, Gamepad2, Music2, SlidersHorizontal } from 'lucide-react'
+import { CircleHelp, Gamepad2, Music2, Play, SlidersHorizontal } from 'lucide-react'
 import { appBrand } from '../branding'
 import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui'
 
@@ -6,6 +6,10 @@ export type QuickstartDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   onOpenSettings: () => void
+  // A first visit only needs the controls and a way to start; the editor guide stays behind Help.
+  welcome?: boolean
+  // The loaded song, once it can be played from the dialog.
+  song?: { title: string; onPlay: () => void }
 }
 
 const playBindings = [
@@ -16,13 +20,13 @@ const playBindings = [
   ['→', 'High'],
 ] as const
 
-export function QuickstartDialog({ open, onOpenChange, onOpenSettings }: QuickstartDialogProps) {
+export function QuickstartDialog({ open, onOpenChange, onOpenSettings, welcome = false, song }: QuickstartDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="quickstart-dialog">
         <DialogHeader>
           <DialogTitle>Welcome to {appBrand.name}</DialogTitle>
-          <DialogDescription>Play a beatmap, or turn any song into one by lining up its beat grid first.</DialogDescription>
+          <DialogDescription>{welcome && song ? `${song.title} is loaded. Play it, or map your own songs in the Editor.` : 'Play a beatmap, or turn any song into one by lining up its beat grid first.'}</DialogDescription>
         </DialogHeader>
 
         <div className="quickstart-sections">
@@ -35,7 +39,7 @@ export function QuickstartDialog({ open, onOpenChange, onOpenSettings }: Quickst
             <p>You can change keyboard and gamepad controls in Settings.</p>
           </section>
 
-          <section className="quickstart-section quickstart-section--foundation">
+          {welcome ? <p className="quickstart-note">To map your own songs, switch to <strong>Edit</strong> and choose <em>Help</em> for the beat grid basics.</p> : <><section className="quickstart-section quickstart-section--foundation">
             <div className="quickstart-section__heading"><Music2 /><h3>Build the beat grid first</h3></div>
             <ol>
               <li><strong>Import a song in Settings.</strong> Choose an audio file, or connect the companion for YouTube imports.</li>
@@ -48,12 +52,17 @@ export function QuickstartDialog({ open, onOpenChange, onOpenSettings }: Quickst
           <section className="quickstart-section quickstart-section--edit">
             <div className="quickstart-section__heading"><CircleHelp /><h3>Edit</h3></div>
             <p>Create a blank beatmap, arm the lanes you want, then record by playing along or place and adjust notes in the timeline. Save when the grid and notes feel right.</p>
-          </section>
+          </section></>}
         </div>
 
         <DialogFooter>
-          <DialogClose render={<Button type="button" variant="secondary" />}>Got it</DialogClose>
-          <Button type="button" onClick={onOpenSettings}>Open settings</Button>
+          {song ? <>
+            <Button type="button" variant="secondary" onClick={onOpenSettings}>Open settings</Button>
+            <Button type="button" onClick={song.onPlay}><Play />Play {song.title}</Button>
+          </> : <>
+            <DialogClose render={<Button type="button" variant="secondary" />}>Got it</DialogClose>
+            <Button type="button" onClick={onOpenSettings}>Open settings</Button>
+          </>}
         </DialogFooter>
       </DialogContent>
     </Dialog>

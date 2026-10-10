@@ -107,8 +107,8 @@ function isEditingTarget(target: EventTarget | null) {
   return Boolean(target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"], [role="combobox"], [role="spinbutton"], [role="slider"]'))
 }
 
-// Space plays and pauses from anywhere, including a focused button or switch, except while typing or inside a dialog or open list.
-function spaceTogglesPlayback(target: EventTarget | null) {
+// Global shortcuts (Space, V) work from anywhere, including a focused button or switch, except while typing or inside a dialog or open list.
+function isGlobalShortcutTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return true
   return !target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"], [role="spinbutton"], [role="dialog"], [role="listbox"], [role="menu"]')
 }
@@ -1534,7 +1534,7 @@ function App() {
   const nudgeBeatOffset = useCallback((deltaMs: number) => { checkpointEditor('beat-offset'); setBeatOffsetMs((value) => Math.max(0, value + deltaMs)) }, [checkpointEditor])
   useEffect(() => {
     // In Play, a Space bound to a lane is a lane key.
-    const isPlaybackSpace = (event: KeyboardEvent) => event.code === 'Space' && !settingsOpen && spaceTogglesPlayback(event.target) && (activeTab === 'editor' || !keyLane.Space)
+    const isPlaybackSpace = (event: KeyboardEvent) => event.code === 'Space' && !settingsOpen && isGlobalShortcutTarget(event.target) && (activeTab === 'editor' || !keyLane.Space)
     const onSpaceKeyDown = (event: KeyboardEvent) => {
       if (isPlaybackSpace(event)) {
         const hasCommandModifier = event.ctrlKey || event.metaKey
@@ -1607,6 +1607,16 @@ function App() {
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [activeTab, centerTimelineOnPlayhead, copiedNotes.length, copySelection, deleteSelection, handleLoopRulerClick, isSongPlaying, keyLane, pasteSelectionAtPlayhead, pauseSong, playSong, redoEditor, restartSong, selectedNoteIds, setTimelineZoomPreservingPlayhead, settingsOpen, songTimeMs, undoEditor, zoomOptions])
+  useEffect(() => {
+    // V switches between Play and Edit, unless V is a lane key. Tab stays for keyboard focus.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.code !== 'KeyV' || event.repeat || event.ctrlKey || event.metaKey || event.altKey || settingsOpen || isRecording || keyLane.KeyV || !isGlobalShortcutTarget(event.target)) return
+      event.preventDefault()
+      setActiveTab((mode) => mode === 'play' ? 'editor' : 'play')
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isRecording, keyLane, settingsOpen])
   const canUndo = historyVersion >= 0 && undoStack.current.length > 0
   const canRedo = historyVersion >= 0 && redoStack.current.length > 0
   const restartTooltip = 'Restart from beginning'
@@ -1723,7 +1733,7 @@ function App() {
       <aside className="panel" inert={settingsOpen}>
         <div className="panel-hero"><AppBrand /></div>
         <div className="workspace-nav">
-          <button type="button" className="mode-toggle" role="switch" aria-checked={activeTab === 'editor'} onClick={() => setActiveTab((mode) => mode === 'play' ? 'editor' : 'play')}>
+          <button type="button" className="mode-toggle" role="switch" aria-checked={activeTab === 'editor'} aria-keyshortcuts="V" title="Switch between Play and Edit (V)" onClick={() => setActiveTab((mode) => mode === 'play' ? 'editor' : 'play')}>
             <span className={activeTab === 'play' ? 'mode-toggle__label mode-toggle__label--active' : 'mode-toggle__label'}><Gamepad2 />Play</span>
             <span className="mode-toggle__track" aria-hidden="true"><span className="mode-toggle__thumb" /></span>
             <span className={activeTab === 'editor' ? 'mode-toggle__label mode-toggle__label--active' : 'mode-toggle__label'}><Edit3 />Edit</span>

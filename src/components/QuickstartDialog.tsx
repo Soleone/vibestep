@@ -36,7 +36,7 @@ export function QuickstartDialog({ open, onOpenChange, onOpenSettings, welcome =
             <div className="quickstart-bindings" aria-label="Default keyboard controls">
               {playBindings.map(([key, lane]) => <div key={lane}><kbd>{key}</kbd><span>{lane}</span></div>)}
             </div>
-            <p>You can change keyboard and gamepad controls in Settings.</p>
+            <p><kbd>Space</kbd> plays and pauses, <kbd>V</kbd> switches between Play and Edit. You can change keyboard and gamepad controls in Settings.</p>
           </section>
 
           {welcome ? <p className="quickstart-note">To map your own songs, switch to <strong>Edit</strong> and choose <em>Help</em> for the beat grid basics.</p> : <><section className="quickstart-section quickstart-section--foundation">

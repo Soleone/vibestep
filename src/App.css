@@ -501,6 +501,7 @@ input[type='range'],
 .quickstart-section--edit .quickstart-section__heading svg { color: var(--ff-edit); }
 .quickstart-section__heading h3 { margin: 0; font-size: 13px; font-weight: 950; letter-spacing: 0.04em; text-transform: uppercase; }
 .quickstart-section p { margin: 0; color: var(--ff-muted); font-size: 12px; line-height: 1.5; }
+.quickstart-section p kbd { padding: 1px 5px; border: 1px solid rgba(255, 255, 255, 0.16); border-bottom-width: 2px; border-radius: 5px; background: rgba(255, 255, 255, 0.08); color: var(--ff-text); font-family: inherit; font-size: 11px; font-weight: 800; line-height: 1.4; }
 .quickstart-note { margin: 0; padding: 0 2px; color: var(--ff-muted); font-size: 12px; line-height: 1.5; }
 .quickstart-note strong { color: var(--ff-text); }
 .quickstart-section strong { color: var(--ff-text); }

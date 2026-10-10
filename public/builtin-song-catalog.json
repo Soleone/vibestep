@@ -97,15 +97,23 @@
                 "rawTimeMs": 17806.47220614035
               },
               {
-                "id": "duplicate-1791614346555-3-manual-1791614317469-16392",
-                "impactTimeMs": 18316.655,
-                "lane": "kick",
+                "id": "manual-1791617050193-18199",
+                "impactTimeMs": 18199.4675,
+                "lane": "low",
                 "strength": 1,
-                "source": "manual-grid-duplicate",
-                "rawTimeMs": 18279.454662280703
+                "source": "manual-grid",
+                "rawTimeMs": 18193.20407017544
               },
               {
-                "id": "duplicate-1791614351739-0-manual-1791614310615-14985",
+                "id": "manual-1791617051310-18317",
+                "impactTimeMs": 18316.655,
+                "lane": "mid",
+                "strength": 1,
+                "source": "manual-grid",
+                "rawTimeMs": 18311.098807017544
+              },
+              {
+                "id": "duplicate-1791617083929-0-manual-1791614310615-14985",
                 "impactTimeMs": 18785.405,
                 "lane": "kick",
                 "strength": 1,
@@ -113,7 +121,7 @@
                 "rawTimeMs": 18745.331855263157
               },
               {
-                "id": "duplicate-1791614351739-1-manual-1791614315828-15454",
+                "id": "duplicate-1791617083929-1-manual-1791614315828-15454",
                 "impactTimeMs": 19254.155,
                 "lane": "kick",
                 "strength": 1,
@@ -121,7 +129,7 @@
                 "rawTimeMs": 19198.66518859649
               },
               {
-                "id": "duplicate-1791614351739-2-manual-1791614316472-15923",
+                "id": "duplicate-1791617083929-2-manual-1791614316472-15923",
                 "impactTimeMs": 19722.905,
                 "lane": "kick",
                 "strength": 1,
@@ -129,7 +137,7 @@
                 "rawTimeMs": 19681.47220614035
               },
               {
-                "id": "duplicate-1791614351739-3-manual-1791614317469-16392",
+                "id": "duplicate-1791617083929-3-manual-1791614317469-16392",
                 "impactTimeMs": 20191.655,
                 "lane": "kick",
                 "strength": 1,
@@ -137,7 +145,7 @@
                 "rawTimeMs": 20154.454662280703
               },
               {
-                "id": "duplicate-1791614351739-4-duplicate-1791614346555-0-manual-1791614310615-14985",
+                "id": "duplicate-1791617083929-4-duplicate-1791614346555-0-manual-1791614310615-14985",
                 "impactTimeMs": 20660.405,
                 "lane": "kick",
                 "strength": 1,
@@ -145,7 +153,7 @@
                 "rawTimeMs": 20620.331855263154
               },
               {
-                "id": "duplicate-1791614351739-5-duplicate-1791614346555-1-manual-1791614315828-15454",
+                "id": "duplicate-1791617083929-5-duplicate-1791614346555-1-manual-1791614315828-15454",
                 "impactTimeMs": 21129.155,
                 "lane": "kick",
                 "strength": 1,
@@ -153,7 +161,7 @@
                 "rawTimeMs": 21073.66518859649
               },
               {
-                "id": "duplicate-1791614351739-6-duplicate-1791614346555-2-manual-1791614316472-15923",
+                "id": "duplicate-1791617083929-6-duplicate-1791614346555-2-manual-1791614316472-15923",
                 "impactTimeMs": 21597.905,
                 "lane": "kick",
                 "strength": 1,
@@ -161,22 +169,175 @@
                 "rawTimeMs": 21556.47220614035
               },
               {
-                "id": "duplicate-1791614351739-7-duplicate-1791614346555-3-manual-1791614317469-16392",
+                "id": "duplicate-1791617083929-7-manual-1791617050193-18199",
+                "impactTimeMs": 21949.4675,
+                "lane": "low",
+                "strength": 1,
+                "source": "manual-grid-duplicate",
+                "rawTimeMs": 21943.204070175438
+              },
+              {
+                "id": "duplicate-1791617083929-8-manual-1791617051310-18317",
                 "impactTimeMs": 22066.655,
+                "lane": "mid",
+                "strength": 1,
+                "source": "manual-grid-duplicate",
+                "rawTimeMs": 22061.098807017544
+              },
+              {
+                "id": "paste-1791617110821-0-duplicate-1791617083929-0-manual-1791614310615-14985",
+                "impactTimeMs": 22535.405,
                 "lane": "kick",
                 "strength": 1,
-                "source": "manual-grid-duplicate-duplicate",
-                "rawTimeMs": 22029.454662280703
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 22495.331855263157
+              },
+              {
+                "id": "paste-1791617110821-1-duplicate-1791617083929-1-manual-1791614315828-15454",
+                "impactTimeMs": 23004.155,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 22948.66518859649
+              },
+              {
+                "id": "paste-1791617110821-2-duplicate-1791617083929-2-manual-1791614316472-15923",
+                "impactTimeMs": 23472.905,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 23431.47220614035
+              },
+              {
+                "id": "paste-1791617110821-3-duplicate-1791617083929-3-manual-1791614317469-16392",
+                "impactTimeMs": 23941.655,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 23904.454662280703
+              },
+              {
+                "id": "paste-1791617110821-4-duplicate-1791617083929-4-duplicate-1791614346555-0-manual-1791614310615-14985",
+                "impactTimeMs": 24410.405,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-duplicate-paste",
+                "rawTimeMs": 24370.331855263154
+              },
+              {
+                "id": "paste-1791617110821-5-duplicate-1791617083929-5-duplicate-1791614346555-1-manual-1791614315828-15454",
+                "impactTimeMs": 24879.155,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-duplicate-paste",
+                "rawTimeMs": 24823.66518859649
+              },
+              {
+                "id": "paste-1791617110821-6-duplicate-1791617083929-6-duplicate-1791614346555-2-manual-1791614316472-15923",
+                "impactTimeMs": 25347.905,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-duplicate-paste",
+                "rawTimeMs": 25306.47220614035
+              },
+              {
+                "id": "paste-1791617110821-7-duplicate-1791617083929-7-manual-1791617050193-18199",
+                "impactTimeMs": 25699.4675,
+                "lane": "low",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 25693.204070175438
+              },
+              {
+                "id": "paste-1791617110821-8-duplicate-1791617083929-8-manual-1791617051310-18317",
+                "impactTimeMs": 25816.655,
+                "lane": "mid",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 25811.098807017544
+              },
+              {
+                "id": "paste-1791617116671-0-duplicate-1791617083929-0-manual-1791614310615-14985",
+                "impactTimeMs": 26285.405,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 26245.331855263157
+              },
+              {
+                "id": "paste-1791617116671-1-duplicate-1791617083929-1-manual-1791614315828-15454",
+                "impactTimeMs": 26754.155,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 26698.66518859649
+              },
+              {
+                "id": "paste-1791617116671-2-duplicate-1791617083929-2-manual-1791614316472-15923",
+                "impactTimeMs": 27222.905,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 27181.47220614035
+              },
+              {
+                "id": "paste-1791617116671-3-duplicate-1791617083929-3-manual-1791614317469-16392",
+                "impactTimeMs": 27691.655,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 27654.454662280703
+              },
+              {
+                "id": "paste-1791617116671-4-duplicate-1791617083929-4-duplicate-1791614346555-0-manual-1791614310615-14985",
+                "impactTimeMs": 28160.405,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-duplicate-paste",
+                "rawTimeMs": 28120.331855263154
+              },
+              {
+                "id": "paste-1791617116671-5-duplicate-1791617083929-5-duplicate-1791614346555-1-manual-1791614315828-15454",
+                "impactTimeMs": 28629.155,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-duplicate-paste",
+                "rawTimeMs": 28573.66518859649
+              },
+              {
+                "id": "paste-1791617116671-6-duplicate-1791617083929-6-duplicate-1791614346555-2-manual-1791614316472-15923",
+                "impactTimeMs": 29097.905,
+                "lane": "kick",
+                "strength": 1,
+                "source": "manual-grid-duplicate-duplicate-paste",
+                "rawTimeMs": 29056.47220614035
+              },
+              {
+                "id": "paste-1791617116671-7-duplicate-1791617083929-7-manual-1791617050193-18199",
+                "impactTimeMs": 29449.4675,
+                "lane": "low",
+                "strength": 1,
+                "source": "manual-grid-duplicate-paste",
+                "rawTimeMs": 29443.204070175438
+              },
+              {
+                "id": "manual-hold-1791617741404-29567",
+                "impactTimeMs": 29566.655,
+                "lane": "mid",
+                "strength": 1,
+                "source": "manual-hold",
+                "durationMs": 468.75,
+                "rawTimeMs": 29560.99945614035
               }
             ],
-            "version": 2,
+            "version": 3,
             "createdAt": "2026-10-10T06:10:41.945Z",
-            "updatedAt": "2026-10-10T06:39:44.115Z"
+            "updatedAt": "2026-10-10T07:35:52.566Z"
           }
         ],
         "defaultTimingProfileId": "default",
         "createdAt": "2026-10-10T06:14:56.953Z",
-        "updatedAt": "2026-10-10T06:39:44.115Z"
+        "updatedAt": "2026-10-10T07:35:52.566Z"
       },
       "audio": {
         "url": "https://pub-f6d93d165023473dbbd47c35cca533b9.r2.dev/songs/of-far-different-nature-bouncer/453f703d5b3fdb6045078c446ff82bad97b19eb6b660ed2da76b64dd971bfcba.mp3",

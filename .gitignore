@@ -15,8 +15,8 @@ release
 .env.r2.local
 
 # Local imported audio/video cache, keep beatmap JSON metadata tracked.
-public/imports/*/audio.mp3
-public/imports/*/source.webm
+backups/imports/*/audio.mp3
+backups/imports/*/source.webm
 
 # Editor directories and files
 .vscode/*

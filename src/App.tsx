@@ -84,7 +84,8 @@ type EditorSnapshot = {
 
 type CompanionConnectionStatus = 'idle' | 'connecting' | 'paired' | 'available' | 'unavailable' | 'permission-blocked'
 
-const LEGACY_RECOVERY_URL = '/legacy-song-packages.json'
+// Maps from before browser storage, restored through the companion. Development only, so the hosted app lists just built-in and local songs.
+const loadLegacyRecovery = async () => import.meta.env.DEV ? parseLibraryBackup(JSON.parse((await import('../backups/legacy-song-packages.json?raw')).default)) : null
 const editorSignature = (beatmap: Beatmap | null, title: string, difficulty: number, bpm: number, beatOffsetMs: number) => JSON.stringify({ beatmap, title, difficulty, bpm, beatOffsetMs })
 
 function downloadJson(value: unknown, filename: string) {
@@ -343,17 +344,11 @@ function App() {
     let recoveryPackages: SongPackage[] = []
     let builtInEntries: BuiltInSongEntry[] = []
     const [recoveryResult, builtInResult] = await Promise.allSettled([
-      fetch(LEGACY_RECOVERY_URL, { cache: 'no-store' }),
+      loadLegacyRecovery(),
       loadBuiltInSongCatalog(),
     ])
-    if (recoveryResult.status === 'fulfilled' && recoveryResult.value.ok) {
-      try {
-        const backup = parseLibraryBackup(await recoveryResult.value.json())
-        recoveryPackages = backup.packages.filter((item) => !localIds.has(item.id))
-      } catch {
-        // Recovery catalog is optional and must not block the local library.
-      }
-    }
+    // Recovery catalog is optional and must not block the local library.
+    if (recoveryResult.status === 'fulfilled' && recoveryResult.value) recoveryPackages = recoveryResult.value.packages.filter((item) => !localIds.has(item.id))
     if (builtInResult.status === 'fulfilled') builtInEntries = builtInResult.value.songs
     const builtInById = new Map(builtInEntries.map((entry) => [entry.songPackage.id, entry]))
     setBuiltInSongs(builtInById)
@@ -379,9 +374,8 @@ function App() {
       let songPackage = await packageRepository.get(song.id) ?? builtInSong?.songPackage ?? null
       if (!songPackage && song.beatmapUrl.startsWith('legacy:')) {
         setImportStatus(`Restoring ${song.title} into browser storage...`)
-        const response = await fetch(LEGACY_RECOVERY_URL, { cache: 'no-store' })
-        if (!response.ok) throw new Error('Legacy recovery catalog is unavailable')
-        const backup = parseLibraryBackup(await response.json())
+        const backup = await loadLegacyRecovery()
+        if (!backup) throw new Error('Legacy recovery catalog is unavailable')
         songPackage = backup.packages.find((item) => item.id === song.id) ?? null
         if (!songPackage) throw new Error('Legacy song package was not found')
         const sourceUrl = songPackage.song.sources.find((source) => source.url)?.url

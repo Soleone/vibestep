@@ -107,6 +107,12 @@ function isEditingTarget(target: EventTarget | null) {
   return Boolean(target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"], [role="combobox"], [role="spinbutton"], [role="slider"]'))
 }
 
+// Space plays and pauses from anywhere, including a focused button or switch, except while typing or inside a dialog or open list.
+function spaceTogglesPlayback(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return true
+  return !target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"], [role="spinbutton"], [role="dialog"], [role="listbox"], [role="menu"]')
+}
+
 function isMobileLaneControlTarget(target: EventTarget | null) {
   return target instanceof HTMLElement && Boolean(target.closest('.mobile-lane-pad'))
 }
@@ -1519,9 +1525,10 @@ function App() {
   const setBeatOneAtPlayhead = useCallback(() => { checkpointEditor(); setBeatOffsetMs(Math.max(0, songTimeMs)) }, [checkpointEditor, songTimeMs])
   const nudgeBeatOffset = useCallback((deltaMs: number) => { checkpointEditor('beat-offset'); setBeatOffsetMs((value) => Math.max(0, value + deltaMs)) }, [checkpointEditor])
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (settingsOpen || activeTab !== 'editor' || isEditingTarget(event.target)) return
-      if (event.code === 'Space') {
+    // In Play, a Space bound to a lane is a lane key.
+    const isPlaybackSpace = (event: KeyboardEvent) => event.code === 'Space' && !settingsOpen && spaceTogglesPlayback(event.target) && (activeTab === 'editor' || !keyLane.Space)
+    const onSpaceKeyDown = (event: KeyboardEvent) => {
+      if (isPlaybackSpace(event)) {
         const hasCommandModifier = event.ctrlKey || event.metaKey
         if (hasCommandModifier && !event.shiftKey) return
         event.preventDefault()
@@ -1529,8 +1536,10 @@ function App() {
         else if (event.shiftKey) restartSong(false)
         else if (isSongPlaying) pauseSong()
         else playSong()
-        return
       }
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (settingsOpen || activeTab !== 'editor' || isEditingTarget(event.target) || event.code === 'Space') return
       const numberIndex = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9'].indexOf(event.code)
       if (numberIndex !== -1) {
         event.preventDefault()
@@ -1579,9 +1588,17 @@ function App() {
         deleteSelection()
       }
     }
+    // A focused button activates on Space keyup, so that has to be stopped too. Capture runs before controls like the song picker, which stop Space from bubbling.
+    const onKeyUp = (event: KeyboardEvent) => { if (isPlaybackSpace(event)) event.preventDefault() }
+    window.addEventListener('keydown', onSpaceKeyDown, { capture: true })
+    window.addEventListener('keyup', onKeyUp, { capture: true })
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [activeTab, centerTimelineOnPlayhead, copiedNotes.length, copySelection, deleteSelection, handleLoopRulerClick, isSongPlaying, pasteSelectionAtPlayhead, pauseSong, playSong, redoEditor, restartSong, selectedNoteIds, setTimelineZoomPreservingPlayhead, settingsOpen, songTimeMs, undoEditor, zoomOptions])
+    return () => {
+      window.removeEventListener('keydown', onSpaceKeyDown, { capture: true })
+      window.removeEventListener('keyup', onKeyUp, { capture: true })
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [activeTab, centerTimelineOnPlayhead, copiedNotes.length, copySelection, deleteSelection, handleLoopRulerClick, isSongPlaying, keyLane, pasteSelectionAtPlayhead, pauseSong, playSong, redoEditor, restartSong, selectedNoteIds, setTimelineZoomPreservingPlayhead, settingsOpen, songTimeMs, undoEditor, zoomOptions])
   const canUndo = historyVersion >= 0 && undoStack.current.length > 0
   const canRedo = historyVersion >= 0 && redoStack.current.length > 0
   const restartTooltip = 'Restart from beginning'

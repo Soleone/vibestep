@@ -113,7 +113,8 @@ async function capture() {
   const out = path.resolve(values.out)
   await mkdir(path.dirname(out), { recursive: true })
   await exec('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', path.join(work, 'frames.txt'),
-    '-vf', 'fps=20,scale=960:-1:flags=lanczos', '-c:v', 'libwebp_anim', '-quality', '75', '-compression_level', '6', '-loop', '0', '-an', out], { timeout: 300_000 })
+    // Keeps the band with the lanes, the judgement counter and the run stats; above and below it is empty playfield.
+    '-vf', 'fps=20,crop=iw:ih*43/75:0:ih*16/75,scale=960:-2:flags=lanczos', '-c:v', 'libwebp_anim', '-quality', '75', '-compression_level', '6', '-loop', '0', '-an', out], { timeout: 300_000 })
   await rm(work, { recursive: true })
   console.log(`Wrote ${out} from ${frames.length} frames over ${((endAt - startAt) / 1000).toFixed(1)} s\nPerfect ${stats.Perfect} of ${stats.Hit} hits, no misses`)
 }

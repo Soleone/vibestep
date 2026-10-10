@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { downloadSessionAudio } from '../src/audio/download-session-audio.ts'
 import { BUILT_IN_SONG_CATALOG_FORMAT, BUILT_IN_SONG_CATALOG_VERSION, parseBuiltInSongCatalog } from '../src/builtin-songs/catalog.ts'
+import { songToRestore, usesBuiltInAudio } from '../src/builtin-songs/selection.ts'
 
 async function songPackage() {
   return JSON.parse(await readFile(new URL('../src/domain/fixtures/shared-timing.song-package.json', import.meta.url), 'utf8'))
@@ -73,4 +74,19 @@ test('downloads complete session audio and verifies its checksum', async () => {
   } finally {
     globalThis.fetch = originalFetch
   }
+})
+
+test('a saved copy of a built-in song keeps the built-in audio unless the user attached their own', () => {
+  assert.equal(usesBuiltInAudio(null), true)
+  assert.equal(usesBuiltInAudio({ storage: 'builtin' }), true)
+  assert.equal(usesBuiltInAudio({ storage: 'browser' }), false)
+  assert.equal(usesBuiltInAudio({ storage: 'companion' }), false)
+})
+
+test('restoring a song falls back to the first built-in one when the remembered song is missing', () => {
+  const songs = [{ id: 'mine' }, { id: 'bouncer', builtIn: true }]
+  assert.equal(songToRestore(songs, 'mine')?.id, 'mine')
+  assert.equal(songToRestore(songs, '')?.id, 'bouncer')
+  assert.equal(songToRestore(songs, 'gone')?.id, 'bouncer')
+  assert.equal(songToRestore([{ id: 'mine' }], 'gone'), undefined)
 })

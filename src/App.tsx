@@ -14,6 +14,7 @@ import { Toolbar } from './components/Toolbar'
 import { CompanionClient, type CompanionAudio } from './companion/client'
 import type { BuiltInSongEntry } from './builtin-songs/catalog'
 import { loadBuiltInSongCatalog } from './builtin-songs/load-catalog'
+import { songToRestore, usesBuiltInAudio } from './builtin-songs/selection'
 import { COMPANION_WINDOWS_DOWNLOAD_URL } from './config'
 import { createLibraryBackup, parseLibraryBackup } from './domain/library-backup'
 import { createShareBundle, parseShareBundle, SHARE_BUNDLE_FORMAT } from './domain/share-bundle'
@@ -71,7 +72,6 @@ const GameScene = lazy(() => import('./game/GameScene').then((module) => ({ defa
 
 const storageKey = (name: string) => `vibestep:${name}`
 const readAppStorage = (name: string) => localStorage.getItem(storageKey(name))
-const firstVisitSong = 'first-built-in'
 
 type EditorSnapshot = {
   beatmap: Beatmap | null
@@ -197,7 +197,8 @@ function App() {
   const previousGamepadButtons = useRef(new Set<number>())
   const calibrationHydrated = useRef(false)
   const persistedCalibration = useRef<string | null>(null)
-  const restoredSongId = useRef<string | null>(readAppStorage('selected-song') ?? firstVisitSong)
+  // Null once restored; a first visit has no remembered song, so it opens the first built-in one.
+  const restoredSongId = useRef<string | null>(readAppStorage('selected-song') ?? '')
   const undoStack = useRef<EditorSnapshot[]>([])
   const redoStack = useRef<EditorSnapshot[]>([])
   const lastHistoryKey = useRef<string | null>(null)
@@ -354,7 +355,7 @@ function App() {
     setBuiltInSongs(builtInById)
     const localImports = await Promise.all(local.map(async (songPackage) => {
       const association = await packageRepository.getAudioAssociation(songPackage.id)
-      return packageToImport(songPackage, association?.storage === 'builtin' && builtInById.has(songPackage.id))
+      return packageToImport(songPackage, builtInById.has(songPackage.id) && usesBuiltInAudio(association))
     }))
     const builtInImports = (await Promise.all(builtInEntries.filter((entry) => !localIds.has(entry.songPackage.id)).map((entry) => packageToImport(entry.songPackage, true))))
       .map((item) => ({ ...item, beatmapUrl: `builtin:${item.id}:${item.beatmaps?.[0]?.id ?? 'new'}`, beatmaps: item.beatmaps?.map((map) => ({ ...map, url: `builtin:${item.id}:${map.id}` })) }))
@@ -540,10 +541,8 @@ function App() {
   useEffect(() => { setRenameDraft(mapTitle) }, [mapTitle])
 
   useEffect(() => {
-    const songId = restoredSongId.current
-    if (!songId || importedSong || savedImports.length === 0) return
-    // A first visit has no selected song, so it opens the first built-in one and Play has something to play.
-    const song = songId === firstVisitSong ? savedImports.find((item) => item.builtIn) : savedImports.find((item) => item.id === songId)
+    if (restoredSongId.current === null || importedSong || savedImports.length === 0) return
+    const song = songToRestore(savedImports, restoredSongId.current)
     if (!song) return
     restoredSongId.current = null
     setAudioAttachmentTargetId(song.id)

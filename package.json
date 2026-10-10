@@ -21,7 +21,8 @@
     "r2:cors": "node --experimental-transform-types scripts/configure-r2-cors.mts",
     "song:intake": "node --experimental-transform-types scripts/intake-builtin-song.mts",
     "song:publish-map": "node --experimental-transform-types scripts/publish-builtin-map.mts",
-    "song:upload": "node --experimental-transform-types scripts/upload-builtin-song.mts"
+    "song:upload": "node --experimental-transform-types scripts/upload-builtin-song.mts",
+    "media:capture": "node scripts/capture-gameplay.mjs"
   },
   "dependencies": {
     "electron-updater": "^6.8.9",

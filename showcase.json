@@ -4,11 +4,19 @@
   "pitch": "A beatmap studio in your browser: line up a song's beat grid, place notes, and play your map as a rhythm game.",
   "kind": "web-app",
   "year": 2026,
-  "tech": ["React", "TypeScript", "Vite", "Web Audio", "Electron"],
+  "tech": [
+    "React",
+    "TypeScript",
+    "Vite",
+    "Web Audio",
+    "Electron"
+  ],
   "repo": "https://github.com/Soleone/vibestep",
   "live": "https://vibestep.soleone.xyz",
   "media": {
-    "hero": "https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a"
+    "hero": "https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a",
+    "motion": "docs/media/gameplay.webp",
+    "capture": "npm run media:capture"
   },
   "demo": {
     "strategy": "hosted",

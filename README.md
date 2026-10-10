@@ -2,15 +2,17 @@
 
 Vibestep is a local-first beatmap studio with a rhythm-game playtest mode. Import a song, align its beat grid, record or edit lane events, then playtest the result.
 
-<img width="3726" height="1536" alt="Vibestep editor" src="https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a" />
+![Playing Bouncer in Vibestep: notes fly into the lanes and every hit is Perfect](docs/media/gameplay.webp)
 
 ## Quick start
 
-Open **[vibestep.vercel.app](https://vibestep.vercel.app)** in a modern desktop browser. No account or installation is required. Chrome or Edge on Windows is the currently tested setup.
+Open **[vibestep.soleone.xyz](https://vibestep.soleone.xyz)** in a modern desktop browser. No account or installation is required. Chrome or Edge on Windows is the currently tested setup.
 
 ### 1. Playing
 
-To play an existing map:
+A first visit opens Play with the built-in song "Bouncer" (Of Far Different Nature, CC0) and its map, so you can start right away from the welcome dialog.
+
+To play another map:
 
 1. Import its shared JSON bundle from the **Beatmaps** card, or select a map already in your local library.
 2. Provide the corresponding audio. Under **Config → Import audio**, choose a supported MP3, M4A, WebM, Ogg, or WAV file.
@@ -23,6 +25,8 @@ For YouTube audio, install the optional Windows companion from **Config → Down
 First companion launch downloads checksum-verified media tools and can take longer. YouTube audio remains in its private cache. Closing the companion stops it completely.
 
 ### 2. Editing
+
+<img width="3726" height="1536" alt="Vibestep editor" src="https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a" />
 
 Before recording or moving notes, establish these two essentials:
 

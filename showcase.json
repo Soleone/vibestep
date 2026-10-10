@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Soleone/showcase/main/schema/showcase.schema.json",
+  "title": "Vibestep",
+  "pitch": "A beatmap studio in your browser: line up a song's beat grid, place notes, and play your map as a rhythm game.",
+  "kind": "web-app",
+  "year": 2026,
+  "tech": ["React", "TypeScript", "Vite", "Web Audio", "Electron"],
+  "repo": "https://github.com/Soleone/vibestep",
+  "live": "https://vibestep.soleone.xyz",
+  "media": {
+    "hero": "https://github.com/user-attachments/assets/ebad07ec-73cf-47b3-bf62-45b395d33a4a"
+  },
+  "demo": {
+    "strategy": "hosted",
+    "local": "npm run dev",
+    "externals": [
+      {
+        "name": "YouTube audio via the Windows companion",
+        "type": "app",
+        "seam": "Companion pairing on http://127.0.0.1:47831",
+        "standIn": "bring-your-own",
+        "note": "The demo opens with a built-in CC0 song (Bouncer by Of Far Different Nature) and its map. Importing YouTube audio needs the optional Windows companion."
+      }
+    ]
+  }
+}

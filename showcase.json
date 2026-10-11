@@ -4,6 +4,7 @@
   "pitch": "Build rhythm game maps in your browser and play them right away.",
   "description": "Import a song, find its BPM, then record notes live or edit them on the timeline. Everything stays in your browser, and a built-in CC0 song lets you play with no account or install.",
   "kind": "web-app",
+  "stage": "product",
   "year": 2026,
   "tech": [
     "React",

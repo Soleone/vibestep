@@ -28,3 +28,4 @@ backups/imports/*/source.webm
 *.njsproj
 *.sln
 *.sw?
+.vercel

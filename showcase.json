@@ -20,6 +20,11 @@
     "motion": "docs/media/gameplay.webp",
     "capture": "npm run media:capture"
   },
+  "brand": {
+    "icon": "public/vibestep-logo.png",
+    "wordmark": "assets/wordmark.svg",
+    "colors": ["#ff5ea8", "#c7f464"]
+  },
   "demo": {
     "strategy": "hosted",
     "local": "npm run dev",

@@ -4,6 +4,8 @@ Vibestep is a local-first beatmap studio with a rhythm-game playtest mode. Impor
 
 ![Playing Bouncer in Vibestep: notes fly into the lanes and every hit is Perfect](docs/media/gameplay.webp)
 
+**[Play it in your browser](https://vibestep.soleone.xyz)**, no account or install.
+
 ## Quick start
 
 Open **[vibestep.soleone.xyz](https://vibestep.soleone.xyz)** in a modern desktop browser. No account or installation is required. Chrome or Edge on Windows is the currently tested setup.

@@ -2,7 +2,7 @@
 // Plays the built-in song in Play with an autoplayer pressing each lane key on time, and encodes the run as a looping WebP.
 // Usage: npm run media:capture -- [--url https://vibestep.soleone.xyz] [--out docs/media/gameplay.webp]
 // Needs agent-browser (with its browser installed) and FFmpeg on the PATH. Recording and encoding come from showcase.
-import { record } from '@soleone/showcase/capture'
+import { record } from '@soleone/showcase-capture'
 import { parseArgs } from 'node:util'
 
 const { values } = parseArgs({ options: { url: { type: 'string', default: 'https://vibestep.soleone.xyz' }, out: { type: 'string', default: 'docs/media/gameplay.webp' } } })
